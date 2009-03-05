@@ -1,4 +1,3 @@
-
 using System;
 using Gtk;
 
@@ -28,16 +27,20 @@ namespace xbmcontrolevo
 		private void CreateDefaultMenu()
 		{
 			Menu cmDefault 			= new Menu();
-			cmDefault.WidthRequest 	= 150;
+			cmDefault.WidthRequest 	= 200;
 			
-			cmDefault.Add(_parent.menuItems.Previous());
-			cmDefault.Add(_parent.menuItems.Play());
-			cmDefault.Add(_parent.menuItems.Stop());
-			cmDefault.Add(_parent.menuItems.Next());
-			cmDefault.Add(_parent.menuItems.Seperator());
-			cmDefault.Add(_parent.menuItems.Configuration());
-			cmDefault.Add(_parent.menuItems.Seperator());
-			cmDefault.Add(_parent.menuItems.Quit());
+			cmDefault.Add(_parent.oMenuItems.Previous());
+			cmDefault.Add(_parent.oMenuItems.PlayPause());
+			cmDefault.Add(_parent.oMenuItems.Stop());
+			cmDefault.Add(_parent.oMenuItems.Next());
+			cmDefault.Add(_parent.oMenuItems.Seperator());
+			cmDefault.Add(_parent.oMenuItems.VolumeUp());
+			cmDefault.Add(_parent.oMenuItems.VolumeDown());
+			cmDefault.Add(_parent.oMenuItems.Mute());
+			cmDefault.Add(_parent.oMenuItems.Seperator());
+			cmDefault.Add(_parent.oMenuItems.Configuration());
+			cmDefault.Add(_parent.oMenuItems.Seperator());
+			cmDefault.Add(_parent.oMenuItems.Quit());
 			
 			cmDefault.ShowAll();
 			cmDefault.Popup();
@@ -48,9 +51,10 @@ namespace xbmcontrolevo
 			Menu cmMediaDirectory 			= new Menu();
 			cmMediaDirectory.WidthRequest 	= 150;
 			
-			cmMediaDirectory.Add(_parent.menuItems.PlayRecursive(directoryPath, mediaType));
-			cmMediaDirectory.Add(_parent.menuItems.Seperator());
-			cmMediaDirectory.Add(_parent.menuItems.Quit());
+			cmMediaDirectory.Add(_parent.oMenuItems.PlayDirectory(directoryPath, mediaType));
+			cmMediaDirectory.Add(_parent.oMenuItems.EnqueDirectory(directoryPath, mediaType));
+			cmMediaDirectory.Add(_parent.oMenuItems.Seperator());
+			cmMediaDirectory.Add(_parent.oMenuItems.CollapseAll());
 			
 			cmMediaDirectory.ShowAll();
 			cmMediaDirectory.Popup();
@@ -61,9 +65,12 @@ namespace xbmcontrolevo
 			Menu cmMediaFile 			= new Menu();
 			cmMediaFile.WidthRequest 	= 150;
 			
-			cmMediaFile.Add(_parent.menuItems.PlayFile(filePath));
-			cmMediaFile.Add(_parent.menuItems.Seperator());
-			cmMediaFile.Add(_parent.menuItems.Quit());
+			cmMediaFile.Add(_parent.oMenuItems.PlayFile(filePath));
+			cmMediaFile.Add(_parent.oMenuItems.EnqueFile(filePath));
+			cmMediaFile.Add(_parent.oMenuItems.Seperator());
+			cmMediaFile.Add(_parent.oMenuItems.ShowFileInfo());
+			cmMediaFile.Add(_parent.oMenuItems.Seperator());
+			cmMediaFile.Add(_parent.oMenuItems.CollapseAll());
 			
 			cmMediaFile.ShowAll();
 			cmMediaFile.Popup();

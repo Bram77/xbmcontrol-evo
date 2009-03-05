@@ -27,22 +27,11 @@ namespace XBMC
 {
     public class XBMC_Status
     {
-        XBMC_Communicator parent = null;
-
-        //XBMC Properties
-        internal bool isConnected = false;
-        private bool isPlaying = false;
-        private bool isNotPlaying = true;
-        private bool isPlayingLastFm = false;
-        private bool isPaused = false;
-        private bool isMuted = false;
-        private int volume = 0;
-        private int progress = 1;
+        private XBMC_Communicator parent;
         private string mediaNowPlaying = null;
-        private bool newMediaPlaying = true;
-        //private Timer heartBeatTimer = null;
-        private int connectedInterval = 5000;
-        private int disconnectedInterval = 10000;
+       	//private Timer heartBeatTimer = null;
+        //private int connectedInterval = 5000;
+        //private int disconnectedInterval = 10000;
 
         public XBMC_Status(XBMC_Communicator p)
         {
@@ -51,58 +40,33 @@ namespace XBMC
             //heartBeatTimer.Interval = connectedInterval;
             //heartBeatTimer.Tick += new EventHandler(HeartBeat_Tick);
         }
-
-        public void Refresh()
-        {
-            if (isConnected)
-            {
-                if (mediaNowPlaying != parent.NowPlaying.Get("filename", true) || mediaNowPlaying == null)
-                {
-                    mediaNowPlaying = parent.NowPlaying.Get("filename");
-                    newMediaPlaying = true;
-                }
-                else
-                    newMediaPlaying = false;
-
-                isPlaying = (parent.NowPlaying.Get("playstatus", true) == "Playing") ? true : false;
-                isPaused = (parent.NowPlaying.Get("playstatus", true) == "Paused") ? true : false;
-                isNotPlaying = (mediaNowPlaying == "[Nothing Playing]" || mediaNowPlaying == null) ? true : false;
-
-                if (mediaNowPlaying == null || isNotPlaying || mediaNowPlaying.Length < 6)
-                {
-                    isPlayingLastFm = false;
-                }
-                else
-                {
-                    isPlayingLastFm = (mediaNowPlaying.Substring(0, 6) == "lastfm") ? true : false;
-                }
-
-                string[] aVolume = parent.Request("GetVolume");
-                string[] aProgress = parent.Request("GetPercentage");
-
-                if (aVolume == null || aVolume[0] == "Error")
-                    volume = 0;
-                else
-                    volume = Convert.ToInt32(aVolume[0]);
-
-                if (aProgress == null || aProgress[0] == "Error" || aProgress[0] == "0" || Convert.ToInt32(aProgress[0]) > 99)
-                    progress = 1;
-                else
-                    progress = Convert.ToInt32(aProgress[0]);
-
-                isMuted = (volume == 0) ? true : false;
-            }
-        }
+		
+		public void SetNowPlayingMedia()
+		{
+			if (mediaNowPlaying != parent.NowPlaying.Get("filename", true) || mediaNowPlaying == null)
+                mediaNowPlaying = parent.NowPlaying.Get("filename");
+		}
+	
+		public bool NewMediaPlaying()
+		{
+			if (mediaNowPlaying != parent.NowPlaying.Get("filename", true))
+	 		{
+				mediaNowPlaying = parent.NowPlaying.Get("filename");
+				return true;
+	 		}
+	 		else
+				return false;
+		}
 
         private void HeartBeat_Tick(object sender, EventArgs e)
         {
-            isConnected = parent.Controls.SetResponseFormat();
+            //isConnected = parent.Controls.SetResponseFormat();
             //heartBeatTimer.Interval = (isConnected) ? connectedInterval : disconnectedInterval;
         }
 
         public bool IsConnected()
         {
-            return isConnected;
+            return parent.Controls.SetResponseFormat();
         }
 
         public void EnableHeartBeat()
@@ -126,44 +90,46 @@ namespace XBMC
                 return (webserverEnabled[0] == "On") ? true : false;
         }
 
-        public bool IsNewMediaPlaying()
-        {
-            return newMediaPlaying;
-        }
-
-        public bool IsPlaying(string lastfm)
-        {
-            return (lastfm != null) ? isPlayingLastFm : isPlaying;
-        }
-
         public bool IsPlaying()
         {
-            return this.IsPlaying(null);
+			 return (parent.NowPlaying.Get("playstatus", true) == "Playing") ? true : false;
         }
+		
+		public bool IsPlayingLastFm()
+		{
+			SetNowPlayingMedia();
+			if (mediaNowPlaying == null || IsNotPlaying() || mediaNowPlaying.Length < 6)
+           		return false;
+            else
+            	return (mediaNowPlaying.Substring(0, 6) == "lastfm") ? true : false;
+		}
 
         public bool IsNotPlaying()
         {
-            return isNotPlaying;
+			SetNowPlayingMedia();
+            return (mediaNowPlaying == "[Nothing Playing]" || mediaNowPlaying == null) ? true : false;
         }
 
         public bool IsPaused()
         {
-            return isPaused;
+            return (parent.NowPlaying.Get("playstatus", true) == "Paused") ? true : false;
         }
 
         public bool IsMuted()
         {
-            return isMuted;
+            return (GetVolume() == 0) ? true : false;
         }
 
         public int GetVolume()
         {
-            return volume;
+			string[] aVolume = parent.Request("GetVolume");
+			return (aVolume == null || aVolume[0] == "Error")? 0 : Convert.ToInt32(aVolume[0]) ;
         }
 
         public int GetProgress()
         {
-            return progress;
+			string[] aProgress = parent.Request("GetPercentage");
+            return (aProgress == null || aProgress[0] == "Error" || aProgress[0] == "0" || Convert.ToInt32(aProgress[0]) > 99)? 1 : Convert.ToInt32(aProgress[0]);
         }
 
         public bool LastFmEnabled()

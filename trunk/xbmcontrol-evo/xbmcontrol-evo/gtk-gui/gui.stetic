@@ -2,13 +2,15 @@
 <stetic-interface>
   <configuration>
     <images-root-path>..</images-root-path>
-    <target-gtk-version>2.14</target-gtk-version>
+    <target-gtk-version>2.12</target-gtk-version>
   </configuration>
   <import>
     <widget-library name="MonoDevelop.Components, Version=1.9.2.0, Culture=neutral" />
+    <widget-library name="MonoDevelop.VBNetBinding, Version=1.9.2.0, Culture=neutral" />
     <widget-library name="../bin/Debug/xbmcontrol-evo.exe" internal="true" />
+    <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="852 636">
+  <widget class="Gtk.Window" id="MainWindow" design-size="898 636">
     <action-group name="Default">
       <action id="XBMControlAction">
         <property name="Type">Action</property>
@@ -19,8 +21,102 @@
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">_Quit</property>
         <property name="ShortLabel" translatable="yes">_Quit</property>
-        <property name="StockId">gtk-quit</property>
+        <property name="StockId">gtk-disconnect</property>
         <signal name="Activated" handler="OnExit" />
+      </action>
+      <action id="XBMCAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">XBMC</property>
+        <property name="ShortLabel" translatable="yes">XBMC</property>
+      </action>
+      <action id="PlaylistAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Playlist</property>
+        <property name="ShortLabel" translatable="yes">Playlist</property>
+      </action>
+      <action id="HelpAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Help</property>
+        <property name="ShortLabel" translatable="yes">Help</property>
+      </action>
+      <action id="UpdateMusicLibraryAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Update music library</property>
+        <property name="ShortLabel" translatable="yes">Update music library</property>
+      </action>
+      <action id="UpdateVideoLibraryAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Update video library</property>
+        <property name="ShortLabel" translatable="yes">Update video library</property>
+      </action>
+      <action id="UpdateLibraryAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Update Library</property>
+        <property name="ShortLabel" translatable="yes">Library</property>
+      </action>
+      <action id="MusicAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Music</property>
+        <property name="ShortLabel" translatable="yes">Update music library</property>
+        <property name="StockId">gtk-harddisk</property>
+        <signal name="Activated" handler="click_UpdateMusicLibrary" />
+      </action>
+      <action id="VideoAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Video</property>
+        <property name="ShortLabel" translatable="yes">Update video library</property>
+        <property name="StockId">gtk-harddisk</property>
+        <signal name="Activated" handler="click_UpdateVideoLibrary" />
+      </action>
+      <action id="RestartAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Restart</property>
+        <property name="ShortLabel" translatable="yes">Restart</property>
+        <property name="StockId">gtk-refresh</property>
+      </action>
+      <action id="RebootAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Reboot</property>
+        <property name="ShortLabel" translatable="yes">Reboot</property>
+        <property name="StockId">gtk-refresh</property>
+      </action>
+      <action id="ShutdownAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Shutdown</property>
+        <property name="ShortLabel" translatable="yes">Shutdown</property>
+        <property name="StockId">gtk-quit</property>
+      </action>
+      <action id="ConfigurationAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Configuration</property>
+        <property name="ShortLabel" translatable="yes">_Preferences</property>
+        <property name="StockId">gtk-edit</property>
+      </action>
+      <action id="newAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-new</property>
+      </action>
+      <action id="openAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-open</property>
+      </action>
+      <action id="saveAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-save</property>
+      </action>
+      <action id="saveAsAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-save-as</property>
+      </action>
+      <action id="refreshPlaylist">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-refresh</property>
+        <signal name="Activated" handler="click_RefreshPlaylist" />
       </action>
     </action-group>
     <property name="MemberName" />
@@ -36,8 +132,20 @@
             <property name="MemberName" />
             <node name="menubar1" type="Menubar">
               <node type="Menu" action="XBMControlAction">
+                <node type="Menuitem" action="ConfigurationAction" />
                 <node type="Menuitem" action="QuitAction" />
               </node>
+              <node type="Menu" action="XBMCAction">
+                <node type="Menu" action="UpdateLibraryAction">
+                  <node type="Menuitem" action="MusicAction" />
+                  <node type="Menuitem" action="VideoAction" />
+                </node>
+                <node type="Menuitem" action="RestartAction" />
+                <node type="Menuitem" action="RebootAction" />
+                <node type="Menuitem" action="ShutdownAction" />
+              </node>
+              <node type="Menu" action="PlaylistAction" />
+              <node type="Menu" action="HelpAction" />
             </node>
           </widget>
           <packing>
@@ -53,7 +161,7 @@
             <property name="CanFocus">True</property>
             <property name="Position">300</property>
             <child>
-              <widget class="Gtk.Notebook" id="notebook2">
+              <widget class="Gtk.Notebook" id="nbBrowser">
                 <property name="MemberName" />
                 <property name="WidthRequest">300</property>
                 <property name="CanFocus">True</property>
@@ -71,7 +179,7 @@ video
 pictures
 files</property>
                         <property name="Active">0</property>
-                        <signal name="Changed" handler="PopulateShareBrowser" />
+                        <signal name="Changed" handler="change_cbShareBrowser" />
                       </widget>
                       <packing>
                         <property name="Position">0</property>
@@ -89,7 +197,7 @@ files</property>
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="ShowScrollbars">True</property>
-                            <signal name="ButtonReleaseEvent" handler="ExpandDirectory" />
+                            <signal name="ButtonReleaseEvent" handler="tvShareBrowser_release" />
                           </widget>
                         </child>
                       </widget>
@@ -116,17 +224,85 @@ files</property>
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Notebook" id="notebook1">
+              <widget class="Gtk.Notebook" id="nbDataContainer">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">0</property>
+                <property name="CurrentPage">1</property>
                 <child>
                   <placeholder />
                 </child>
                 <child>
                   <widget class="Gtk.Label" id="label1">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">page1</property>
+                    <property name="LabelProp" translatable="yes">Info</property>
+                  </widget>
+                  <packing>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.VBox" id="vbox2">
+                    <property name="MemberName" />
+                    <property name="Spacing">6</property>
+                    <child>
+                      <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow1">
+                        <property name="MemberName" />
+                        <property name="ShadowType">In</property>
+                        <child>
+                          <widget class="Gtk.TreeView" id="tvPlaylist">
+                            <property name="MemberName" />
+                            <property name="CanFocus">True</property>
+                            <property name="ShowScrollbars">True</property>
+                          </widget>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="Position">0</property>
+                        <property name="AutoSize">True</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Toolbar" id="toolbar1">
+                        <property name="MemberName" />
+                        <property name="ShowArrow">False</property>
+                        <property name="ButtonStyle">Icons</property>
+                        <property name="IconSize">LargeToolbar</property>
+                        <node name="toolbar1" type="Toolbar">
+                          <node type="Toolitem" action="newAction" />
+                          <node type="Toolitem" action="openAction" />
+                          <node type="Toolitem" action="saveAction" />
+                          <node type="Toolitem" action="saveAsAction" />
+                          <node type="Toolitem" action="refreshPlaylist" />
+                        </node>
+                      </widget>
+                      <packing>
+                        <property name="Position">1</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Label" id="label3">
+                    <property name="MemberName" />
+                    <property name="LabelProp" translatable="yes">Playlist</property>
+                  </widget>
+                  <packing>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder />
+                </child>
+                <child>
+                  <widget class="Gtk.Label" id="label4">
+                    <property name="MemberName" />
+                    <property name="LabelProp" translatable="yes">Configuration</property>
                   </widget>
                   <packing>
                     <property name="type">tab</property>
@@ -143,29 +319,184 @@ files</property>
         <child>
           <widget class="Gtk.Fixed" id="fixed1">
             <property name="MemberName" />
-            <property name="HeightRequest">80</property>
+            <property name="HeightRequest">55</property>
             <property name="HasWindow">False</property>
+            <child>
+              <widget class="Gtk.HScale" id="hsVolume">
+                <property name="MemberName" />
+                <property name="WidthRequest">120</property>
+                <property name="Tooltip" translatable="yes">Volume</property>
+                <property name="CanFocus">True</property>
+                <property name="Upper">100</property>
+                <property name="PageIncrement">10</property>
+                <property name="StepIncrement">1</property>
+                <property name="Value">51.8987341772152</property>
+                <property name="DrawValue">False</property>
+                <property name="Digits">0</property>
+                <property name="ValuePos">Top</property>
+                <signal name="ValueChanged" handler="hsVolume_valueChanged" />
+              </widget>
+              <packing>
+                <property name="X">730</property>
+                <property name="Y">7</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.HScale" id="hsProgress">
+                <property name="MemberName" />
+                <property name="WidthRequest">420</property>
+                <property name="Tooltip" translatable="yes">Progress</property>
+                <property name="CanFocus">True</property>
+                <property name="Upper">100</property>
+                <property name="PageIncrement">10</property>
+                <property name="StepIncrement">1</property>
+                <property name="DrawValue">False</property>
+                <property name="Digits">0</property>
+                <property name="ValuePos">Top</property>
+                <signal name="ChangeValue" handler="hsProgress_changeValue" />
+              </widget>
+              <packing>
+                <property name="X">300</property>
+                <property name="Y">7</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.ToggleButton" id="tbMute">
+                <property name="MemberName" />
+                <property name="WidthRequest">30</property>
+                <property name="HeightRequest">30</property>
+                <property name="Tooltip" translatable="yes">Toggle Mute</property>
+                <property name="CanFocus">True</property>
+                <property name="Type">TextOnly</property>
+                <property name="Label" translatable="yes">M</property>
+                <property name="UseUnderline">True</property>
+                <property name="Active">True</property>
+                <signal name="Released" handler="tbMute_released" />
+              </widget>
+              <packing>
+                <property name="X">850</property>
+                <property name="Y">5</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Button" id="bPrevious">
+                <property name="MemberName" />
+                <property name="WidthRequest">35</property>
+                <property name="HeightRequest">35</property>
+                <property name="Tooltip" translatable="yes">Previous</property>
+                <property name="CanFocus">True</property>
+                <property name="Type">TextOnly</property>
+                <property name="Label" translatable="yes">|&lt;</property>
+                <property name="UseUnderline">True</property>
+                <signal name="Released" handler="bPrevious_released" />
+              </widget>
+              <packing>
+                <property name="X">15</property>
+                <property name="Y">4</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.ToggleButton" id="tbPlay">
+                <property name="MemberName" />
+                <property name="WidthRequest">35</property>
+                <property name="HeightRequest">35</property>
+                <property name="Tooltip" translatable="yes">Play</property>
+                <property name="CanFocus">True</property>
+                <property name="Type">TextOnly</property>
+                <property name="Label" translatable="yes">&gt;</property>
+                <property name="UseUnderline">True</property>
+                <signal name="Released" handler="tbPlay_released" />
+              </widget>
+              <packing>
+                <property name="X">50</property>
+                <property name="Y">4</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.ToggleButton" id="tbStop">
+                <property name="MemberName" />
+                <property name="WidthRequest">35</property>
+                <property name="HeightRequest">35</property>
+                <property name="Tooltip" translatable="yes">Stop</property>
+                <property name="CanFocus">True</property>
+                <property name="Type">TextOnly</property>
+                <property name="Label" translatable="yes">[ ]</property>
+                <property name="UseUnderline">True</property>
+                <signal name="Released" handler="tbStop_released" />
+              </widget>
+              <packing>
+                <property name="X">85</property>
+                <property name="Y">4</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Button" id="bNext">
+                <property name="MemberName" />
+                <property name="WidthRequest">35</property>
+                <property name="HeightRequest">35</property>
+                <property name="Tooltip" translatable="yes">Next</property>
+                <property name="CanFocus">True</property>
+                <property name="Type">TextOnly</property>
+                <property name="Label" translatable="yes">&gt;|</property>
+                <property name="UseUnderline">True</property>
+                <signal name="Released" handler="bNext_released" />
+              </widget>
+              <packing>
+                <property name="X">120</property>
+                <property name="Y">4</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Button" id="button1">
+                <property name="MemberName" />
+                <property name="WidthRequest">25</property>
+                <property name="HeightRequest">25</property>
+                <property name="Tooltip" translatable="yes">Toggle Repeat Mode</property>
+                <property name="CanFocus">True</property>
+                <property name="Type">TextOnly</property>
+                <property name="Label" translatable="yes">r</property>
+                <property name="UseUnderline">True</property>
+              </widget>
+              <packing>
+                <property name="X">170</property>
+                <property name="Y">4</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Button" id="button2">
+                <property name="MemberName" />
+                <property name="WidthRequest">25</property>
+                <property name="HeightRequest">25</property>
+                <property name="Tooltip" translatable="yes">Toggle Shuffel Mode</property>
+                <property name="CanFocus">True</property>
+                <property name="Type">TextOnly</property>
+                <property name="Label" translatable="yes">s</property>
+                <property name="UseUnderline">True</property>
+              </widget>
+              <packing>
+                <property name="X">195</property>
+                <property name="Y">4</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Button" id="button3">
+                <property name="MemberName" />
+                <property name="WidthRequest">25</property>
+                <property name="HeightRequest">25</property>
+                <property name="Tooltip" translatable="yes">Toggle Party Mode</property>
+                <property name="CanFocus">True</property>
+                <property name="Type">TextOnly</property>
+                <property name="Label" translatable="yes">p</property>
+                <property name="UseUnderline">True</property>
+              </widget>
+              <packing>
+                <property name="X">220</property>
+                <property name="Y">4</property>
+              </packing>
+            </child>
           </widget>
           <packing>
             <property name="Position">2</property>
-            <property name="AutoSize">True</property>
-            <property name="Expand">False</property>
-            <property name="Fill">False</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="Gtk.Statusbar" id="statusbar1">
-            <property name="MemberName" />
-            <property name="Spacing">6</property>
-            <child>
-              <placeholder />
-            </child>
-            <child>
-              <placeholder />
-            </child>
-          </widget>
-          <packing>
-            <property name="Position">3</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>

@@ -2,7 +2,7 @@
 using System;
 using Gtk;
 using Gdk;
-using XBMC;
+
 
 namespace xbmcontrolevo
 {
@@ -10,12 +10,10 @@ namespace xbmcontrolevo
 	
 	public class ShareBrowser
 	{
-		private string currentShareView;
-		private TreeView _tvParent;
-		public XBMC_Communicator _Xbmc;
-		public MainWindow _parent;
+		private MainWindow _parent;
+		private string[] aShareTypes;
+		private string currentShareType = "music";
 		private TreeStore tsShares;
-		private TreeIter shareIter;
 		private TreeIter selectedIter;
 		private TreeModel selectedModel;
 		private TreeViewColumn tvcIcons;
@@ -23,38 +21,47 @@ namespace xbmcontrolevo
 		private TreeViewColumn tvcPaths;
 		private TreeViewColumn tvcType;
 		
-		public ShareBrowser(TreeView tvParent, MainWindow parent)
+		public ShareBrowser(MainWindow parent)
 		{
-			tsShares = new TreeStore (typeof (Pixbuf), typeof (string), typeof (string), typeof (string), typeof (string));
+			tsShares 	 	= new TreeStore (typeof (Pixbuf), typeof (string), typeof (string), typeof (string), typeof (string));
+			selectedIter 	= new TreeIter();
+			_parent 		= parent;
 			
-			_parent = parent;
-			_tvParent = tvParent;
-			_Xbmc = parent.Xbmc;
-			selectedIter = new TreeIter();
+			SetShareTypes();
+			Populate(0);
 		}
 		
-		public void Populate (string shareType)
+		private void SetShareTypes()
 		{
-			currentShareView = shareType;
-			
-			foreach (TreeViewColumn col in _tvParent.Columns) 
-	        	_tvParent.RemoveColumn(col);
+			aShareTypes = new string[4];
+			aShareTypes[0] = "music";
+			aShareTypes[1] = "video";
+			aShareTypes[2] = "pictures";
+			aShareTypes[3] = "files";
+		}
+		
+		public void Populate (int selectedShareType)
+		{
+			currentShareType = aShareTypes[selectedShareType];
+				
+			foreach (TreeViewColumn col in _parent._tvShareBrowser.Columns) 
+	        	_parent._tvShareBrowser.RemoveColumn(col);
 			
 			tsShares.Clear();
 	 		
-			tvcIcons 	= _tvParent.AppendColumn ("", new CellRendererPixbuf (), "pixbuf", 0);
-			tvcShares 	= _tvParent.AppendColumn ("", new CellRendererText (), "text", 1);
-			tvcPaths	= _tvParent.AppendColumn ("", new CellRendererText (), "text", 2);
-			tvcType		= _tvParent.AppendColumn ("", new CellRendererText (), "text", 3);
+			tvcIcons 	= _parent._tvShareBrowser.AppendColumn ("", new CellRendererPixbuf (), "pixbuf", 0);
+			tvcShares 	= _parent._tvShareBrowser.AppendColumn ("", new CellRendererText (), "text", 1);
+			tvcPaths	= _parent._tvShareBrowser.AppendColumn ("", new CellRendererText (), "text", 2);
+			tvcType		= _parent._tvShareBrowser.AppendColumn ("", new CellRendererText (), "text", 3);
 			
 			tvcPaths.Visible 		 = false;
 			tvcType.Visible 	 	 = false;
 			tvcIcons.Sizing 		 = TreeViewColumnSizing.Autosize;
 			tvcShares.Sizing 		 = TreeViewColumnSizing.Autosize;
-			_tvParent.HeadersVisible = false;
+			_parent._tvShareBrowser.HeadersVisible = false;
 			
-			_tvParent.ColumnsAutosize();
-			_tvParent.EnableGridLines = TreeViewGridLines.Horizontal;
+			_parent._tvShareBrowser.ColumnsAutosize();
+			//_parent._tvShareBrowser.EnableGridLines = TreeViewGridLines.Horizontal;
 
 			this.GetShares();
 		}
@@ -64,8 +71,8 @@ namespace xbmcontrolevo
 			string[] aShares 		= null;
 	        string[] aSharesPaths 	= null;
 			
-			aShares 	 = _Xbmc.Media.GetShares(currentShareView);
-	        aSharesPaths = _Xbmc.Media.GetShares(currentShareView, true);
+			aShares 	 = _parent.oXbmc.Media.GetShares(currentShareType);
+	        aSharesPaths = _parent.oXbmc.Media.GetShares(currentShareType, true);
 			
 			if (aShares != null)
 			{
@@ -90,8 +97,8 @@ namespace xbmcontrolevo
 					tsShares.AppendValues (new Pixbuf ("images/" + icon + ".png"), aShares[x], aSharesPaths[x], "share");
 				}
 				
-				_tvParent.Model = tsShares;
-				_tvParent.Show();
+				_parent._tvShareBrowser.Model = tsShares;
+				_parent._tvShareBrowser.ShowAll();
 			}
 		}
 		
@@ -105,8 +112,8 @@ namespace xbmcontrolevo
 		
 		internal TreeStore GetDirectories(string startPath)
 		{
-			string[] aDirectoryContent = _Xbmc.Media.GetDirectoryContentNames(startPath, "/");
-			string[] aDirectoryContentPath = _Xbmc.Media.GetDirectoryContentPaths(startPath, "/");
+			string[] aDirectoryContent = _parent.oXbmc.Media.GetDirectoryContentNames(startPath, "/");
+			string[] aDirectoryContentPath = _parent.oXbmc.Media.GetDirectoryContentPaths(startPath, "/");
 		    
 			if (aDirectoryContentPath != null)
             {
@@ -122,15 +129,15 @@ namespace xbmcontrolevo
 		
 		internal TreeStore GetFiles(string startPath)
 		{
-			string[] aFiles		 	= _Xbmc.Media.GetDirectoryContentNames(startPath, "[" + currentShareView + "]");
-		    string[] aFilesPath		= _Xbmc.Media.GetDirectoryContentPaths(startPath, "[" + currentShareView + "]");
+			string[] aFiles		 	= _parent.oXbmc.Media.GetDirectoryContentNames(startPath, "[" + currentShareType + "]");
+		    string[] aFilesPath		= _parent.oXbmc.Media.GetDirectoryContentPaths(startPath, "[" + currentShareType + "]");
 			
 			if (aFilesPath != null)
 			{
 				for (int y = 0; y < aFilesPath.Length; y++)
 				{
 					if (aFilesPath[y] != null && aFilesPath[y] != "")
-						tsShares.AppendValues(selectedIter, new Pixbuf ("images/file_" + currentShareView + ".png"), aFiles[y], aFilesPath[y], "file");
+						tsShares.AppendValues(selectedIter, new Pixbuf ("images/file_" + currentShareType + ".png"), aFiles[y], aFilesPath[y], "file");
 				}
 			}
 			
@@ -139,46 +146,52 @@ namespace xbmcontrolevo
 		
 		public void ExpandSelectedDirectory ()
 		{
-			if (_tvParent.Selection.GetSelected(out selectedModel, out selectedIter))
+			if (_parent._tvShareBrowser.Selection.GetSelected(out selectedModel, out selectedIter))
 			{
 				string selectedType = selectedModel.GetValue(selectedIter, 3).ToString();
 				
-				if (!_tvParent.GetRowExpanded(selectedModel.GetPath(selectedIter)))
+				if (!_parent._tvShareBrowser.GetRowExpanded(selectedModel.GetPath(selectedIter)))
 				{
 					if (!tsShares.IterHasChild(selectedIter))
 					{
 			    		string startPath = tsShares.GetValue(selectedIter, 2).ToString();
 	
-						_tvParent.Model = GetDirectoryContent(startPath);
-						_tvParent.ShowAll();
+						_parent._tvShareBrowser.Model = GetDirectoryContent(startPath);
+						_parent._tvShareBrowser.ShowAll();
 					}
 					
-					if (selectedType == "folder")
-						tsShares.SetValue(selectedIter, 0, new Pixbuf ("images/folder_open.png"));
-					_tvParent.ExpandRow(selectedModel.GetPath(selectedIter), false);
+					if (selectedType == "folder" || selectedType == "share")
+					{
+						if (selectedType != "share")
+							tsShares.SetValue(selectedIter, 0, new Pixbuf ("images/folder_open.png"));
+						_parent._tvShareBrowser.ExpandRow(selectedModel.GetPath(selectedIter), false);
+					}
 				}
 				else
 				{
-					if (selectedType == "folder")
-						tsShares.SetValue(selectedIter, 0, new Pixbuf ("images/folder_closed.png"));
-					_tvParent.CollapseRow(selectedModel.GetPath(selectedIter));
+					if (selectedType == "folder" || selectedType == "share")
+					{
+						if (selectedType != "share")
+							tsShares.SetValue(selectedIter, 0, new Pixbuf ("images/folder_closed.png"));
+						_parent._tvShareBrowser.CollapseRow(selectedModel.GetPath(selectedIter));
+					}
 				}
 			}
 		}
 		
 		public void ShowContextMenu () 
 		{
-			if (_tvParent.Selection.GetSelected(out selectedModel, out selectedIter))
+			if (_parent._tvShareBrowser.Selection.GetSelected(out selectedModel, out selectedIter))
 			{
 				string selectedPath = selectedModel.GetValue(selectedIter, 2).ToString();
 				string selectedType = selectedModel.GetValue(selectedIter, 3).ToString();
 				
 				if (selectedType == "folder" || selectedType == "share")
-					_parent.contextMenu.Show("folder", selectedPath, currentShareView);
+					_parent.oContextMenu.Show("folder", selectedPath, currentShareType);
 				else if (selectedType == "file")
-					_parent.contextMenu.Show("file", selectedPath, null);
+					_parent.oContextMenu.Show("file", selectedPath, null);
 				else
-					_parent.contextMenu.Show("default", null, null);
+					_parent.oContextMenu.Show("default", null, null);
 			}
 		}
 	}

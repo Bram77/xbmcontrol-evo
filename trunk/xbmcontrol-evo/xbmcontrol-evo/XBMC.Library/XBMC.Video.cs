@@ -72,7 +72,6 @@ namespace XBMC
             string ipString;
             string[] fileExist;
             Image thumbnail = null;
-            WebClient client = new WebClient();
             string condition = (videoID == null) ? "" : " WHERE C09 LIKE '%%" + videoID + "%%'";
             strPath = parent.Request("QueryVideoDatabase", "SELECT strpath FROM movieview " + condition);
             hashName = Hash(strPath[0] + "VIDEO_TS.IFO");
@@ -96,7 +95,7 @@ namespace XBMC
                     ms.Write(imageBytes, 0, imageBytes.Length);
                     thumbnail = Image.FromStream(ms, true);
                 }
-                catch (Exception e)
+                catch //(Exception e)
                 {
                     //thumbnail = Resources.video_32x32;
                 }

@@ -16,6 +16,7 @@ Global
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		name = xbmcontrol-evo
+		version = 0.1
 		StartupItem = xbmcontrol-evo.csproj
 	EndGlobalSection
 EndGlobal

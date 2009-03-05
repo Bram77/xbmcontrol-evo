@@ -3,24 +3,15 @@
   <MonoDevelop.Ide.DebuggingService>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService>
-  <MonoDevelop.Ide.Workbench ActiveDocument="xbmcontrol-evo/XBMC.Library/XBMC.Playlist.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="xbmcontrol-evo/MainWindow.cs" ctype="Workbench">
     <Files>
-      <File FileName="xbmcontrol-evo/MainWindow.cs" Line="45" Column="3" />
-      <File FileName="xbmcontrol-evo/xbmcontrol/ShareBrowser.cs" Line="176" Column="52" />
-      <File FileName="xbmcontrol-evo/xbmcontrol/SysTrayIcon.cs" Line="26" Column="45" />
-      <File FileName="xbmcontrol-evo/xbmcontrol/MenuItems.cs" Line="48" Column="4" />
-      <File FileName="xbmcontrol-evo/xbmcontrol/ContextMenu.cs" Line="51" Column="58" />
-      <File FileName="xbmcontrol-evo/xbmcontrol/Controls.cs" Line="21" Column="40" />
-      <File FileName="xbmcontrol-evo/XBMC.Library/XBMC.Playlist.cs" Line="94" Column="42" />
+      <File FileName="xbmcontrol-evo/MainWindow.cs" Line="8" Column="27" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="xbmcontrol-evo" expanded="True">
-            <Node name="XBMC.Library" expanded="True">
-              <Node name="XBMC.Playlist.cs" selected="True" />
-            </Node>
-            <Node name="xbmcontrol" expanded="True" />
+            <Node name="MainWindow.cs" selected="True" />
           </Node>
         </State>
       </Pad>

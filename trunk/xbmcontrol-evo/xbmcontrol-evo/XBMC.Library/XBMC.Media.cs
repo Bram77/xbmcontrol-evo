@@ -118,5 +118,31 @@ namespace XBMC
         {
             return GetDirectoryContentNames(directory, null);
         }
+		
+		public string GetMusicTagByFilepath(string filepath, string field)
+		{
+			string[] aMusicTagTemp = parent.Request("GetTagFromFilename(" + filepath + ")");
+
+            if (aMusicTagTemp != null)
+            {
+                string[,] aMusicTag = new string[aMusicTagTemp.Length, 2];
+				
+                for (int x = 0; x < aMusicTagTemp.Length; x++)
+                {
+                    int splitIndex = aMusicTagTemp[x].IndexOf(':') + 1;
+
+                    if (splitIndex > 2)
+                    {
+                        aMusicTag[x, 0] = aMusicTagTemp[x].Substring(0, splitIndex - 1).Replace(" ", "").ToLower();
+                        aMusicTag[x, 1] = aMusicTagTemp[x].Substring(splitIndex, aMusicTagTemp[x].Length - splitIndex);
+                        
+                        if (aMusicTag[x, 0] == field)
+                            return aMusicTag[x, 1];
+                    }
+                }
+            }
+
+			return "No data found";
+		}
     }
 }

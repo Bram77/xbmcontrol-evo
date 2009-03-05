@@ -130,16 +130,16 @@ namespace XBMC
         {
 
             StreamWriter sw = null;
-            string error = null;
+            //string error = null;
 
             try
             {
                 sw = new StreamWriter(logFile, true);
                 sw.WriteLine(DateTime.Now + " : " + message);
             }
-            catch (Exception e)
+            catch //(Exception e)
             {
-                error = e.Message;
+                //error = e.Message;
             }
 
             if (sw != null)

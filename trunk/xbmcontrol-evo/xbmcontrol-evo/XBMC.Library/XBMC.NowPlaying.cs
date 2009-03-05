@@ -31,7 +31,7 @@ namespace XBMC
     {
         XBMC_Communicator parent = null;
         private string[,] maNowPlayingInfo = null;
-        private string error = null;
+        //private string error = null;
 
         public XBMC_NowPlaying(XBMC_Communicator p)
         {
@@ -94,9 +94,9 @@ namespace XBMC
                 stream = new MemoryStream(client.DownloadData(xbmcThumbUri));
                 thumbnail = new Bitmap(Image.FromStream(stream));
             }
-            catch (Exception e)
+            catch //(Exception e)
             {
-                error = e.Message;
+                //error = e.Message;
             }
             finally
             {
