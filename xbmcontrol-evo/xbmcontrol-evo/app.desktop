@@ -4,3 +4,5 @@ Type=Application
 Name=xbmcontrol-evo
 Exec=xbmcontrol-evo
 Terminal=false
+GenericName=XBMControl Evo
+Categories=Database;AudioVideo;Player;Mixer;Midi;TV;

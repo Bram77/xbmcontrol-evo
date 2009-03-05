@@ -1,12 +1,25 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="MainWindow.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="xbmcontrol/StatusUpdate.cs" ctype="Workbench">
     <Files>
-      <File FileName="MainWindow.cs" Line="34" Column="63" />
+      <File FileName="xbmcontrol/ShareBrowser.cs" Line="113" Column="51" />
+      <File FileName="MainWindow.cs" Line="116" Column="31" />
+      <File FileName="xbmcontrol/MenuItems.cs" Line="176" Column="3" />
+      <File FileName="XBMC.Library/XBMC.Media.cs" Line="126" Column="39" />
+      <File FileName="XBMC.Library/XBMC.Database.cs" Line="1" Column="1" />
+      <File FileName="xbmcontrol/ContextMenu.cs" Line="70" Column="41" />
+      <File FileName="xbmcontrol/Controls.cs" Line="21" Column="57" />
+      <File FileName="xbmcontrol/Playlist.cs" Line="66" Column="5" />
+      <File FileName="xbmcontrol/StatusUpdate.cs" Line="30" Column="43" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="xbmcontrol-evo" expanded="True" selected="True" />
+          <Node name="xbmcontrol-evo" expanded="True">
+            <Node name="XBMC.Library" expanded="True" />
+            <Node name="xbmcontrol" expanded="True">
+              <Node name="StatusUpdate.cs" selected="True" />
+            </Node>
+          </Node>
         </State>
       </Pad>
       <Pad Id="ClassPad">

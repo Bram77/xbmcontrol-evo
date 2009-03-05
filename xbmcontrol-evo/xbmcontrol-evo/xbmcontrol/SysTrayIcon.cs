@@ -25,7 +25,7 @@ namespace xbmcontrolevo
 		
 		private void OnTrayIconPopup (object o, EventArgs args) 
 		{
-			_parent.contextMenu.Show("default", null, null);
+			_parent.oContextMenu.Show("default", null, null);
 		}
 		
 		
