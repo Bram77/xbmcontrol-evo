@@ -23,9 +23,8 @@ namespace xbmcontrolevo
 		
 		public ImageMenuItem Quit()
 		{
-			Gtk.Image img		= new Gtk.Image("images/quit_16.png");
 			ImageMenuItem quit  = new ImageMenuItem("Quit");
-			quit.Image 			= img;
+			quit.Image 			= new Gtk.Image(Gtk.Stock.Quit, IconSize.Menu);;
 			quit.Activated 		+= delegate { Application.Quit(); };
 			
 			return quit;
@@ -34,20 +33,18 @@ namespace xbmcontrolevo
 		public ImageMenuItem PlayPause()
 		{
 			ImageMenuItem playPause;
-			Gtk.Image img;
 				
 			if (_parent.oXbmc.Status.IsPlaying())
 			{
-				img			= new Gtk.Image("images/pause_16.png");
-				playPause	= new ImageMenuItem("Pause");
+				playPause		= new ImageMenuItem("Pause");
+				playPause.Image = new Gtk.Image(Gtk.Stock.MediaPause, IconSize.Menu);
 			}
 			else
 			{
-				img			= new Gtk.Image("images/play_16.png");
-				playPause 	= new ImageMenuItem("Play");
+				playPause 		= new ImageMenuItem("Play");
+				playPause.Image = new Gtk.Image(Gtk.Stock.MediaPlay, IconSize.Menu);
 			}
 			
-			playPause.Image 	= img;
 			playPause.Activated	+= delegate { PlayPause(); };
 			playPause.Activated += delegate { _parent.oXbmc.Controls.Play(); };
 			
@@ -56,29 +53,26 @@ namespace xbmcontrolevo
 		
 		public ImageMenuItem PlayDirectory(string mediaPath, string mediaType)
 		{
-			Gtk.Image img				= new Gtk.Image("images/play_16.png");
 			ImageMenuItem playRecursive	= new ImageMenuItem("Play");
-			playRecursive.Image 		= img;
-			playRecursive.Activated 	+= delegate { _parent.oControls.AddDirectoryContentToPlaylist(mediaPath, true, true); };
+			playRecursive.Image 		= new Gtk.Image(Gtk.Stock.MediaPlay, IconSize.Menu);;
+			playRecursive.Activated 	+= delegate { _parent.oControls.AddDirectoryContentToPlaylist(mediaPath, true); };
 		
 			return playRecursive;
 		}
 		
 		public ImageMenuItem EnqueDirectory(string mediaPath, string mediaType)
 		{
-			Gtk.Image img					= new Gtk.Image("images/add_16.png");
 			ImageMenuItem enqueRecursive	= new ImageMenuItem("Enque");
-			enqueRecursive.Image 			= img;
-			enqueRecursive.Activated 		+= delegate { _parent.oControls.AddDirectoryContentToPlaylist(mediaPath, false, true); };
+			enqueRecursive.Image 			= new Gtk.Image(Gtk.Stock.Add, IconSize.Menu);;
+			enqueRecursive.Activated 		+= delegate { _parent.oControls.AddDirectoryContentToPlaylist(mediaPath, false); };
 		
 			return enqueRecursive;
 		}
 		
 		public ImageMenuItem PlayFile(string filePath)
 		{
-			Gtk.Image img			= new Gtk.Image("images/play_16.png");
 			ImageMenuItem playFile	= new ImageMenuItem("Play");
-			playFile.Image 			= img;
+			playFile.Image 			= new Gtk.Image(Gtk.Stock.MediaPlay, IconSize.Menu);;
 			playFile.Activated 		+= delegate { _parent.oControls.AddFileToPlaylist(filePath, true); };
 		
 			return playFile;
@@ -86,9 +80,8 @@ namespace xbmcontrolevo
 		
 		public ImageMenuItem EnqueFile(string filePath)
 		{
-			Gtk.Image img			= new Gtk.Image("images/add_16.png");
 			ImageMenuItem enqueFile	= new ImageMenuItem("Enque");
-			enqueFile.Image 		= img;
+			enqueFile.Image 		= new Gtk.Image(Gtk.Stock.Add, IconSize.Menu);;
 			enqueFile.Activated 	+= delegate { _parent.oControls.AddFileToPlaylist(filePath, false); };
 		
 			return enqueFile;
@@ -96,9 +89,8 @@ namespace xbmcontrolevo
 		
 		public ImageMenuItem Next()
 		{
-			Gtk.Image img		= new Gtk.Image("images/next_16.png");
 			ImageMenuItem next 	= new ImageMenuItem("Next");
-			next.Image 			= img;
+			next.Image 			= new Gtk.Image(Gtk.Stock.MediaNext, IconSize.Menu);;
 			next.Activated 		+= delegate { _parent.oXbmc.Controls.Next(); };
 			
 			return next;
@@ -106,9 +98,8 @@ namespace xbmcontrolevo
 		
 		public ImageMenuItem Previous()
 		{
-			Gtk.Image img			= new Gtk.Image("images/next_16.png");
 			ImageMenuItem previous 	= new ImageMenuItem("Next");
-			previous.Image 			= img;
+			previous.Image 			= new Gtk.Image(Gtk.Stock.MediaPrevious, IconSize.Menu);;
 			previous.Activated 		+= delegate { _parent.oXbmc.Controls.Previous(); };
 			
 			return previous;
@@ -116,9 +107,8 @@ namespace xbmcontrolevo
 		
 		public ImageMenuItem Stop()
 		{
-			Gtk.Image img		= new Gtk.Image("images/stop_16.png");
 			ImageMenuItem stop 	= new ImageMenuItem("Stop");
-			stop.Image 			= img;
+			stop.Image 			= new Gtk.Image(Gtk.Stock.MediaStop, IconSize.Menu);;
 			stop.Activated 		+= delegate { _parent.oXbmc.Controls.Stop(); };
 			
 			return stop;
@@ -165,10 +155,8 @@ namespace xbmcontrolevo
 		
 		public ImageMenuItem ShowFileInfo()
 		{
-
-			Gtk.Image img			= new Gtk.Image("images/information_16.png");
 			ImageMenuItem config 	= new ImageMenuItem("Show info");
-			config.Image 			= img;
+			config.Image 			= new Gtk.Image(Gtk.Stock.Info, IconSize.Menu);;
 			config.Activated 		+= delegate { _parent.oControls.GetFileInfo(); };
 			
 			return config;
@@ -176,9 +164,8 @@ namespace xbmcontrolevo
 		
 		public ImageMenuItem Configuration()
 		{
-			Gtk.Image img			= new Gtk.Image("images/configuration_16.png");
 			ImageMenuItem config 	= new ImageMenuItem("Configuration");
-			config.Image 			= img;
+			config.Image 			= new Gtk.Image(Gtk.Stock.Preferences, IconSize.Menu);
 			config.Activated 		+= delegate { Application.Quit(); };
 			
 			return config;
@@ -192,6 +179,24 @@ namespace xbmcontrolevo
 			collapse.Activated 		+= delegate { _parent.CollapseAllShares(); };
 			
 			return collapse;
+		}
+		
+		public ImageMenuItem PlayPlaylistEntry()
+		{
+			ImageMenuItem playEntry 	= new ImageMenuItem("Play");
+			playEntry.Image 			= new Gtk.Image(Gtk.Stock.MediaPlay, IconSize.Menu);
+			playEntry.Activated 		+= delegate { _parent.oPlaylist.PlaySelectedItem(); };
+			
+			return playEntry;
+		}
+		
+		public ImageMenuItem RemovePlaylistEntry()
+		{
+			ImageMenuItem removeEntry 	= new ImageMenuItem("Remove");
+			removeEntry.Image 			= new Gtk.Image(Gtk.Stock.Remove, IconSize.Menu);
+			removeEntry.Activated 		+= delegate { _parent.oPlaylist.RemoveSelectedItem(); };
+			
+			return removeEntry;
 		}
 	}
 }

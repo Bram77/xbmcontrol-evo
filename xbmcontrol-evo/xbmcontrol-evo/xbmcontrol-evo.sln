@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xbmcontrol-evo", "xbmcontrol-evo.csproj", "{096029ED-02B1-4276-9915-672E4F75EC3D}"
 EndProject
+Project("{9344bdbb-3e7f-41fc-a0dd-8665d75ee146}") = "Packages", "Packages.mdproj", "{DE2E9191-DF38-4A2B-B17A-9FDE0EDAA5C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{096029ED-02B1-4276-9915-672E4F75EC3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{096029ED-02B1-4276-9915-672E4F75EC3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{096029ED-02B1-4276-9915-672E4F75EC3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE2E9191-DF38-4A2B-B17A-9FDE0EDAA5C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE2E9191-DF38-4A2B-B17A-9FDE0EDAA5C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE2E9191-DF38-4A2B-B17A-9FDE0EDAA5C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE2E9191-DF38-4A2B-B17A-9FDE0EDAA5C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		name = xbmcontrol-evo

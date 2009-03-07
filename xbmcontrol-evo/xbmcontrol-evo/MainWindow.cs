@@ -107,7 +107,8 @@ public partial class MainWindow: Gtk.Window
 	
 	protected virtual void change_cbShareBrowser (object o, System.EventArgs args)
 	{
-		oShareBrowser.Populate(cbShareType.Active);
+		oShareBrowser.SetCurrentShareType(cbShareType.Active);
+		oShareBrowser.Populate();
 	}
 		
 	protected virtual void tvShareBrowser_release (object o, Gtk.ButtonReleaseEventArgs args)
@@ -173,6 +174,33 @@ public partial class MainWindow: Gtk.Window
 	protected virtual void tbStop_released (object sender, System.EventArgs e)
 	{
 		oXbmc.Controls.Stop();
+	}
+
+	protected virtual void aClearPlaylist_click (object sender, System.EventArgs e)
+	{
+		oXbmc.Playlist.Clear();
+		oPlaylist.Populate();
+	}
+
+	protected virtual void bPartyMode_click (object sender, System.EventArgs e)
+	{
+		oXbmc.Controls.TogglePartymode();
+	}
+
+	protected virtual void bShuffle_click (object sender, System.EventArgs e)
+	{
+		oXbmc.Controls.ToggleShuffle();
+	}
+
+	protected virtual void bRepeat_click (object sender, System.EventArgs e)
+	{
+		oXbmc.Controls.ToggleRepeatModes();
+	}
+	
+	protected virtual void tvPlaylist_buttonRelease (object o, Gtk.ButtonReleaseEventArgs args)
+	{
+		if (args.Event.Button == 3)
+			oContextMenu.Show("playlist", null, null);
 	}
 
 }

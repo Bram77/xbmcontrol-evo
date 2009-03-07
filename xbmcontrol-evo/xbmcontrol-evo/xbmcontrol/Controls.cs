@@ -15,21 +15,33 @@ namespace xbmcontrolevo
 			_parent = parent;
 		}
 		
-		public void AddDirectoryContentToPlaylist(string directory, bool play, bool recursive)
+		public void AddDirectoryContentToPlaylist(string directory, bool play)
         {
 			if (play) _parent.oXbmc.Playlist.Clear();
-            _parent.oXbmc.Playlist.AddDirectoryContent(directory, _parent._cbShareType.ActiveText, recursive);
-            if (play) _parent.oXbmc.Playlist.PlaySong(0);
-			_parent.oPlaylist.Populate();
+			
+			bool added = _parent.oXbmc.Playlist.AddDirectoryContent(directory, _parent.oShareBrowser.GetCurrentShareType(), true);
+            if (added)
+			{
+				if (play) _parent.oXbmc.Playlist.PlaySong(0);
+				_parent.oPlaylist.Populate();
+			}
+			else
+			    _parent.Messagebox("Could not add directory content to the playlist");
         }
 		
 		public void AddFileToPlaylist(string filePath, bool play)
         {
 			if (play) _parent.oXbmc.Playlist.Clear();
-            _parent.oXbmc.Playlist.AddFilesToPlaylist(filePath);
-            if (play) _parent.oXbmc.Playlist.PlaySong(0);
-			_parent.oPlaylist.Populate();
-        }
+            bool added = _parent.oXbmc.Playlist.AddFilesToPlaylist(filePath);
+			
+			if (added)
+			{
+            	if (play) _parent.oXbmc.Playlist.PlaySong(0);
+				_parent.oPlaylist.Populate();
+			}
+			else
+				_parent.Messagebox("Could not add the file to the playlist");
+		}
 		
 		public void GetFileInfo()
 		{

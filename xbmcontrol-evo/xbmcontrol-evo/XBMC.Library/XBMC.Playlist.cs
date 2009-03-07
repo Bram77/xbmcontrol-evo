@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace XBMC
 {
@@ -91,31 +92,39 @@ namespace XBMC
             parent.Request("ClearPlayList()");
         }
 
-        public void AddDirectoryContent(string folderPath, string mask, bool recursive)
+        public bool AddDirectoryContent(string folderPath, string mask, bool recursive)
         {
             string p = "";
             string m = "";
             string r = "";
-
+			
             if (mask != null)
             {
+				p = ";0";
                 m = ";[" + mask + "]";
-                p = ";0";
                 r = (recursive) ? ";1" : ";0";
             }
 
-            parent.Request("AddToPlayList(" + folderPath + p + m + r + ")");
+            string[] response = parent.Request("AddToPlayList(" + folderPath + p + m + r + ")");
+			
+			return (response[0] == "OK")? true : false ;
         }
 
-        public void AddDirectoryContent(string folderPath, string mask)
+        public bool AddDirectoryContent(string folderPath, string mask)
         {
-            this.AddDirectoryContent(folderPath, mask, false);
+            return this.AddDirectoryContent(folderPath, mask, false);
         }
 
-        public void AddFilesToPlaylist(string filePath)
+        public bool AddFilesToPlaylist(string filePath)
         {
-            this.AddDirectoryContent(filePath, null);
+            return this.AddDirectoryContent(filePath, null);
         }
+		
+		public int GetLength()
+		{
+			string[] length = parent.Request("GetPlaylistLength(0)");
+			return (length == null)? 0 : Convert.ToInt32(length[0]);
+		}
 
         public void SetSong(int position)
         {
