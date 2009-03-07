@@ -10,10 +10,8 @@ namespace xbmcontrolevo
 	{
 		private MainWindow _parent;
 		private TreeStore tsPlaylist;
-		private int itemCount;
-		private TreeViewColumn tvcNumber;
-		private TreeViewColumn tvcTitle;
-		private TreeViewColumn tvcDuration;
+		private TreeViewColumn tvcNumber = new TreeViewColumn();
+		private TreeViewColumn tvcTitle = new TreeViewColumn();
 		
 		public Playlist(MainWindow parent)
 		{
@@ -44,10 +42,10 @@ namespace xbmcontrolevo
 			
 			if (aPlaylistEntries != null)
             {
-                for (itemCount = 0; itemCount < aPlaylistEntries.Length; itemCount++)
+                for (int x = 0; x < aPlaylistEntries.Length; x++)
                 {
-                    if (aPlaylistEntries[itemCount] != "")
-                        tsPlaylist.AppendValues ((itemCount+1).ToString(), aPlaylistEntries[itemCount]);
+                    if (aPlaylistEntries[x] != "")
+                        tsPlaylist.AppendValues ((x+1).ToString(), aPlaylistEntries[x]);
                 }
 				
 				_parent._tvPlaylist.Model = tsPlaylist;
@@ -57,9 +55,10 @@ namespace xbmcontrolevo
 		
 		public void HighlightNowPlayingEntry()
         {
+			int itemCount				= _parent.oXbmc.Playlist.GetLength();
 			string itemPlaying 			= _parent.oXbmc.NowPlaying.Get("songno");
-            TreePath tpItemPlaying  	= new TreePath(itemPlaying);
-
+            //TreePath tpItemPlaying  	= new TreePath(itemPlaying);
+			
             if (itemCount > 0 && Convert.ToInt32(itemPlaying) < itemCount)
 			{
 				TreeIter tiNowPLaying = new TreeIter();
@@ -68,5 +67,33 @@ namespace xbmcontrolevo
 					_parent._tvPlaylist.Selection.SelectIter(tiNowPLaying);
 			}
         }
+		
+		private int GetSelectedItem()
+		{
+			TreeModel selectedModel;
+			TreeIter selectedIter = new TreeIter();
+			
+			if (_parent._tvShareBrowser.Selection.GetSelected(out selectedModel, out selectedIter))
+				return Convert.ToInt32(selectedModel.GetPath(selectedIter));
+			else
+				return -1;
+		}
+			
+			
+		public void PlaySelectedItem()
+		{
+			int selectedItem = GetSelectedItem();
+			if (selectedItem != -1) _parent.oXbmc.Playlist.PlaySong(GetSelectedItem());
+		}
+		
+		public void RemoveSelectedItem()
+		{
+			int selectedItem = GetSelectedItem();
+			if (selectedItem != -1)
+			{
+				_parent.oXbmc.Playlist.Remove(GetSelectedItem());
+				Populate();
+			}
+		}
 	}
 }

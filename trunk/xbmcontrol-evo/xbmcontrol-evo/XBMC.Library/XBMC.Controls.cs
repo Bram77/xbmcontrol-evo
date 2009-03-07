@@ -82,9 +82,14 @@ namespace XBMC
 
         public void Repeat(bool enable)
         {
-            string mode = (enable) ? "Repeat" : "RepeatOff";
+            string mode = (enable) ? "RepeatAll" : "RepeatOff";
             parent.Request("ExecBuiltIn", "PlayerControl(" + mode + ")");
         }
+		
+		public void ToggleRepeatModes()
+		{
+			parent.Request("ExecBuiltIn", "PlayerControl(Repeat)");
+		}
 
         public void LastFmLove()
         {

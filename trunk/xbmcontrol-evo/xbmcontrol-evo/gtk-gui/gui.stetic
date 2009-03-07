@@ -7,8 +7,8 @@
   <import>
     <widget-library name="MonoDevelop.Components, Version=1.9.2.0, Culture=neutral" />
     <widget-library name="MonoDevelop.VBNetBinding, Version=1.9.2.0, Culture=neutral" />
-    <widget-library name="../bin/Debug/xbmcontrol-evo.exe" internal="true" />
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <widget-library name="../bin/Release/xbmcontrol-evo.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="MainWindow" design-size="898 636">
     <action-group name="Default">
@@ -92,10 +92,11 @@
         <property name="ShortLabel" translatable="yes">_Preferences</property>
         <property name="StockId">gtk-edit</property>
       </action>
-      <action id="newAction">
+      <action id="aClearPlaylist">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-new</property>
+        <signal name="Activated" handler="aClearPlaylist_click" />
       </action>
       <action id="openAction">
         <property name="Type">Action</property>
@@ -253,6 +254,8 @@ files</property>
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="ShowScrollbars">True</property>
+                            <property name="Reorderable">True</property>
+                            <signal name="ButtonReleaseEvent" handler="tvPlaylist_buttonRelease" />
                           </widget>
                         </child>
                       </widget>
@@ -268,7 +271,7 @@ files</property>
                         <property name="ButtonStyle">Icons</property>
                         <property name="IconSize">LargeToolbar</property>
                         <node name="toolbar1" type="Toolbar">
-                          <node type="Toolitem" action="newAction" />
+                          <node type="Toolitem" action="aClearPlaylist" />
                           <node type="Toolitem" action="openAction" />
                           <node type="Toolitem" action="saveAction" />
                           <node type="Toolitem" action="saveAsAction" />
@@ -363,14 +366,14 @@ files</property>
             <child>
               <widget class="Gtk.ToggleButton" id="tbMute">
                 <property name="MemberName" />
-                <property name="WidthRequest">30</property>
-                <property name="HeightRequest">30</property>
+                <property name="WidthRequest">32</property>
+                <property name="HeightRequest">32</property>
                 <property name="Tooltip" translatable="yes">Toggle Mute</property>
                 <property name="CanFocus">True</property>
-                <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">M</property>
+                <property name="Type">TextAndIcon</property>
+                <property name="Icon">stock:stock_volume-mute Button</property>
+                <property name="Label" translatable="yes" />
                 <property name="UseUnderline">True</property>
-                <property name="Active">True</property>
                 <signal name="Released" handler="tbMute_released" />
               </widget>
               <packing>
@@ -385,13 +388,14 @@ files</property>
                 <property name="HeightRequest">35</property>
                 <property name="Tooltip" translatable="yes">Previous</property>
                 <property name="CanFocus">True</property>
-                <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">|&lt;</property>
+                <property name="Type">TextAndIcon</property>
+                <property name="Icon">stock:gtk-media-previous LargeToolbar</property>
+                <property name="Label" translatable="yes" />
                 <property name="UseUnderline">True</property>
                 <signal name="Released" handler="bPrevious_released" />
               </widget>
               <packing>
-                <property name="X">15</property>
+                <property name="X">14</property>
                 <property name="Y">4</property>
               </packing>
             </child>
@@ -402,13 +406,14 @@ files</property>
                 <property name="HeightRequest">35</property>
                 <property name="Tooltip" translatable="yes">Play</property>
                 <property name="CanFocus">True</property>
-                <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">&gt;</property>
+                <property name="Type">TextAndIcon</property>
+                <property name="Icon">stock:gtk-media-play LargeToolbar</property>
+                <property name="Label" translatable="yes" />
                 <property name="UseUnderline">True</property>
                 <signal name="Released" handler="tbPlay_released" />
               </widget>
               <packing>
-                <property name="X">50</property>
+                <property name="X">46</property>
                 <property name="Y">4</property>
               </packing>
             </child>
@@ -419,13 +424,14 @@ files</property>
                 <property name="HeightRequest">35</property>
                 <property name="Tooltip" translatable="yes">Stop</property>
                 <property name="CanFocus">True</property>
-                <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">[ ]</property>
+                <property name="Type">TextAndIcon</property>
+                <property name="Icon">stock:gtk-media-stop LargeToolbar</property>
+                <property name="Label" translatable="yes" />
                 <property name="UseUnderline">True</property>
                 <signal name="Released" handler="tbStop_released" />
               </widget>
               <packing>
-                <property name="X">85</property>
+                <property name="X">78</property>
                 <property name="Y">4</property>
               </packing>
             </child>
@@ -436,61 +442,68 @@ files</property>
                 <property name="HeightRequest">35</property>
                 <property name="Tooltip" translatable="yes">Next</property>
                 <property name="CanFocus">True</property>
-                <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">&gt;|</property>
+                <property name="Type">TextAndIcon</property>
+                <property name="Icon">stock:gtk-media-next LargeToolbar</property>
+                <property name="Label" translatable="yes" />
                 <property name="UseUnderline">True</property>
                 <signal name="Released" handler="bNext_released" />
               </widget>
               <packing>
-                <property name="X">120</property>
+                <property name="X">110</property>
                 <property name="Y">4</property>
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Button" id="button1">
+              <widget class="Gtk.Button" id="bRepeat">
                 <property name="MemberName" />
-                <property name="WidthRequest">25</property>
-                <property name="HeightRequest">25</property>
-                <property name="Tooltip" translatable="yes">Toggle Repeat Mode</property>
+                <property name="WidthRequest">28</property>
+                <property name="HeightRequest">28</property>
+                <property name="Tooltip" translatable="yes">Toggle Repeat Modes</property>
                 <property name="CanFocus">True</property>
-                <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">r</property>
+                <property name="Type">TextAndIcon</property>
+                <property name="Icon">stock:gtk-redo Menu</property>
+                <property name="Label" translatable="yes" />
                 <property name="UseUnderline">True</property>
+                <signal name="Activated" handler="bRepeat_click" />
               </widget>
               <packing>
-                <property name="X">170</property>
+                <property name="X">155</property>
                 <property name="Y">4</property>
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Button" id="button2">
+              <widget class="Gtk.Button" id="bShuffle">
                 <property name="MemberName" />
-                <property name="WidthRequest">25</property>
-                <property name="HeightRequest">25</property>
+                <property name="WidthRequest">28</property>
+                <property name="HeightRequest">28</property>
                 <property name="Tooltip" translatable="yes">Toggle Shuffel Mode</property>
                 <property name="CanFocus">True</property>
-                <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">s</property>
+                <property name="Type">TextAndIcon</property>
+                <property name="Icon">stock:stock_chart-toggle-legend Menu</property>
+                <property name="Label" translatable="yes" />
                 <property name="UseUnderline">True</property>
+                <signal name="Activated" handler="bShuffle_click" />
               </widget>
               <packing>
-                <property name="X">195</property>
+                <property name="X">180</property>
                 <property name="Y">4</property>
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Button" id="button3">
+              <widget class="Gtk.Button" id="bPartyMode">
                 <property name="MemberName" />
-                <property name="WidthRequest">25</property>
-                <property name="HeightRequest">25</property>
+                <property name="WidthRequest">28</property>
+                <property name="HeightRequest">28</property>
                 <property name="Tooltip" translatable="yes">Toggle Party Mode</property>
                 <property name="CanFocus">True</property>
-                <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">p</property>
+                <property name="Type">TextAndIcon</property>
+                <property name="Icon">stock:stock_filters Menu</property>
+                <property name="Label" translatable="yes" />
                 <property name="UseUnderline">True</property>
+                <signal name="Activated" handler="bPartyMode_click" />
               </widget>
               <packing>
-                <property name="X">220</property>
+                <property name="X">205</property>
                 <property name="Y">4</property>
               </packing>
             </child>

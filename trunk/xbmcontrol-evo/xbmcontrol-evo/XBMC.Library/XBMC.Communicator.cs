@@ -53,10 +53,13 @@ namespace XBMC
             Status = new XBMC_Status(this);
             Media = new XBMC_Media(this);
             Video = new XBMC_Video(this);
+			
+			this.Controls.SetResponseFormat();
         }
 
         public string[] Request(string command, string parameter, string ip)
         {
+			
             string[] pageItems = null;
             HttpWebRequest request = null;
             HttpWebResponse response = null;

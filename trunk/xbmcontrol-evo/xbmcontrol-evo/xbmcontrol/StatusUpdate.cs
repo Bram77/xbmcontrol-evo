@@ -61,13 +61,13 @@ namespace xbmcontrolevo
 			{
 				_parent._tbPlay.Active 		= true;
 				_parent._tbPlay.TooltipText = "Pause";
-				_parent._tbPlay.Label 		= "||";
+				_parent._tbPlay.Image		= new Gtk.Image(Gtk.Stock.MediaPause, Gtk.IconSize.LargeToolbar);
 			}
 			else
 			{
 				_parent._tbPlay.Active 		= false;
 				_parent._tbPlay.TooltipText = "Play";
-				_parent._tbPlay.Label 		= ">";
+				_parent._tbPlay.Image		= new Gtk.Image(Gtk.Stock.MediaPlay, Gtk.IconSize.LargeToolbar);
 			}
 		}
 	}

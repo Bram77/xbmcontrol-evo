@@ -20,6 +20,8 @@ namespace xbmcontrolevo
 				CreateDirectoryMenu(selectedPath, mediaType);
 			else if (contextMenu == "file")
 				CreateFileMenu(selectedPath);
+			else if (contextMenu == "playlist")
+				CreatePlaylistMenu(selectedPath);
 			else
 				CreateDefaultMenu();
 		}
@@ -74,6 +76,18 @@ namespace xbmcontrolevo
 			
 			cmMediaFile.ShowAll();
 			cmMediaFile.Popup();
+		}
+		
+		private void CreatePlaylistMenu(string selectedPath)
+		{
+			Menu cmPlaylistEntry		= new Menu();
+			cmPlaylistEntry.WidthRequest 	= 150;
+			
+			cmPlaylistEntry.Add(_parent.oMenuItems.PlayPlaylistEntry());
+			cmPlaylistEntry.Add(_parent.oMenuItems.RemovePlaylistEntry());
+			
+			cmPlaylistEntry.ShowAll();
+			cmPlaylistEntry.Popup();
 		}
 	}
 }

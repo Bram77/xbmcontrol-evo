@@ -42,7 +42,7 @@ public partial class MainWindow {
     
     private Gtk.Action ConfigurationAction;
     
-    private Gtk.Action newAction;
+    private Gtk.Action aClearPlaylist;
     
     private Gtk.Action openAction;
     
@@ -102,11 +102,11 @@ public partial class MainWindow {
     
     private Gtk.Button bNext;
     
-    private Gtk.Button button1;
+    private Gtk.Button bRepeat;
     
-    private Gtk.Button button2;
+    private Gtk.Button bShuffle;
     
-    private Gtk.Button button3;
+    private Gtk.Button bPartyMode;
     
     protected virtual void Build() {
         Stetic.Gui.Initialize(this);
@@ -155,8 +155,8 @@ public partial class MainWindow {
         this.ConfigurationAction = new Gtk.Action("ConfigurationAction", Mono.Unix.Catalog.GetString("Configuration"), null, "gtk-edit");
         this.ConfigurationAction.ShortLabel = Mono.Unix.Catalog.GetString("_Preferences");
         w1.Add(this.ConfigurationAction, null);
-        this.newAction = new Gtk.Action("newAction", null, null, "gtk-new");
-        w1.Add(this.newAction, null);
+        this.aClearPlaylist = new Gtk.Action("aClearPlaylist", null, null, "gtk-new");
+        w1.Add(this.aClearPlaylist, null);
         this.openAction = new Gtk.Action("openAction", null, null, "gtk-open");
         w1.Add(this.openAction, null);
         this.saveAction = new Gtk.Action("saveAction", null, null, "gtk-save");
@@ -260,12 +260,13 @@ public partial class MainWindow {
         this.tvPlaylist = new Gtk.TreeView();
         this.tvPlaylist.CanFocus = true;
         this.tvPlaylist.Name = "tvPlaylist";
+        this.tvPlaylist.Reorderable = true;
         this.GtkScrolledWindow1.Add(this.tvPlaylist);
         this.vbox2.Add(this.GtkScrolledWindow1);
         Gtk.Box.BoxChild w10 = ((Gtk.Box.BoxChild)(this.vbox2[this.GtkScrolledWindow1]));
         w10.Position = 0;
         // Container child vbox2.Gtk.Box+BoxChild
-        this.UIManager.AddUiFromString("<ui><toolbar name='toolbar1'><toolitem name='newAction' action='newAction'/><toolitem name='openAction' action='openAction'/><toolitem name='saveAction' action='saveAction'/><toolitem name='saveAsAction' action='saveAsAction'/><toolitem name='refreshPlaylist' action='refreshPlaylist'/></toolbar></ui>");
+        this.UIManager.AddUiFromString("<ui><toolbar name='toolbar1'><toolitem name='aClearPlaylist' action='aClearPlaylist'/><toolitem name='openAction' action='openAction'/><toolitem name='saveAction' action='saveAction'/><toolitem name='saveAsAction' action='saveAsAction'/><toolitem name='refreshPlaylist' action='refreshPlaylist'/></toolbar></ui>");
         this.toolbar1 = ((Gtk.Toolbar)(this.UIManager.GetWidget("/toolbar1")));
         this.toolbar1.Name = "toolbar1";
         this.toolbar1.ShowArrow = false;
@@ -339,17 +340,29 @@ public partial class MainWindow {
         // Container child fixed1.Gtk.Fixed+FixedChild
         this.tbMute = new Gtk.ToggleButton();
         this.tbMute.TooltipMarkup = "Toggle Mute";
-        this.tbMute.WidthRequest = 30;
-        this.tbMute.HeightRequest = 30;
+        this.tbMute.WidthRequest = 32;
+        this.tbMute.HeightRequest = 32;
         this.tbMute.CanFocus = true;
         this.tbMute.Name = "tbMute";
         this.tbMute.UseUnderline = true;
-        this.tbMute.Active = true;
-        this.tbMute.Label = Mono.Unix.Catalog.GetString("M");
+        // Container child tbMute.Gtk.Container+ContainerChild
+        Gtk.Alignment w18 = new Gtk.Alignment(0.5F, 0.5F, 0F, 0F);
+        // Container child GtkAlignment.Gtk.Container+ContainerChild
+        Gtk.HBox w19 = new Gtk.HBox();
+        w19.Spacing = 2;
+        // Container child GtkHBox.Gtk.Container+ContainerChild
+        Gtk.Image w20 = new Gtk.Image();
+        w20.Pixbuf = Stetic.IconLoader.LoadIcon(this, "stock_volume-mute", Gtk.IconSize.Button, 20);
+        w19.Add(w20);
+        // Container child GtkHBox.Gtk.Container+ContainerChild
+        Gtk.Label w22 = new Gtk.Label();
+        w19.Add(w22);
+        w18.Add(w19);
+        this.tbMute.Add(w18);
         this.fixed1.Add(this.tbMute);
-        Gtk.Fixed.FixedChild w18 = ((Gtk.Fixed.FixedChild)(this.fixed1[this.tbMute]));
-        w18.X = 850;
-        w18.Y = 5;
+        Gtk.Fixed.FixedChild w26 = ((Gtk.Fixed.FixedChild)(this.fixed1[this.tbMute]));
+        w26.X = 850;
+        w26.Y = 5;
         // Container child fixed1.Gtk.Fixed+FixedChild
         this.bPrevious = new Gtk.Button();
         this.bPrevious.TooltipMarkup = "Previous";
@@ -358,11 +371,24 @@ public partial class MainWindow {
         this.bPrevious.CanFocus = true;
         this.bPrevious.Name = "bPrevious";
         this.bPrevious.UseUnderline = true;
-        this.bPrevious.Label = Mono.Unix.Catalog.GetString("|<");
+        // Container child bPrevious.Gtk.Container+ContainerChild
+        Gtk.Alignment w27 = new Gtk.Alignment(0.5F, 0.5F, 0F, 0F);
+        // Container child GtkAlignment.Gtk.Container+ContainerChild
+        Gtk.HBox w28 = new Gtk.HBox();
+        w28.Spacing = 2;
+        // Container child GtkHBox.Gtk.Container+ContainerChild
+        Gtk.Image w29 = new Gtk.Image();
+        w29.Pixbuf = Stetic.IconLoader.LoadIcon(this, "gtk-media-previous", Gtk.IconSize.LargeToolbar, 24);
+        w28.Add(w29);
+        // Container child GtkHBox.Gtk.Container+ContainerChild
+        Gtk.Label w31 = new Gtk.Label();
+        w28.Add(w31);
+        w27.Add(w28);
+        this.bPrevious.Add(w27);
         this.fixed1.Add(this.bPrevious);
-        Gtk.Fixed.FixedChild w19 = ((Gtk.Fixed.FixedChild)(this.fixed1[this.bPrevious]));
-        w19.X = 15;
-        w19.Y = 4;
+        Gtk.Fixed.FixedChild w35 = ((Gtk.Fixed.FixedChild)(this.fixed1[this.bPrevious]));
+        w35.X = 14;
+        w35.Y = 4;
         // Container child fixed1.Gtk.Fixed+FixedChild
         this.tbPlay = new Gtk.ToggleButton();
         this.tbPlay.TooltipMarkup = "Play";
@@ -371,11 +397,24 @@ public partial class MainWindow {
         this.tbPlay.CanFocus = true;
         this.tbPlay.Name = "tbPlay";
         this.tbPlay.UseUnderline = true;
-        this.tbPlay.Label = Mono.Unix.Catalog.GetString(">");
+        // Container child tbPlay.Gtk.Container+ContainerChild
+        Gtk.Alignment w36 = new Gtk.Alignment(0.5F, 0.5F, 0F, 0F);
+        // Container child GtkAlignment.Gtk.Container+ContainerChild
+        Gtk.HBox w37 = new Gtk.HBox();
+        w37.Spacing = 2;
+        // Container child GtkHBox.Gtk.Container+ContainerChild
+        Gtk.Image w38 = new Gtk.Image();
+        w38.Pixbuf = Stetic.IconLoader.LoadIcon(this, "gtk-media-play", Gtk.IconSize.LargeToolbar, 24);
+        w37.Add(w38);
+        // Container child GtkHBox.Gtk.Container+ContainerChild
+        Gtk.Label w40 = new Gtk.Label();
+        w37.Add(w40);
+        w36.Add(w37);
+        this.tbPlay.Add(w36);
         this.fixed1.Add(this.tbPlay);
-        Gtk.Fixed.FixedChild w20 = ((Gtk.Fixed.FixedChild)(this.fixed1[this.tbPlay]));
-        w20.X = 50;
-        w20.Y = 4;
+        Gtk.Fixed.FixedChild w44 = ((Gtk.Fixed.FixedChild)(this.fixed1[this.tbPlay]));
+        w44.X = 46;
+        w44.Y = 4;
         // Container child fixed1.Gtk.Fixed+FixedChild
         this.tbStop = new Gtk.ToggleButton();
         this.tbStop.TooltipMarkup = "Stop";
@@ -384,11 +423,24 @@ public partial class MainWindow {
         this.tbStop.CanFocus = true;
         this.tbStop.Name = "tbStop";
         this.tbStop.UseUnderline = true;
-        this.tbStop.Label = Mono.Unix.Catalog.GetString("[ ]");
+        // Container child tbStop.Gtk.Container+ContainerChild
+        Gtk.Alignment w45 = new Gtk.Alignment(0.5F, 0.5F, 0F, 0F);
+        // Container child GtkAlignment.Gtk.Container+ContainerChild
+        Gtk.HBox w46 = new Gtk.HBox();
+        w46.Spacing = 2;
+        // Container child GtkHBox.Gtk.Container+ContainerChild
+        Gtk.Image w47 = new Gtk.Image();
+        w47.Pixbuf = Stetic.IconLoader.LoadIcon(this, "gtk-media-stop", Gtk.IconSize.LargeToolbar, 24);
+        w46.Add(w47);
+        // Container child GtkHBox.Gtk.Container+ContainerChild
+        Gtk.Label w49 = new Gtk.Label();
+        w46.Add(w49);
+        w45.Add(w46);
+        this.tbStop.Add(w45);
         this.fixed1.Add(this.tbStop);
-        Gtk.Fixed.FixedChild w21 = ((Gtk.Fixed.FixedChild)(this.fixed1[this.tbStop]));
-        w21.X = 85;
-        w21.Y = 4;
+        Gtk.Fixed.FixedChild w53 = ((Gtk.Fixed.FixedChild)(this.fixed1[this.tbStop]));
+        w53.X = 78;
+        w53.Y = 4;
         // Container child fixed1.Gtk.Fixed+FixedChild
         this.bNext = new Gtk.Button();
         this.bNext.TooltipMarkup = "Next";
@@ -397,55 +449,107 @@ public partial class MainWindow {
         this.bNext.CanFocus = true;
         this.bNext.Name = "bNext";
         this.bNext.UseUnderline = true;
-        this.bNext.Label = Mono.Unix.Catalog.GetString(">|");
+        // Container child bNext.Gtk.Container+ContainerChild
+        Gtk.Alignment w54 = new Gtk.Alignment(0.5F, 0.5F, 0F, 0F);
+        // Container child GtkAlignment.Gtk.Container+ContainerChild
+        Gtk.HBox w55 = new Gtk.HBox();
+        w55.Spacing = 2;
+        // Container child GtkHBox.Gtk.Container+ContainerChild
+        Gtk.Image w56 = new Gtk.Image();
+        w56.Pixbuf = Stetic.IconLoader.LoadIcon(this, "gtk-media-next", Gtk.IconSize.LargeToolbar, 24);
+        w55.Add(w56);
+        // Container child GtkHBox.Gtk.Container+ContainerChild
+        Gtk.Label w58 = new Gtk.Label();
+        w55.Add(w58);
+        w54.Add(w55);
+        this.bNext.Add(w54);
         this.fixed1.Add(this.bNext);
-        Gtk.Fixed.FixedChild w22 = ((Gtk.Fixed.FixedChild)(this.fixed1[this.bNext]));
-        w22.X = 120;
-        w22.Y = 4;
+        Gtk.Fixed.FixedChild w62 = ((Gtk.Fixed.FixedChild)(this.fixed1[this.bNext]));
+        w62.X = 110;
+        w62.Y = 4;
         // Container child fixed1.Gtk.Fixed+FixedChild
-        this.button1 = new Gtk.Button();
-        this.button1.TooltipMarkup = "Toggle Repeat Mode";
-        this.button1.WidthRequest = 25;
-        this.button1.HeightRequest = 25;
-        this.button1.CanFocus = true;
-        this.button1.Name = "button1";
-        this.button1.UseUnderline = true;
-        this.button1.Label = Mono.Unix.Catalog.GetString("r");
-        this.fixed1.Add(this.button1);
-        Gtk.Fixed.FixedChild w23 = ((Gtk.Fixed.FixedChild)(this.fixed1[this.button1]));
-        w23.X = 170;
-        w23.Y = 4;
+        this.bRepeat = new Gtk.Button();
+        this.bRepeat.TooltipMarkup = "Toggle Repeat Modes";
+        this.bRepeat.WidthRequest = 28;
+        this.bRepeat.HeightRequest = 28;
+        this.bRepeat.CanFocus = true;
+        this.bRepeat.Name = "bRepeat";
+        this.bRepeat.UseUnderline = true;
+        // Container child bRepeat.Gtk.Container+ContainerChild
+        Gtk.Alignment w63 = new Gtk.Alignment(0.5F, 0.5F, 0F, 0F);
+        // Container child GtkAlignment.Gtk.Container+ContainerChild
+        Gtk.HBox w64 = new Gtk.HBox();
+        w64.Spacing = 2;
+        // Container child GtkHBox.Gtk.Container+ContainerChild
+        Gtk.Image w65 = new Gtk.Image();
+        w65.Pixbuf = Stetic.IconLoader.LoadIcon(this, "gtk-redo", Gtk.IconSize.Menu, 16);
+        w64.Add(w65);
+        // Container child GtkHBox.Gtk.Container+ContainerChild
+        Gtk.Label w67 = new Gtk.Label();
+        w64.Add(w67);
+        w63.Add(w64);
+        this.bRepeat.Add(w63);
+        this.fixed1.Add(this.bRepeat);
+        Gtk.Fixed.FixedChild w71 = ((Gtk.Fixed.FixedChild)(this.fixed1[this.bRepeat]));
+        w71.X = 155;
+        w71.Y = 4;
         // Container child fixed1.Gtk.Fixed+FixedChild
-        this.button2 = new Gtk.Button();
-        this.button2.TooltipMarkup = "Toggle Shuffel Mode";
-        this.button2.WidthRequest = 25;
-        this.button2.HeightRequest = 25;
-        this.button2.CanFocus = true;
-        this.button2.Name = "button2";
-        this.button2.UseUnderline = true;
-        this.button2.Label = Mono.Unix.Catalog.GetString("s");
-        this.fixed1.Add(this.button2);
-        Gtk.Fixed.FixedChild w24 = ((Gtk.Fixed.FixedChild)(this.fixed1[this.button2]));
-        w24.X = 195;
-        w24.Y = 4;
+        this.bShuffle = new Gtk.Button();
+        this.bShuffle.TooltipMarkup = "Toggle Shuffel Mode";
+        this.bShuffle.WidthRequest = 28;
+        this.bShuffle.HeightRequest = 28;
+        this.bShuffle.CanFocus = true;
+        this.bShuffle.Name = "bShuffle";
+        this.bShuffle.UseUnderline = true;
+        // Container child bShuffle.Gtk.Container+ContainerChild
+        Gtk.Alignment w72 = new Gtk.Alignment(0.5F, 0.5F, 0F, 0F);
+        // Container child GtkAlignment.Gtk.Container+ContainerChild
+        Gtk.HBox w73 = new Gtk.HBox();
+        w73.Spacing = 2;
+        // Container child GtkHBox.Gtk.Container+ContainerChild
+        Gtk.Image w74 = new Gtk.Image();
+        w74.Pixbuf = Stetic.IconLoader.LoadIcon(this, "stock_chart-toggle-legend", Gtk.IconSize.Menu, 16);
+        w73.Add(w74);
+        // Container child GtkHBox.Gtk.Container+ContainerChild
+        Gtk.Label w76 = new Gtk.Label();
+        w73.Add(w76);
+        w72.Add(w73);
+        this.bShuffle.Add(w72);
+        this.fixed1.Add(this.bShuffle);
+        Gtk.Fixed.FixedChild w80 = ((Gtk.Fixed.FixedChild)(this.fixed1[this.bShuffle]));
+        w80.X = 180;
+        w80.Y = 4;
         // Container child fixed1.Gtk.Fixed+FixedChild
-        this.button3 = new Gtk.Button();
-        this.button3.TooltipMarkup = "Toggle Party Mode";
-        this.button3.WidthRequest = 25;
-        this.button3.HeightRequest = 25;
-        this.button3.CanFocus = true;
-        this.button3.Name = "button3";
-        this.button3.UseUnderline = true;
-        this.button3.Label = Mono.Unix.Catalog.GetString("p");
-        this.fixed1.Add(this.button3);
-        Gtk.Fixed.FixedChild w25 = ((Gtk.Fixed.FixedChild)(this.fixed1[this.button3]));
-        w25.X = 220;
-        w25.Y = 4;
+        this.bPartyMode = new Gtk.Button();
+        this.bPartyMode.TooltipMarkup = "Toggle Party Mode";
+        this.bPartyMode.WidthRequest = 28;
+        this.bPartyMode.HeightRequest = 28;
+        this.bPartyMode.CanFocus = true;
+        this.bPartyMode.Name = "bPartyMode";
+        this.bPartyMode.UseUnderline = true;
+        // Container child bPartyMode.Gtk.Container+ContainerChild
+        Gtk.Alignment w81 = new Gtk.Alignment(0.5F, 0.5F, 0F, 0F);
+        // Container child GtkAlignment.Gtk.Container+ContainerChild
+        Gtk.HBox w82 = new Gtk.HBox();
+        w82.Spacing = 2;
+        // Container child GtkHBox.Gtk.Container+ContainerChild
+        Gtk.Image w83 = new Gtk.Image();
+        w83.Pixbuf = Stetic.IconLoader.LoadIcon(this, "stock_filters", Gtk.IconSize.Menu, 16);
+        w82.Add(w83);
+        // Container child GtkHBox.Gtk.Container+ContainerChild
+        Gtk.Label w85 = new Gtk.Label();
+        w82.Add(w85);
+        w81.Add(w82);
+        this.bPartyMode.Add(w81);
+        this.fixed1.Add(this.bPartyMode);
+        Gtk.Fixed.FixedChild w89 = ((Gtk.Fixed.FixedChild)(this.fixed1[this.bPartyMode]));
+        w89.X = 205;
+        w89.Y = 4;
         this.vbox1.Add(this.fixed1);
-        Gtk.Box.BoxChild w26 = ((Gtk.Box.BoxChild)(this.vbox1[this.fixed1]));
-        w26.Position = 2;
-        w26.Expand = false;
-        w26.Fill = false;
+        Gtk.Box.BoxChild w90 = ((Gtk.Box.BoxChild)(this.vbox1[this.fixed1]));
+        w90.Position = 2;
+        w90.Expand = false;
+        w90.Fill = false;
         this.Add(this.vbox1);
         if ((this.Child != null)) {
             this.Child.ShowAll();
@@ -457,9 +561,11 @@ public partial class MainWindow {
         this.QuitAction.Activated += new System.EventHandler(this.OnExit);
         this.MusicAction.Activated += new System.EventHandler(this.click_UpdateMusicLibrary);
         this.VideoAction.Activated += new System.EventHandler(this.click_UpdateVideoLibrary);
+        this.aClearPlaylist.Activated += new System.EventHandler(this.aClearPlaylist_click);
         this.refreshPlaylist.Activated += new System.EventHandler(this.click_RefreshPlaylist);
         this.cbShareType.Changed += new System.EventHandler(this.change_cbShareBrowser);
         this.tvShareBrowser.ButtonReleaseEvent += new Gtk.ButtonReleaseEventHandler(this.tvShareBrowser_release);
+        this.tvPlaylist.ButtonReleaseEvent += new Gtk.ButtonReleaseEventHandler(this.tvPlaylist_buttonRelease);
         this.hsVolume.ValueChanged += new System.EventHandler(this.hsVolume_valueChanged);
         this.hsProgress.ChangeValue += new Gtk.ChangeValueHandler(this.hsProgress_changeValue);
         this.tbMute.Released += new System.EventHandler(this.tbMute_released);
@@ -467,5 +573,8 @@ public partial class MainWindow {
         this.tbPlay.Released += new System.EventHandler(this.tbPlay_released);
         this.tbStop.Released += new System.EventHandler(this.tbStop_released);
         this.bNext.Released += new System.EventHandler(this.bNext_released);
+        this.bRepeat.Activated += new System.EventHandler(this.bRepeat_click);
+        this.bShuffle.Activated += new System.EventHandler(this.bShuffle_click);
+        this.bPartyMode.Activated += new System.EventHandler(this.bPartyMode_click);
     }
 }

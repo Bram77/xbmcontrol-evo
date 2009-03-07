@@ -12,7 +12,7 @@ namespace xbmcontrolevo
 	{
 		private MainWindow _parent;
 		private string[] aShareTypes;
-		private string currentShareType = "music";
+		private string currentShareType;
 		private TreeStore tsShares;
 		private TreeIter selectedIter;
 		private TreeModel selectedModel;
@@ -28,7 +28,8 @@ namespace xbmcontrolevo
 			_parent 		= parent;
 			
 			SetShareTypes();
-			Populate(0);
+			SetCurrentShareType(0);
+			Populate();
 		}
 		
 		private void SetShareTypes()
@@ -40,10 +41,18 @@ namespace xbmcontrolevo
 			aShareTypes[3] = "files";
 		}
 		
-		public void Populate (int selectedShareType)
+		public string GetCurrentShareType()
+		{
+			return currentShareType;
+		}
+		
+		public void SetCurrentShareType(int selectedShareType)
 		{
 			currentShareType = aShareTypes[selectedShareType];
-				
+		}
+		
+		public void Populate()
+		{
 			foreach (TreeViewColumn col in _parent._tvShareBrowser.Columns) 
 	        	_parent._tvShareBrowser.RemoveColumn(col);
 			
