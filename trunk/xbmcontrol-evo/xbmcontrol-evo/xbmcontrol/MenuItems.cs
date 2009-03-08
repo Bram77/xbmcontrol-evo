@@ -153,11 +153,14 @@ namespace xbmcontrolevo
 			return volumeDown;
 		}
 		
-		public ImageMenuItem ShowFileInfo()
+		public ImageMenuItem ShowSongInfo(string caller)
 		{
 			ImageMenuItem config 	= new ImageMenuItem("Show info");
-			config.Image 			= new Gtk.Image(Gtk.Stock.Info, IconSize.Menu);;
-			config.Activated 		+= delegate { _parent.oControls.GetFileInfo(); };
+			config.Image 			= new Gtk.Image(Gtk.Stock.Info, IconSize.Menu);
+			if (caller == "sharebrowser")
+				config.Activated += delegate { _parent.oShareBrowser.ShowSongInfoPopup(); };
+			else if (caller == "playlist")
+				config.Activated += delegate { _parent.oPlaylist.ShowSongInfoPopup(); };
 			
 			return config;
 		}
@@ -197,6 +200,33 @@ namespace xbmcontrolevo
 			removeEntry.Activated 		+= delegate { _parent.oPlaylist.RemoveSelectedItem(); };
 			
 			return removeEntry;
+		}
+		
+		public ImageMenuItem ClearPlaylist()
+		{
+			ImageMenuItem clearPlaylist	= new ImageMenuItem("Clear");
+			clearPlaylist.Image 		= new Gtk.Image(Gtk.Stock.Clear, IconSize.Menu);
+			clearPlaylist.Activated 	+= delegate { _parent.oPlaylist.Clear(); };
+			
+			return clearPlaylist;
+		}
+		
+		public ImageMenuItem SaveSelectedFile()
+		{
+			ImageMenuItem saveAs 	= new ImageMenuItem("Save As");
+			saveAs.Image 			= new Gtk.Image(Gtk.Stock.SaveAs, IconSize.Menu);
+			saveAs.Activated 		+= delegate { _parent.oShareBrowser.SaveSelectedFile(); };
+			
+			return saveAs;
+		}
+		
+		public ImageMenuItem RefreshPlaylist()
+		{
+			ImageMenuItem refreshPlaylist	= new ImageMenuItem("Refresh");
+			refreshPlaylist.Image 			= new Gtk.Image(Gtk.Stock.Refresh, IconSize.Menu);
+			refreshPlaylist.Activated 		+= delegate { _parent.oPlaylist.Populate(); };
+			
+			return refreshPlaylist;
 		}
 	}
 }

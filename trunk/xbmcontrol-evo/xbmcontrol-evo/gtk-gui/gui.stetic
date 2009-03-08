@@ -8,7 +8,7 @@
     <widget-library name="MonoDevelop.Components, Version=1.9.2.0, Culture=neutral" />
     <widget-library name="MonoDevelop.VBNetBinding, Version=1.9.2.0, Culture=neutral" />
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <widget-library name="../bin/Release/xbmcontrol-evo.exe" internal="true" />
+    <widget-library name="../bin/Debug/xbmcontrol-evo.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="MainWindow" design-size="898 636">
     <action-group name="Default">
@@ -92,10 +92,11 @@
         <property name="ShortLabel" translatable="yes">_Preferences</property>
         <property name="StockId">gtk-edit</property>
       </action>
-      <action id="aClearPlaylist">
+      <action id="clearAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
-        <property name="StockId">gtk-new</property>
+        <property name="StockId">gtk-clear</property>
+        <property name="Tooltip" translatable="yes">Clear playlist</property>
         <signal name="Activated" handler="aClearPlaylist_click" />
       </action>
       <action id="openAction">
@@ -113,11 +114,25 @@
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-save-as</property>
       </action>
-      <action id="refreshPlaylist">
+      <action id="aRefreshPlaylist">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-refresh</property>
-        <signal name="Activated" handler="click_RefreshPlaylist" />
+        <signal name="Activated" handler="aRefreshPlaylist_activated" />
+      </action>
+      <action id="aRemoveSelected">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-remove</property>
+        <property name="Tooltip" translatable="yes">Remove selected item</property>
+        <signal name="Activated" handler="aRemoveSelected_activated" />
+      </action>
+      <action id="aPlaySelected">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-media-play</property>
+        <property name="Tooltip" translatable="yes">Play selected item</property>
+        <signal name="Activated" handler="aPlaySelected_activated" />
       </action>
     </action-group>
     <property name="MemberName" />
@@ -175,12 +190,12 @@
                       <widget class="Gtk.ComboBox" id="cbShareType">
                         <property name="MemberName" />
                         <property name="IsTextCombo">True</property>
-                        <property name="Items" translatable="yes">music
-video
-pictures
-files</property>
+                        <property name="Items" translatable="yes">Music
+Video
+Pictures
+Files</property>
                         <property name="Active">0</property>
-                        <signal name="Changed" handler="change_cbShareBrowser" />
+                        <signal name="Changed" handler="cbShareBrowser_changed" />
                       </widget>
                       <packing>
                         <property name="Position">0</property>
@@ -228,14 +243,16 @@ files</property>
               <widget class="Gtk.Notebook" id="nbDataContainer">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="CurrentPage">1</property>
+                <property name="CurrentPage">0</property>
+                <property name="ShowBorder">False</property>
+                <property name="Scrollable">True</property>
                 <child>
                   <placeholder />
                 </child>
                 <child>
-                  <widget class="Gtk.Label" id="label1">
+                  <widget class="Gtk.Label" id="labelMediaInfo">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">Info</property>
+                    <property name="LabelProp" translatable="yes">Playing Now</property>
                   </widget>
                   <packing>
                     <property name="type">tab</property>
@@ -246,7 +263,23 @@ files</property>
                     <property name="MemberName" />
                     <property name="Spacing">6</property>
                     <child>
-                      <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow1">
+                      <widget class="Gtk.ComboBox" id="cbPlaylistType">
+                        <property name="MemberName" />
+                        <property name="IsTextCombo">True</property>
+                        <property name="Items" translatable="yes">Music
+Video</property>
+                        <property name="Active">0</property>
+                        <signal name="Changed" handler="cbPlaylistType_changed" />
+                      </widget>
+                      <packing>
+                        <property name="Position">0</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow2">
                         <property name="MemberName" />
                         <property name="ShadowType">In</property>
                         <child>
@@ -254,32 +287,31 @@ files</property>
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="ShowScrollbars">True</property>
-                            <property name="Reorderable">True</property>
                             <signal name="ButtonReleaseEvent" handler="tvPlaylist_buttonRelease" />
                           </widget>
                         </child>
                       </widget>
                       <packing>
-                        <property name="Position">0</property>
+                        <property name="Position">1</property>
                         <property name="AutoSize">True</property>
                       </packing>
                     </child>
                     <child>
                       <widget class="Gtk.Toolbar" id="toolbar1">
                         <property name="MemberName" />
+                        <property name="Tooltip" translatable="yes">Refresh playlist</property>
                         <property name="ShowArrow">False</property>
                         <property name="ButtonStyle">Icons</property>
                         <property name="IconSize">LargeToolbar</property>
                         <node name="toolbar1" type="Toolbar">
-                          <node type="Toolitem" action="aClearPlaylist" />
-                          <node type="Toolitem" action="openAction" />
-                          <node type="Toolitem" action="saveAction" />
-                          <node type="Toolitem" action="saveAsAction" />
-                          <node type="Toolitem" action="refreshPlaylist" />
+                          <node type="Toolitem" action="clearAction" />
+                          <node type="Toolitem" action="aRefreshPlaylist" />
+                          <node type="Toolitem" action="aRemoveSelected" />
+                          <node type="Toolitem" action="aPlaySelected" />
                         </node>
                       </widget>
                       <packing>
-                        <property name="Position">1</property>
+                        <property name="Position">2</property>
                         <property name="AutoSize">True</property>
                         <property name="Expand">False</property>
                         <property name="Fill">False</property>
@@ -482,7 +514,7 @@ files</property>
                 <property name="Icon">stock:stock_chart-toggle-legend Menu</property>
                 <property name="Label" translatable="yes" />
                 <property name="UseUnderline">True</property>
-                <signal name="Activated" handler="bShuffle_click" />
+                <signal name="Released" handler="bShuffle_release" />
               </widget>
               <packing>
                 <property name="X">180</property>
@@ -500,7 +532,7 @@ files</property>
                 <property name="Icon">stock:stock_filters Menu</property>
                 <property name="Label" translatable="yes" />
                 <property name="UseUnderline">True</property>
-                <signal name="Activated" handler="bPartyMode_click" />
+                <signal name="Released" handler="bPartyMode_released" />
               </widget>
               <packing>
                 <property name="X">205</property>

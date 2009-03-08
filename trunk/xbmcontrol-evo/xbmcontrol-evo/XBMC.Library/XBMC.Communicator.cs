@@ -41,7 +41,7 @@ namespace XBMC
         private string xbmcUsername = null;
         private string xbmcPassword = null;
         private string apiPath = "/xbmcCmds/xbmcHttp";
-        private string logFile = "log/xbmcontrol.log";
+        private string logFile = "xbmcontrol.log";
         private int connectionTimeout = 2000;
 
         public XBMC_Communicator()
@@ -130,19 +130,17 @@ namespace XBMC
         }
 
         private void WriteToLog(string message)
-        {
-
+		{
             StreamWriter sw = null;
-            //string error = null;
 
             try
             {
                 sw = new StreamWriter(logFile, true);
                 sw.WriteLine(DateTime.Now + " : " + message);
             }
-            catch //(Exception e)
+            catch (Exception e)
             {
-                //error = e.Message;
+                WriteToLog(e.Message);
             }
 
             if (sw != null)
@@ -177,5 +175,13 @@ namespace XBMC
         {
             connectionTimeout = timeOut;
         }
+		
+		public bool CreateBoolRespose(string[] response)
+		{
+			if (response == null )
+				return false;
+			else
+				return (response[0] == "OK")? true : false ;
+		}
     }
 }

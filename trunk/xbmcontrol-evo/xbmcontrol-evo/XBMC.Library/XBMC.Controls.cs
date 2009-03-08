@@ -35,100 +35,119 @@ namespace XBMC
             parent = p;
         }
 
-        public void Play()
+        public bool Play()
         {
-            parent.Request("ExecBuiltIn", "PlayerControl(Play)");
+            string[] response = parent.Request("ExecBuiltIn", "PlayerControl(Play)");
+			return parent.CreateBoolRespose(response);
         }
 
-        public void PlayFile(string filename)
+        public bool PlayFile(string filename)
         {
-            parent.Request("PlayFile(" + filename + ")");
+            string[] response = parent.Request("PlayFile(" + filename + ")");
+			return parent.CreateBoolRespose(response);
         }
 
-        public void PlayMedia(string media)
+        public bool PlayMedia(string media)
         {
-            parent.Request("ExecBuiltIn", "PlayMedia(" + media + ")");
+            string[] response = parent.Request("ExecBuiltIn", "PlayMedia(" + media + ")");
+			return parent.CreateBoolRespose(response);
         }
 
-        public void Stop()
+        public bool Stop()
         {
-            parent.Request("ExecBuiltIn", "PlayerControl(Stop)");
+            string[] response = parent.Request("ExecBuiltIn", "PlayerControl(Stop)");
+			return parent.CreateBoolRespose(response);
         }
 
-        public void Next()
+        public bool Next()
         {
-            parent.Request("ExecBuiltIn", "PlayerControl(Next)");
+            string[] response = parent.Request("ExecBuiltIn", "PlayerControl(Next)");
+			return parent.CreateBoolRespose(response);
         }
 
-        public void PlayListNext()
+        public bool PlayListNext()
         {
-            parent.Request("PlayListNext");
+            string[] response = parent.Request("PlayListNext");
+			return parent.CreateBoolRespose(response);
         }
 
-        public void Previous()
+        public bool Previous()
         {
-            parent.Request("ExecBuiltIn", "PlayerControl(Previous)");
+            string[] response = parent.Request("ExecBuiltIn", "PlayerControl(Previous)");
+			return parent.CreateBoolRespose(response);
         }
 
-        public void ToggleShuffle()
+        public bool ToggleShuffle()
         {
-            parent.Request("ExecBuiltIn", "PlayerControl(Random)");
+            string[] response = parent.Request("ExecBuiltIn", "PlayerControl(Random)");
+			return parent.CreateBoolRespose(response);
         }
 
-        public void TogglePartymode()
+        public bool TogglePartymode()
         {
-            parent.Request("ExecBuiltIn", "PlayerControl(Partymode(music))");
+            string[] response = parent.Request("ExecBuiltIn", "PlayerControl(Partymode(music))");
+			return parent.CreateBoolRespose(response);
         }
 
-        public void Repeat(bool enable)
+        public bool Repeat(bool enable)
         {
             string mode = (enable) ? "RepeatAll" : "RepeatOff";
-            parent.Request("ExecBuiltIn", "PlayerControl(" + mode + ")");
+            string[] response = parent.Request("ExecBuiltIn", "PlayerControl(" + mode + ")");
+			return parent.CreateBoolRespose(response);
         }
 		
-		public void ToggleRepeatModes()
+		public bool ToggleRepeatModes()
 		{
-			parent.Request("ExecBuiltIn", "PlayerControl(Repeat)");
+			string[] response = parent.Request("ExecBuiltIn", "PlayerControl(Repeat)");
+			return parent.CreateBoolRespose(response);
 		}
 
-        public void LastFmLove()
+        public bool LastFmLove()
         {
-            parent.Request("ExecBuiltIn", "LastFM.Love(false)");
+            string[] response = parent.Request("ExecBuiltIn", "LastFM.Love(false)");
+			return parent.CreateBoolRespose(response);
         }
 
-        public void LastFmHate()
+        public bool LastFmHate()
         {
-            parent.Request("ExecBuiltIn", "LastFM.Ban(false)");
+            string[] response = parent.Request("ExecBuiltIn", "LastFM.Ban(false)");
+			return parent.CreateBoolRespose(response);
         }
 
-        public void ToggleMute()
+        public bool ToggleMute()
         {
-            parent.Request("ExecBuiltIn", "Mute");
+            string[] response = parent.Request("ExecBuiltIn", "Mute");
+			return parent.CreateBoolRespose(response);
         }
 
-        public void SetVolume(int percentage)
+        public bool SetVolume(int percentage)
         {
-            parent.Request("ExecBuiltIn", "SetVolume(" + Convert.ToString(percentage) + ")");
+            string[] response = parent.Request("ExecBuiltIn", "SetVolume(" + Convert.ToString(percentage) + ")");
+			return parent.CreateBoolRespose(response);
         }
 
-        public void SeekPercentage(int percentage)
+        public bool SeekPercentage(int percentage)
         {
-            parent.Request("SeekPercentage", Convert.ToString(percentage));
+            string[] response = parent.Request("SeekPercentage", Convert.ToString(percentage));
+			return parent.CreateBoolRespose(response);
         }
 
-        public void Reboot()
+        public bool Reboot()
         {
-            parent.Request("ExecBuiltIn", "Reboot");
+            string[] response = parent.Request("ExecBuiltIn", "Reboot");
+			return parent.CreateBoolRespose(response);
         }
 
-        public void Shutdown()
+        public bool Shutdown()
         {
-            parent.Request("ExecBuiltIn", "Shutdown");
+            string[] response = parent.Request("ExecBuiltIn", "Shutdown");
+			return parent.CreateBoolRespose(response);
         }
 
-        public void Restart()
+        public bool Restart()
         {
-            parent.Request("ExecBuiltIn", "RestartApp");
+            string[] response = parent.Request("ExecBuiltIn", "RestartApp");
+			return parent.CreateBoolRespose(response);
         }
 
         public string GetGuiDescription(string field)
@@ -190,14 +209,12 @@ namespace XBMC
             string ip = parent.GetIp();
 
             if (ip != null && ip != "")
-                aResult = parent.Request("SetResponseFormat", null, ip);
-
-            if (aResult == null)
-                return false;
-            else
-            {
-                return (aResult[0] == "OK") ? true : false;
-            }
+			{
+                string[] response = parent.Request("SetResponseFormat", null, ip);
+            	return parent.CreateBoolRespose(response);
+			}
+			else
+				return false;
         }
     }
 }

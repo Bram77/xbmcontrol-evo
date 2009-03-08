@@ -1,6 +1,7 @@
 
 using System;
 using Gtk;
+using Gdk;
 
 namespace xbmcontrolevo
 {
@@ -10,61 +11,98 @@ namespace xbmcontrolevo
 	{
 		private MainWindow _parent;
 		private TreeStore tsPlaylist;
-		private TreeViewColumn tvcNumber = new TreeViewColumn();
-		private TreeViewColumn tvcTitle = new TreeViewColumn();
+		private string[] aPlaylistTypes;
+		private string currentPlaylistType;
 		
 		public Playlist(MainWindow parent)
 		{
-			tsPlaylist	= new TreeStore (typeof (string), typeof (string));
+			tsPlaylist	= new TreeStore (typeof (Pixbuf), typeof (string), typeof (string), typeof (string));
 			_parent 	= parent;
+
+			TreeViewColumn tvcPlaying 	= _parent._tvPlaylist.AppendColumn ("", new CellRendererPixbuf(), "pixbuf", 0);
+			TreeViewColumn tvcNumber 	= _parent._tvPlaylist.AppendColumn ("", new Gtk.CellRendererText (), "text", 1);
+			TreeViewColumn tvcTitle 	= _parent._tvPlaylist.AppendColumn ("", new Gtk.CellRendererText (), "text", 2);
+			TreeViewColumn tvcPath	 	= _parent._tvPlaylist.AppendColumn ("", new Gtk.CellRendererText(), "text", 3);
+			
+			tvcPath.Visible 					= false;
+			tvcTitle.Sizing 					= TreeViewColumnSizing.Autosize;
+			tvcNumber.Sizing 					= TreeViewColumnSizing.Autosize;
+			tvcPlaying.Sizing 					= TreeViewColumnSizing.Autosize;
+			_parent._tvPlaylist.HeadersVisible 	= false;
+			_parent._tvPlaylist.EnableGridLines = TreeViewGridLines.Vertical;
+			
+			SetPlaylistTypes();
+			SetCurrentPlaylistType(0);
 			
 			Populate();
 		}
 		
-		public void Populate()
+		private void SetPlaylistTypes()
 		{
-			foreach (TreeViewColumn col in _parent._tvPlaylist.Columns) 
-	        	_parent._tvPlaylist.RemoveColumn(col);
-			
-			tsPlaylist.Clear();
-			
-			tvcNumber 	= _parent._tvPlaylist.AppendColumn ("nr", new Gtk.CellRendererText (), "text", 0);
-			tvcTitle	= _parent._tvPlaylist.AppendColumn ("song", new Gtk.CellRendererText (), "text", 1);
-			
-			_parent._tvPlaylist.ColumnsAutosize();
-			
-			GetPlaylistEntries();
+			aPlaylistTypes = new string[2];
+			aPlaylistTypes[0] = "0";
+			aPlaylistTypes[1] = "1";
 		}
 		
-		private void GetPlaylistEntries()
+		public void SetCurrentPlaylistType(int selectedType)
 		{
-			string[] aPlaylistEntries = _parent.oXbmc.Playlist.Get(true, true);
+			currentPlaylistType = aPlaylistTypes[selectedType];
+		}
+		
+		public string GetCurrentPlaylistType()
+		{
+			return currentPlaylistType;
+		}
+		
+		public void Populate()
+		{
+			tsPlaylist.Clear();
+			string[] aPlaylistPaths = _parent.oXbmc.Playlist.Get(GetCurrentPlaylistType(), false);
 			
-			if (aPlaylistEntries != null)
-            {
-                for (int x = 0; x < aPlaylistEntries.Length; x++)
+			if (aPlaylistPaths != null)
+            {	
+                for (int j = 0; j < aPlaylistPaths.Length; j++)
                 {
-                    if (aPlaylistEntries[x] != "")
-                        tsPlaylist.AppendValues ((x+1).ToString(), aPlaylistEntries[x]);
-                }
+                    int i = aPlaylistPaths[j].LastIndexOf(".");
+                    if (i > 1)
+                    {
+                        string extension = aPlaylistPaths[j].Substring(i, aPlaylistPaths[j].Length - i);
+                        aPlaylistPaths[j] = aPlaylistPaths[j].Replace("\\", "/");
+                        string[] aPlaylistEntry = aPlaylistPaths[j].Split('/');
+                        string playlistEntry = aPlaylistEntry[aPlaylistEntry.Length - 1].Replace(extension, "");
+						
+						tsPlaylist.AppendValues (null, (j+1).ToString(), playlistEntry, aPlaylistPaths[j]);
+                    }
+				}
 				
 				_parent._tvPlaylist.Model = tsPlaylist;
 				_parent._tvPlaylist.ShowAll();
             }
+
+			MarkNowPlayingEntry();
 		}
 		
-		public void HighlightNowPlayingEntry()
+		public void MarkNowPlayingEntry()
         {
 			int itemCount				= _parent.oXbmc.Playlist.GetLength();
-			string itemPlaying 			= _parent.oXbmc.NowPlaying.Get("songno");
-            //TreePath tpItemPlaying  	= new TreePath(itemPlaying);
+			string itemPlaying 			= _parent.oXbmc.NowPlaying.Get("songno", true);
 			
             if (itemCount > 0 && Convert.ToInt32(itemPlaying) < itemCount)
 			{
-				TreeIter tiNowPLaying = new TreeIter();
+				Gtk.Image nowPlayingImage 	= new Gtk.Image();
+				Pixbuf nowPlayingIcon 		= nowPlayingImage.RenderIcon(Stock.MediaPlay, IconSize.Menu, "");
+				Pixbuf emptyIcon			= new Pixbuf("images/pixel.gif");
 				
-             	if (tsPlaylist.GetIterFromString(out tiNowPLaying, itemPlaying))
-					_parent._tvPlaylist.Selection.SelectIter(tiNowPLaying);
+				TreeIter tiNowPLaying 		= new TreeIter();
+				TreeIter tiPlaylistItem 	= new TreeIter();
+				
+				tsPlaylist.GetIterFirst(out tiPlaylistItem);
+				
+				while (tsPlaylist.IterNext(ref tiPlaylistItem))
+					_parent._tvPlaylist.Model.SetValue(tiPlaylistItem, 0, emptyIcon);
+				
+             	if (tsPlaylist.GetIter(out tiNowPLaying, new TreePath(itemPlaying)) && !_parent.oXbmc.Status.IsNotPlaying())
+					_parent._tvPlaylist.Model.SetValue(tiNowPLaying, 0, nowPlayingIcon);
 			}
         }
 		
@@ -73,8 +111,8 @@ namespace xbmcontrolevo
 			TreeModel selectedModel;
 			TreeIter selectedIter = new TreeIter();
 			
-			if (_parent._tvShareBrowser.Selection.GetSelected(out selectedModel, out selectedIter))
-				return Convert.ToInt32(selectedModel.GetPath(selectedIter));
+			if (_parent._tvPlaylist.Selection.GetSelected(out selectedModel, out selectedIter))
+				return Convert.ToInt32(selectedModel.GetPath(selectedIter).ToString());
 			else
 				return -1;
 		}
@@ -83,17 +121,33 @@ namespace xbmcontrolevo
 		public void PlaySelectedItem()
 		{
 			int selectedItem = GetSelectedItem();
-			if (selectedItem != -1) _parent.oXbmc.Playlist.PlaySong(GetSelectedItem());
+			if (selectedItem != -1) _parent.oXbmc.Playlist.PlaySong(selectedItem);
 		}
 		
 		public void RemoveSelectedItem()
 		{
 			int selectedItem = GetSelectedItem();
+			
 			if (selectedItem != -1)
 			{
-				_parent.oXbmc.Playlist.Remove(GetSelectedItem());
+				_parent.oXbmc.Playlist.Remove(selectedItem);
 				Populate();
 			}
+		}
+		
+		public void Clear()
+		{
+			_parent.oXbmc.Playlist.Clear();
+			Populate();
+		}
+		
+		public void ShowSongInfoPopup()
+		{
+			TreeModel selectedModel;
+			TreeIter selectedIter = new TreeIter();
+			
+			if (_parent._tvPlaylist.Selection.GetSelected(out selectedModel, out selectedIter))
+				_parent.oMediaInfo.ShowSongInfoPopup(selectedModel.GetValue(selectedIter, 3).ToString());
 		}
 	}
 }

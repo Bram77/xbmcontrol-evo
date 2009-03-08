@@ -12,7 +12,7 @@ namespace xbmcontrolevo
 		public StatusUpdate(MainWindow parent)
 		{
 			_parent = parent;
-			Update();
+			
 			Start();
 		}
 		
@@ -21,17 +21,23 @@ namespace xbmcontrolevo
 			GLib.Timeout.Add(1000, new GLib.TimeoutHandler(Update) );
 		}
 		
-		public bool Update(bool start)
+		private bool Update(bool start)
 		{
 			if (_parent.oXbmc.Status.IsConnected() && start)
 			{
+				_parent.oXbmc.Controls.SetResponseFormat();
+				bool newMediaPlaying = _parent.oXbmc.Status.NewMediaPlaying();
+				
+				if (newMediaPlaying)
+				{
+					_parent.oPlaylist.Populate();
+				}
+				
 				if (!_parent._hsVolume.HasGrab) SetPbVolumePosition();
 				if (!_parent._hsProgress.HasGrab) SetPbProgressPosition();
 				_parent._tbMute.Active = (_parent.oXbmc.Status.IsMuted())? true : false ;
 				_parent._tbStop.Active = (_parent.oXbmc.Status.IsNotPlaying())? true : false ;
 				
-				_parent.oPlaylist.HighlightNowPlayingEntry();
-
 				SetPlayButtonStatus();
 				
 				return true;

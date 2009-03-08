@@ -96,7 +96,7 @@ namespace XBMC
             }
             catch //(Exception e)
             {
-                //error = e.Message;
+                //string error = e.Message;
             }
             finally
             {

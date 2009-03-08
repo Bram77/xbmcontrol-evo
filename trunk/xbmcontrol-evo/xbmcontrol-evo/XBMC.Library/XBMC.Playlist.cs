@@ -35,14 +35,12 @@ namespace XBMC
             parent = p;
         }
 
-        public string[] Get(bool parse, bool refresh)
+        public string[] Get(string type, bool parse)
         {
-            if (refresh)
-            {
-                string[] aPlaylistTemp = parent.Request("GetPlaylistContents(GetCurrentPlaylist)");
+            string[] aPlaylistTemp = parent.Request("GetPlaylistContents(" +type+ ")");
 
-                if (parse == true)
-                {
+            if (parse)
+            {
                 if (aPlaylistTemp != null)
                 {
                     aCurrentPlaylist = new string[aPlaylistTemp.Length];
@@ -59,16 +57,17 @@ namespace XBMC
                         }
                         else
                             aCurrentPlaylist[x] = "";
-                    }
-                    }
+					}
+					
+					return aCurrentPlaylist;
                 }
-                else
-                {
-                    aCurrentPlaylist = aPlaylistTemp;
-                }
+				else
+					return null;
             }
+            else
+                return aPlaylistTemp;
 
-            return aCurrentPlaylist;
+            
         }
 
         public void PlaySong(int position)
@@ -107,7 +106,10 @@ namespace XBMC
 
             string[] response = parent.Request("AddToPlayList(" + folderPath + p + m + r + ")");
 			
-			return (response[0] == "OK")? true : false ;
+			if (response == null )
+				return false;
+			else
+				return (response[0] == "OK")? true : false ;
         }
 
         public bool AddDirectoryContent(string folderPath, string mask)

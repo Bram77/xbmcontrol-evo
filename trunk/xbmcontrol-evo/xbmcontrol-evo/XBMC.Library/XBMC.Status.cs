@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GLib;
 //using System.Windows.Forms;
 
 namespace XBMC
@@ -29,6 +30,7 @@ namespace XBMC
     {
         private XBMC_Communicator parent;
         private string mediaNowPlaying = null;
+		private bool isConnected = false;
        	//private Timer heartBeatTimer = null;
         //private int connectedInterval = 5000;
         //private int disconnectedInterval = 10000;
@@ -48,30 +50,38 @@ namespace XBMC
 		}
 	
 		public bool NewMediaPlaying()
-		{
-			if (mediaNowPlaying != parent.NowPlaying.Get("filename", true))
+		{	
+			string fnMedia = parent.NowPlaying.Get("filename", true);
+			
+			if (mediaNowPlaying != fnMedia)
 	 		{
-				mediaNowPlaying = parent.NowPlaying.Get("filename");
+				mediaNowPlaying = fnMedia;
 				return true;
 	 		}
 	 		else
 				return false;
 		}
+		
+		public void StartHeartBeat()
+		{
+			HeartBeat_Tick();
+			GLib.Timeout.Add(5000, new GLib.TimeoutHandler(HeartBeat_Tick) );
+		}
 
-        private void HeartBeat_Tick(object sender, EventArgs e)
+        private bool HeartBeat_Tick()
         {
-            //isConnected = parent.Controls.SetResponseFormat();
-            //heartBeatTimer.Interval = (isConnected) ? connectedInterval : disconnectedInterval;
+            isConnected = parent.Controls.SetResponseFormat();
+            return isConnected;
         }
 
         public bool IsConnected()
         {
-            return parent.Controls.SetResponseFormat();
+            return isConnected;
         }
 
         public void EnableHeartBeat()
         {
-            HeartBeat_Tick(null, null);
+            HeartBeat_Tick();
             //heartBeatTimer.Enabled = true;
         }
 
