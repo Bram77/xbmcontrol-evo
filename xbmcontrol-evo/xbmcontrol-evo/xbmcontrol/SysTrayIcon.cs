@@ -18,7 +18,7 @@ namespace xbmcontrolevo
 			
 			siTray 				= new StatusIcon(new Pixbuf ("images/icon.png"));
 			siTray.Visible 		= true;
-			siTray.Activate 	+= delegate { _parent.Visible = !_parent.Visible; };
+			siTray.Activate 	+= OnActivate;
 			siTray.PopupMenu 	+= OnTrayIconPopup;
 			siTray.Tooltip 		= "XBMControl Evo";
 		}
@@ -28,6 +28,9 @@ namespace xbmcontrolevo
 			_parent.oContextMenu.Show("default", null, null);
 		}
 		
-		
+		private void OnActivate(object o, EventArgs args)
+		{
+			_parent.Visible = !_parent.Visible;
+		}
 	}
 }

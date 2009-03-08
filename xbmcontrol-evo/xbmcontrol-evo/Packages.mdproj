@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ItemType>PackagingProject</ItemType>
     <Packages>
-      <Packages xmlns="">
+      <Packages>
         <Package name="Linux Binaries">
           <Builder targetFile="..\Packages\xbmcontrol-evo.tar.gz" platform="Linux" configuration="Release" ctype="BinariesZipPackageBuilder">
             <RootEntry path="xbmcontrol-evo.csproj" />
@@ -22,6 +22,14 @@
         <Package name="MonoDevelop 1.0 Sources">
           <Builder targetFile="..\Packages\xbmcontrol-evo-src.tar.gz" format="MonoDevelop.Projects.FileFormat" ctype="SourcesZipPackageBuilder">
             <RootEntry path="xbmcontrol-evo.csproj" />
+          </Builder>
+        </Package>
+        <Package name="Tarball">
+          <Builder TargetDirectory="/home/bram/Projects/xbmcontrol-evo/Packages" DefaultConfiguration="Release" ctype="TarballDeployTarget">
+            <ChildEntries>
+              <SolutionItemReference path="xbmcontrol-evo.csproj" />
+            </ChildEntries>
+            <RootEntry path="xbmcontrol-evo.sln" id="{41ED27A6-4F9B-49AF-B9C7-4CEB546B8679}" />
           </Builder>
         </Package>
       </Packages>

@@ -70,7 +70,8 @@ namespace xbmcontrolevo
 			cmMediaFile.Add(_parent.oMenuItems.PlayFile(filePath));
 			cmMediaFile.Add(_parent.oMenuItems.EnqueFile(filePath));
 			cmMediaFile.Add(_parent.oMenuItems.Seperator());
-			cmMediaFile.Add(_parent.oMenuItems.ShowFileInfo());
+			cmMediaFile.Add(_parent.oMenuItems.ShowSongInfo("sharebrowser"));
+			//cmMediaFile.Add(_parent.oMenuItems.SaveSelectedFile());
 			cmMediaFile.Add(_parent.oMenuItems.Seperator());
 			cmMediaFile.Add(_parent.oMenuItems.CollapseAll());
 			
@@ -85,6 +86,11 @@ namespace xbmcontrolevo
 			
 			cmPlaylistEntry.Add(_parent.oMenuItems.PlayPlaylistEntry());
 			cmPlaylistEntry.Add(_parent.oMenuItems.RemovePlaylistEntry());
+			cmPlaylistEntry.Add(_parent.oMenuItems.Seperator());
+			cmPlaylistEntry.Add(_parent.oMenuItems.ShowSongInfo("playlist"));
+			cmPlaylistEntry.Add(_parent.oMenuItems.Seperator());
+			cmPlaylistEntry.Add(_parent.oMenuItems.RefreshPlaylist());
+			cmPlaylistEntry.Add(_parent.oMenuItems.ClearPlaylist());
 			
 			cmPlaylistEntry.ShowAll();
 			cmPlaylistEntry.Popup();

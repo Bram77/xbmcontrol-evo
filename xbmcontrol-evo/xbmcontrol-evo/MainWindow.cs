@@ -10,6 +10,7 @@ public partial class MainWindow: Gtk.Window
 	internal XBMC_Communicator oXbmc;
 	internal ShareBrowser oShareBrowser;
 	internal SysTrayIcon oTrayicon;
+	internal MediaInfo oMediaInfo;
 	public ContextMenu oContextMenu;
 	public MenuItems oMenuItems;
 	public Controls oControls;
@@ -27,11 +28,6 @@ public partial class MainWindow: Gtk.Window
 	public ToggleButton _tbPlay;
 	public ToggleButton _tbStop;
 	public Button _bNext;
-	
-	//public RefreshTimerState _RefreshTimerState = new RefreshTimerState();
-	//private TimerCallback _RefreshTimerDelegate;
-	//private Timer _RefreshTimer;
-	//private int refreshInterval = 1000;
 
 	public MainWindow (): base (Gtk.WindowType.Toplevel)
 	{	
@@ -39,10 +35,9 @@ public partial class MainWindow: Gtk.Window
 		oXbmc.SetIp("10.0.0.5");
         oXbmc.SetConnectionTimeout(4000);
         oXbmc.SetCredentials("", "");
-
-		//_RefreshTimerDelegate 		= new Timercallback(Xbmc.Status.Refresh);
-		//_RefreshTimer 				= new Timer(_RefreshTimerDelegate, _RefreshTimerState, 0, refreshInterval);
-		//_RefreshTimerState.timer	= _RefreshTimer.;
+		oXbmc.Status.StartHeartBeat();
+		
+		this.SetIconFromFile("images/icon.png");
 
 		Build ();
 		
@@ -66,6 +61,9 @@ public partial class MainWindow: Gtk.Window
 		oShareBrowser 	= new ShareBrowser(this);
 		oTrayicon 		= new SysTrayIcon(this);
 		oStatusUpdate	= new StatusUpdate(this);
+		oMediaInfo		= new MediaInfo(this);
+		
+		this.ModifyBase(StateType.Normal, new Gdk.Color(255, 250, 250));
 	}
 	
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
@@ -105,10 +103,37 @@ public partial class MainWindow: Gtk.Window
 		}
 	}
 	
-	protected virtual void change_cbShareBrowser (object o, System.EventArgs args)
+	public string SecondsToHumanTime(string seconds)
+	{
+		double totalSeconds = Convert.ToDouble(seconds);
+		double iHours		= Math.Floor(((double) totalSeconds/60) /60);
+		double iMinutes 	= Math.Floor((double) totalSeconds/60);
+		double iSeconds 	= totalSeconds-(Math.Floor((double) totalSeconds/60)*60);
+		
+		string sHours		= (iHours < 10)? "0" +iHours.ToString() : iHours.ToString();
+		string sMinutes 	= (iMinutes < 10)? "0" +iMinutes.ToString() : iMinutes.ToString();
+		string sSeconds 	= (iSeconds < 10)? "0" +iSeconds.ToString() : iSeconds.ToString(); 
+		string sDuration 	= sHours + ":" + sMinutes + ":" + sSeconds;
+
+		return sDuration;
+	}
+	
+	public byte[] Base64DecodeString(string inputStr) 
+    {
+      byte[] encodedByteArray = Convert.FromBase64CharArray(inputStr.ToCharArray(), 0, inputStr.Length);
+      return encodedByteArray;
+    }   
+	
+	protected virtual void cbShareBrowser_changed (object o, System.EventArgs args)
 	{
 		oShareBrowser.SetCurrentShareType(cbShareType.Active);
 		oShareBrowser.Populate();
+	}
+	
+	protected virtual void cbPlaylistType_changed (object sender, System.EventArgs e)
+	{
+		oPlaylist.SetCurrentPlaylistType(cbPlaylistType.Active);
+		oPlaylist.Populate();
 	}
 		
 	protected virtual void tvShareBrowser_release (object o, Gtk.ButtonReleaseEventArgs args)
@@ -136,7 +161,7 @@ public partial class MainWindow: Gtk.Window
 		tvShareBrowser.CollapseAll();
 	}
 	
-	protected virtual void click_RefreshPlaylist (object sender, System.EventArgs e)
+	protected virtual void aRefreshPlaylist_activated (object sender, System.EventArgs e)
 	{
 		oPlaylist.Populate();
 	}
@@ -144,6 +169,7 @@ public partial class MainWindow: Gtk.Window
 	protected virtual void hsVolume_valueChanged (object sender, System.EventArgs e)
 	{
 		oXbmc.Controls.SetVolume(Convert.ToInt32(hsVolume.Value));
+		hsVolume.TooltipText = Math.Floor((double) hsVolume.Value).ToString()+"%";
 	}
 
 	protected virtual void hsProgress_changeValue (object o, Gtk.ChangeValueArgs args)
@@ -168,7 +194,7 @@ public partial class MainWindow: Gtk.Window
 
 	protected virtual void bNext_released (object sender, System.EventArgs e)
 	{
-		oXbmc.Controls.Previous();
+		oXbmc.Controls.Next();
 	}
 
 	protected virtual void tbStop_released (object sender, System.EventArgs e)
@@ -182,16 +208,6 @@ public partial class MainWindow: Gtk.Window
 		oPlaylist.Populate();
 	}
 
-	protected virtual void bPartyMode_click (object sender, System.EventArgs e)
-	{
-		oXbmc.Controls.TogglePartymode();
-	}
-
-	protected virtual void bShuffle_click (object sender, System.EventArgs e)
-	{
-		oXbmc.Controls.ToggleShuffle();
-	}
-
 	protected virtual void bRepeat_click (object sender, System.EventArgs e)
 	{
 		oXbmc.Controls.ToggleRepeatModes();
@@ -199,8 +215,28 @@ public partial class MainWindow: Gtk.Window
 	
 	protected virtual void tvPlaylist_buttonRelease (object o, Gtk.ButtonReleaseEventArgs args)
 	{
-		if (args.Event.Button == 3)
-			oContextMenu.Show("playlist", null, null);
+		if (args.Event.Button == 3) oContextMenu.Show("playlist", null, null);
 	}
 
+	protected virtual void aRemoveSelected_activated (object sender, System.EventArgs e)
+	{
+		oPlaylist.RemoveSelectedItem();
+	}
+
+	protected virtual void aPlaySelected_activated (object sender, System.EventArgs e)
+	{
+		oPlaylist.PlaySelectedItem();
+	}
+
+	protected virtual void bPartyMode_released (object sender, System.EventArgs e)
+	{
+		if (!oXbmc.Controls.TogglePartymode()) 
+			Messagebox("XBMC did not accept the command!");
+	}
+
+	protected virtual void bShuffle_release (object sender, System.EventArgs e)
+	{
+		if (!oXbmc.Controls.ToggleShuffle()) 
+			Messagebox("XBMC did not accept the command!");
+	}
 }

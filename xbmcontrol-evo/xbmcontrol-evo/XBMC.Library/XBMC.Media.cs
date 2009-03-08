@@ -144,5 +144,33 @@ namespace XBMC
 
 			return "No data found";
 		}
+		
+		public string GetFileThumbnailLocation(string filePath)
+		{
+			string[] aFilePathparts = filePath.Split('/');
+			string fileName 		= aFilePathparts[aFilePathparts.Length-1];
+			string fileDir 			= filePath.Replace(fileName, "");
+				
+			string[] thumbPath = parent.Request("GetThumbFilename(" +fileName+ ";" +fileDir+ ")");
+			
+			if (thumbPath == null)
+				return null;
+			else
+			{
+				
+				string thumbRealPath = thumbPath[0].Replace("special://xbmc", "q:\\").Replace("/", "\\");
+					
+				string thumbFile = "q:\\web\\thumb_fileInfo.jpg";
+				parent.Request("FileCopy(" +thumbRealPath+ ";" +thumbFile+ ")");
+				
+				return "http://" + parent.GetIp() + "/thumb_fileInfo.jpg";
+			}
+		}
+		
+		public string FileDownload(string filePath)
+		{
+			string[] downloadedFile = parent.Request("FileDownload(filePath;[bare])");
+			return (downloadedFile == null)? null : downloadedFile[0];
+		}
     }
 }

@@ -1,5 +1,8 @@
 
 using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Text;
 using Gtk;
 using Gdk;
 
@@ -146,7 +149,11 @@ namespace xbmcontrolevo
 				for (int y = 0; y < aFilesPath.Length; y++)
 				{
 					if (aFilesPath[y] != null && aFilesPath[y] != "")
-						tsShares.AppendValues(selectedIter, new Pixbuf ("images/file_" + currentShareType + ".png"), aFiles[y], aFilesPath[y], "file");
+					{
+						string[] aFilesPathParts = aFilesPath[y].Split(':');
+						string mediaType = (aFilesPathParts[0] == "lastfm")? "lastfm" : "file" ;
+						tsShares.AppendValues(selectedIter, new Pixbuf ("images/file_" + currentShareType + ".png"), aFiles[y], aFilesPath[y], mediaType);
+					}
 				}
 			}
 			
@@ -197,11 +204,59 @@ namespace xbmcontrolevo
 				
 				if (selectedType == "folder" || selectedType == "share")
 					_parent.oContextMenu.Show("folder", selectedPath, currentShareType);
-				else if (selectedType == "file")
+				else if (selectedType == "file" || selectedType == "lastfm")
 					_parent.oContextMenu.Show("file", selectedPath, null);
 				else
 					_parent.oContextMenu.Show("default", null, null);
 			}
 		}
+		
+		public void ShowSongInfoPopup()
+		{
+			TreeModel selectedModel;
+			TreeIter selectedIter = new TreeIter();
+			
+			if (_parent._tvShareBrowser.Selection.GetSelected(out selectedModel, out selectedIter))
+				_parent.oMediaInfo.ShowSongInfoPopup(selectedModel.GetValue(selectedIter, 2).ToString());
+		}
+		
+		public void SaveSelectedFile()
+		{
+			TreeModel selectedModel;
+			TreeIter selectedIter = new TreeIter();
+			
+			if (_parent._tvShareBrowser.Selection.GetSelected(out selectedModel, out selectedIter))
+			{
+				Gtk.FileChooserDialog fc = new Gtk.FileChooserDialog("XBMControl-Evo", "Save file", _parent, FileChooserAction.Save, Gtk.Stock.Cancel, ResponseType.Cancel, Gtk.Stock.SaveAs, ResponseType.Ok);
+                fc.Icon = new Pixbuf("images/icon.png");
+				//fc.Child selectedModel.GetValue(selectedIter, 1).ToString());
+				
+				int response = fc.Run();
+				
+				if (response == (int)ResponseType.Ok)
+                {
+                   	string base64File = _parent.oXbmc.Media.FileDownload(selectedModel.GetValue(selectedIter, 2).ToString());
+					byte[] decodedFile = _parent.Base64DecodeString(base64File);
+					_parent.Messagebox(base64File);
+					try 
+					{
+			            FileStream aFile = new FileStream(fc.Filename, FileMode.Create);
+			            aFile.Seek(0, SeekOrigin.Begin);
+			            aFile.Write(decodedFile, 0, decodedFile.Length);
+			        } 
+					catch
+					{
+						_parent.Messagebox("Could not save the file.");
+						fc.Destroy();
+					}
+					
+					fc.Destroy();
+                }
+				else if (response == (int)ResponseType.Cancel)
+					fc.Destroy();
+			}
+		}
+					
+		
 	}
 }
