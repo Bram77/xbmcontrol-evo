@@ -27,7 +27,7 @@ namespace XBMC
 {
     public class XBMC_Playlist
     {
-        XBMC_Communicator parent = null;
+        XBMC_Communicator parent;
         private string[] aCurrentPlaylist = null;
 
         public XBMC_Playlist(XBMC_Communicator p)
@@ -66,29 +66,30 @@ namespace XBMC
             }
             else
                 return aPlaylistTemp;
-
-            
         }
 
-        public void PlaySong(int position)
+        public bool PlaySong(int position)
         {
-            parent.Request("SetPlaylistSong(" + position.ToString() + ")");
+            string[] response = parent.Request("SetPlaylistSong(" + position.ToString() + ")");
+			return parent.CreateBoolRespose(response);
         }
 
-        public void Remove(int position)
+        public bool Remove(int position)
         {
-            parent.Request("RemoveFromPlaylist(" + position.ToString() + ")");
+            string[] response = parent.Request("RemoveFromPlaylist(" + position.ToString() + ")");
+			return parent.CreateBoolRespose(response);
         }
 
-        public string GetCurrentIdentifier()
+        public string GetCurrentPlaylistType()
         {
-            string[] curPlaylist = parent.Request("GetCurrentPlaylist()");
-            return (curPlaylist == null) ? null : curPlaylist[0];
+            string[] response = parent.Request("GetCurrentPlaylist()");
+            return (response == null) ? null : response[0];
         }
 
-        public void Clear()
+        public bool Clear()
         {
-            parent.Request("ClearPlayList()");
+            string[] response = parent.Request("ClearPlayList()");
+			return parent.CreateBoolRespose(response);
         }
 
         public bool AddDirectoryContent(string folderPath, string mask, bool recursive)
@@ -105,11 +106,7 @@ namespace XBMC
             }
 
             string[] response = parent.Request("AddToPlayList(" + folderPath + p + m + r + ")");
-			
-			if (response == null )
-				return false;
-			else
-				return (response[0] == "OK")? true : false ;
+			return parent.CreateBoolRespose(response);
         }
 
         public bool AddDirectoryContent(string folderPath, string mask)
@@ -128,15 +125,16 @@ namespace XBMC
 			return (length == null)? 0 : Convert.ToInt32(length[0]);
 		}
 
-        public void SetSong(int position)
+        public bool SetSong(int position)
         {
-            parent.Request("SetPlaylistSong(" + position.ToString() + ")");
+            string[] response = parent.Request("SetPlaylistSong(" + position.ToString() + ")");
+			return parent.CreateBoolRespose(response);
         }
 
-        public void Set(string type)
+        public bool Set(string type)
         {
-            string playlistType = (type == "video") ? "1" : "0";
-            parent.Request("SetCurrentPlaylist(" + playlistType + ")");
+            string[] response = parent.Request("SetCurrentPlaylist(" + type + ")");
+			return parent.CreateBoolRespose(response);
         }
     }
 }

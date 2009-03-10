@@ -74,7 +74,7 @@ namespace xbmcontrolevo
 			ImageMenuItem playFile	= new ImageMenuItem("Play");
 			playFile.Image 			= new Gtk.Image(Gtk.Stock.MediaPlay, IconSize.Menu);;
 			playFile.Activated 		+= delegate { _parent.oControls.AddFileToPlaylist(filePath, true); };
-		
+			
 			return playFile;
 		}
 		
@@ -98,7 +98,7 @@ namespace xbmcontrolevo
 		
 		public ImageMenuItem Previous()
 		{
-			ImageMenuItem previous 	= new ImageMenuItem("Next");
+			ImageMenuItem previous 	= new ImageMenuItem("Previous");
 			previous.Image 			= new Gtk.Image(Gtk.Stock.MediaPrevious, IconSize.Menu);;
 			previous.Activated 		+= delegate { _parent.oXbmc.Controls.Previous(); };
 			
@@ -211,6 +211,7 @@ namespace xbmcontrolevo
 			return clearPlaylist;
 		}
 		
+		/*
 		public ImageMenuItem SaveSelectedFile()
 		{
 			ImageMenuItem saveAs 	= new ImageMenuItem("Save As");
@@ -219,6 +220,7 @@ namespace xbmcontrolevo
 			
 			return saveAs;
 		}
+		*/
 		
 		public ImageMenuItem RefreshPlaylist()
 		{

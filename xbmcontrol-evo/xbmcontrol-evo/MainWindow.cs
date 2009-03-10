@@ -1,5 +1,8 @@
 using System;
 using System.Threading;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using Gtk;
 using Gdk;
 using XBMC;
@@ -7,10 +10,12 @@ using xbmcontrolevo;
 
 public partial class MainWindow: Gtk.Window
 {	
+	internal GuiConfig oGuiConfig;
 	internal XBMC_Communicator oXbmc;
 	internal ShareBrowser oShareBrowser;
 	internal SysTrayIcon oTrayicon;
 	internal MediaInfo oMediaInfo;
+	internal NowPlaying oNowPlaying;
 	public ContextMenu oContextMenu;
 	public MenuItems oMenuItems;
 	public Controls oControls;
@@ -21,6 +26,19 @@ public partial class MainWindow: Gtk.Window
 	public ComboBox _cbShareType;
 	public HScale _hsVolume;
 	public HScale _hsProgress;
+	public Gtk.Image _imgNowPlaying;
+	public Gtk.Image _imgLoading;
+	public Fixed _fixedNowPlaying;
+	
+	public Label _lArtist;
+	public Label _lSong;
+	public Label _lAlbum;
+	public Label _lGenre;
+	public Label _lProgress;
+	public Label _lDuration;
+	public Label _lYear;
+	
+	public Notebook _nbDataContainer;
 	
 	//Buttons
 	public ToggleButton _tbMute;
@@ -36,22 +54,10 @@ public partial class MainWindow: Gtk.Window
         oXbmc.SetConnectionTimeout(4000);
         oXbmc.SetCredentials("", "");
 		oXbmc.Status.StartHeartBeat();
-		
-		this.SetIconFromFile("images/icon.png");
 
 		Build ();
 		
-		//Make static widgets publicly accessable
-		_tvShareBrowser = this.tvShareBrowser;
-		_tvPlaylist		= this.tvPlaylist;
-		_cbShareType	= this.cbShareType;
-		_hsVolume		= this.hsVolume;
-		_hsProgress 	= this.hsProgress;
-		_tbMute			= this.tbMute;
-		_bPrevious		= this.bPrevious;
-		_tbPlay			= this.tbPlay;
-		_tbStop			= this.tbStop;
-		_bNext			= this.bNext;
+		this.AllowStaticAccess();
 		
 		//Create objects used
 		oPlaylist 		= new Playlist(this);
@@ -62,8 +68,38 @@ public partial class MainWindow: Gtk.Window
 		oTrayicon 		= new SysTrayIcon(this);
 		oStatusUpdate	= new StatusUpdate(this);
 		oMediaInfo		= new MediaInfo(this);
+		oNowPlaying		= new NowPlaying(this);
+		oGuiConfig		= new GuiConfig(this);
 		
-		this.ModifyBase(StateType.Normal, new Gdk.Color(255, 250, 250));
+		nbDataContainer.CurrentPage = 0;
+	}
+	
+	private void AllowStaticAccess()
+	{
+		_tvShareBrowser = this.tvShareBrowser;
+		_tvPlaylist		= this.tvPlaylist;
+		_cbShareType	= this.cbShareType;
+		_hsVolume		= this.hsVolume;
+		_hsProgress 	= this.hsProgress;
+		_tbMute			= this.tbMute;
+		_bPrevious		= this.bPrevious;
+		_tbPlay			= this.tbPlay;
+		_tbStop			= this.tbStop;
+		_bNext			= this.bNext;
+		_imgNowPlaying	= this.imgNowPlaying;
+		_imgLoading		= this.imgLoading;
+		_fixedNowPlaying= this.fixedNowPlaying;
+		
+		_lArtist 		= this.lArtist;
+		_lSong			= this.lSong;
+		_lAlbum			= this.lAlbum;
+		_lGenre			= this.lGenre;
+		_lProgress		= this.lProgress;
+		_lDuration		= this.lDuration;
+		_lYear			= this.lYear;
+		
+		
+		_nbDataContainer= this.nbDataContainer;
 	}
 	
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
@@ -118,6 +154,19 @@ public partial class MainWindow: Gtk.Window
 		return sDuration;
 	}
 	
+	public Gdk.Pixbuf ImageToPixbuf(System.Drawing.Image image)
+	{
+		using (MemoryStream stream = new MemoryStream()) 
+		{
+			image.Save(stream, ImageFormat.Bmp);
+			stream.Position = 0;
+			Gdk.Pixbuf pixbuf = new Gdk.Pixbuf(stream);
+			
+			return pixbuf;
+		}
+	}
+
+	
 	public byte[] Base64DecodeString(string inputStr) 
     {
       byte[] encodedByteArray = Convert.FromBase64CharArray(inputStr.ToCharArray(), 0, inputStr.Length);
@@ -132,8 +181,7 @@ public partial class MainWindow: Gtk.Window
 	
 	protected virtual void cbPlaylistType_changed (object sender, System.EventArgs e)
 	{
-		oPlaylist.SetCurrentPlaylistType(cbPlaylistType.Active);
-		oPlaylist.Populate();
+		oPlaylist.SetCurrentPlaylistType(cbPlaylistType.Active.ToString());
 	}
 		
 	protected virtual void tvShareBrowser_release (object o, Gtk.ButtonReleaseEventArgs args)
@@ -164,12 +212,6 @@ public partial class MainWindow: Gtk.Window
 	protected virtual void aRefreshPlaylist_activated (object sender, System.EventArgs e)
 	{
 		oPlaylist.Populate();
-	}
-
-	protected virtual void hsVolume_valueChanged (object sender, System.EventArgs e)
-	{
-		oXbmc.Controls.SetVolume(Convert.ToInt32(hsVolume.Value));
-		hsVolume.TooltipText = Math.Floor((double) hsVolume.Value).ToString()+"%";
 	}
 
 	protected virtual void hsProgress_changeValue (object o, Gtk.ChangeValueArgs args)
@@ -238,5 +280,11 @@ public partial class MainWindow: Gtk.Window
 	{
 		if (!oXbmc.Controls.ToggleShuffle()) 
 			Messagebox("XBMC did not accept the command!");
+	}
+
+	protected virtual void hsVolume_valueChanged  (object sender, System.EventArgs e)
+	{
+		oXbmc.Controls.SetVolume(Convert.ToInt32(hsVolume.Value));
+		hsVolume.TooltipText = Math.Floor((double) hsVolume.Value).ToString()+"%";
 	}
 }

@@ -205,12 +205,9 @@ namespace XBMC
 
         public bool SetResponseFormat()
         {
-            string[] aResult = null;
-            string ip = parent.GetIp();
-
-            if (ip != null && ip != "")
+            if (parent.GetIp() != null && parent.GetIp() != "")
 			{
-                string[] response = parent.Request("SetResponseFormat", null, ip);
+                string[] response = parent.Request("SetResponseFormat", null, parent.GetIp());
             	return parent.CreateBoolRespose(response);
 			}
 			else

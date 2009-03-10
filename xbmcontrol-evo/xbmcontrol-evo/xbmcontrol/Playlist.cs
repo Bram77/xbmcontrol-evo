@@ -11,8 +11,6 @@ namespace xbmcontrolevo
 	{
 		private MainWindow _parent;
 		private TreeStore tsPlaylist;
-		private string[] aPlaylistTypes;
-		private string currentPlaylistType;
 		
 		public Playlist(MainWindow parent)
 		{
@@ -31,27 +29,20 @@ namespace xbmcontrolevo
 			_parent._tvPlaylist.HeadersVisible 	= false;
 			_parent._tvPlaylist.EnableGridLines = TreeViewGridLines.Vertical;
 			
-			SetPlaylistTypes();
-			SetCurrentPlaylistType(0);
+			SetCurrentPlaylistType("0");
 			
 			Populate();
 		}
 		
-		private void SetPlaylistTypes()
+		public void SetCurrentPlaylistType(string selectedType)
 		{
-			aPlaylistTypes = new string[2];
-			aPlaylistTypes[0] = "0";
-			aPlaylistTypes[1] = "1";
-		}
-		
-		public void SetCurrentPlaylistType(int selectedType)
-		{
-			currentPlaylistType = aPlaylistTypes[selectedType];
+			_parent.oXbmc.Playlist.Set(selectedType);
+			Populate();
 		}
 		
 		public string GetCurrentPlaylistType()
 		{
-			return currentPlaylistType;
+			return _parent.oXbmc.Playlist.GetCurrentPlaylistType();
 		}
 		
 		public void Populate()
@@ -84,8 +75,8 @@ namespace xbmcontrolevo
 		
 		public void MarkNowPlayingEntry()
         {
-			int itemCount				= _parent.oXbmc.Playlist.GetLength();
-			string itemPlaying 			= _parent.oXbmc.NowPlaying.Get("songno", true);
+			int itemCount		= _parent.oXbmc.Playlist.GetLength();
+			string itemPlaying 	= _parent.oXbmc.NowPlaying.Get("songno", true);
 			
             if (itemCount > 0 && Convert.ToInt32(itemPlaying) < itemCount)
 			{

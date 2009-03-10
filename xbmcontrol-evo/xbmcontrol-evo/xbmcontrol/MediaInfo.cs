@@ -1,5 +1,6 @@
 
 using System;
+using System.IO;
 using Gtk;
 using Gdk;
 
@@ -15,27 +16,6 @@ namespace xbmcontrolevo
 		public MediaInfo(MainWindow parent)
 		{
 			_parent = parent;
-			Gdk.Color.Parse("#FFFFFF", ref white);
-			//_parent._fMediaInfoContainer.ModifyBg(StateType.Normal, white);
-		}
-		
-		/*
-		private static Gdk.Pixbuf ImageToPixbuf(System.Drawing.Image image)
-        {
-            using (MemoryStream stream = new MemoryStream()) 
-			{
-                image.Save(stream, ImageFormat.Bmp);
-                stream.Position = 0;
-                Gdk.Pixbuf pixbuf = new Gdk.Pixbuf(stream);
-                return pixbuf;
-            }
-        }
-        */
-		
-		public void ShowNowPLayingInfo()
-		{
-			ShowNowPlayingArtist();
-			ShowNowPlayingSong();
 		}
 		
 		public void ShowCoverArt()
@@ -66,7 +46,7 @@ namespace xbmcontrolevo
 		public void ShowSongInfoPopup(string filepath)
 		{
 			string sDuration 	= _parent.SecondsToHumanTime(_parent.oXbmc.Media.GetMusicTagByFilepath(filepath, "duration"));
-			string songInfo		= "artist: " + _parent.oXbmc.Media.GetMusicTagByFilepath(filepath, "artist");
+			string songInfo		= "\n\nartist: " + _parent.oXbmc.Media.GetMusicTagByFilepath(filepath, "artist");
 			songInfo 			+= "\ntitle: " + _parent.oXbmc.Media.GetMusicTagByFilepath(filepath, "title");
 			songInfo 			+= "\nalbum: " + _parent.oXbmc.Media.GetMusicTagByFilepath(filepath, "album");
 			songInfo 			+= "\ngenre: " + _parent.oXbmc.Media.GetMusicTagByFilepath(filepath, "genre");
@@ -77,6 +57,19 @@ namespace xbmcontrolevo
 			wSongInfo.SetIconFromFile("images/icon.png");
 			
 			Pango.FontDescription fd = Pango.FontDescription.FromString("Verdana Bold 9");
+			
+			/*
+			string thumbLocation = _parent.oXbmc.Media.GetFileThumbnailLocation(filepath);
+
+			if (thumbLocation != null)
+			{
+				MemoryStream msThumbnail = _parent.oXbmc.Media.FileDownload(thumbLocation);
+				
+				if (msThumbnail != null)
+					wSongInfo.Add(new Gtk.Image(new Gdk.Pixbuf(msThumbnail)));
+			}
+			*/
+			
 			
 			Label lArtist = new Label(songInfo);
 			lArtist.ModifyFont(fd);

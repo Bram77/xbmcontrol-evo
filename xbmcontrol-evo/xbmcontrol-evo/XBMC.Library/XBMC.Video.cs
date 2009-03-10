@@ -88,8 +88,7 @@ namespace XBMC
 
                     // Convert Base64 String to byte[]
                     byte[] imageBytes = Convert.FromBase64String(downloadData[0]);
-                    MemoryStream ms = new MemoryStream(imageBytes, 0,
-                      imageBytes.Length);
+                    MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
 
                     // Convert byte[] to Image
                     ms.Write(imageBytes, 0, imageBytes.Length);
