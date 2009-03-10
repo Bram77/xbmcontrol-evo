@@ -21,6 +21,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
+using System.Windows.Forms;
 
 namespace XBMC
 {
@@ -153,24 +155,56 @@ namespace XBMC
 				
 			string[] thumbPath = parent.Request("GetThumbFilename(" +fileName+ ";" +fileDir+ ")");
 			
-			if (thumbPath == null)
-				return null;
-			else
+			if (thumbPath != null)
 			{
-				
-				string thumbRealPath = thumbPath[0].Replace("special://xbmc", "q:\\").Replace("/", "\\");
-					
-				string thumbFile = "q:\\web\\thumb_fileInfo.jpg";
-				parent.Request("FileCopy(" +thumbRealPath+ ";" +thumbFile+ ")");
-				
-				return "http://" + parent.GetIp() + "/thumb_fileInfo.jpg";
+				string thumbPathFormatted = thumbPath[0].Replace("special://xbmc", "Q:\\").Replace("/", "\\");
+				MessageBox.Show(thumbPathFormatted);
+				return thumbPathFormatted;
 			}
+			else
+				return null;
 		}
 		
-		public string FileDownload(string filePath)
+		public bool FileExists(string filePath)
 		{
-			string[] downloadedFile = parent.Request("FileDownload(filePath;[bare])");
-			return (downloadedFile == null)? null : downloadedFile[0];
+			string[] response =	parent.Request("FileExists", filePath);
+			return parent.CreateBoolRespose(response);
+		}
+		
+		public MemoryStream FileDownload(string filePath)
+		{
+			MemoryStream msFile;
+			string[] aDownloadData;
+			byte[] aFileBytes;
+			
+			if (this.FileExists(filePath))
+			{
+                try
+                {
+					aDownloadData = parent.Request("FileDownload(" +filePath+ ";[bare])");
+					
+					if (aDownloadData != null)
+					{
+	                    aFileBytes 	= Convert.FromBase64String(aDownloadData[0]);
+	                    msFile		= new MemoryStream(aFileBytes, 0, aFileBytes.Length);
+	                    //msFile.Write(aFileBytes, 0, aFileBytes.Length);
+					}
+					else
+						msFile = null;
+                }
+                catch (Exception e)
+                {
+                    parent.WriteToLog(DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss") + " - DEBUG: " + e.Message + " || " + filePath);
+                	msFile = null;
+				}
+			}
+			else
+			{
+				MessageBox.Show("File does not exist");
+				msFile = null;
+			}
+			
+			return msFile;
 		}
     }
 }

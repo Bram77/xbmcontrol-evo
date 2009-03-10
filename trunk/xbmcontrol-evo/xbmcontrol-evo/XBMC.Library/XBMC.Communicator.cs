@@ -42,7 +42,7 @@ namespace XBMC
         private string xbmcPassword = null;
         private string apiPath = "/xbmcCmds/xbmcHttp";
         private string logFile = "xbmcontrol.log";
-        private int connectionTimeout = 2000;
+        private int connectionTimeout = 5000;
 
         public XBMC_Communicator()
         {
@@ -108,14 +108,25 @@ namespace XBMC
             }
             catch (WebException e)
             {
-                WriteToLog("ERROR - " + e.Message);
+                WriteToLog(e.Message + " || " + uri);
             }
             finally
             {
                 if (response != null) response.Close();
                 if (reader != null) reader.Close();
             }
-
+			
+			if (pageItems != null)
+			{
+				string[] aFirstEntry = pageItems[0].Split(':');
+				
+				if (aFirstEntry == null)
+				{
+					if (aFirstEntry[0] == "Error")
+						WriteToLog(DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss") + " - ERROR: " + aFirstEntry[1] + " || " + uri);
+				}
+			}
+			
             return pageItems;
         }
 
@@ -129,7 +140,7 @@ namespace XBMC
             return Request(command, null, null);
         }
 
-        private void WriteToLog(string message)
+        public void WriteToLog(string message)
 		{
             StreamWriter sw = null;
 
@@ -138,9 +149,8 @@ namespace XBMC
                 sw = new StreamWriter(logFile, true);
                 sw.WriteLine(DateTime.Now + " : " + message);
             }
-            catch (Exception e)
+            catch
             {
-                WriteToLog(e.Message);
             }
 
             if (sw != null)
@@ -181,7 +191,7 @@ namespace XBMC
 			if (response == null )
 				return false;
 			else
-				return (response[0] == "OK")? true : false ;
+				return (response[0] == "OK" || response[0] == "True")? true : false ;
 		}
     }
 }

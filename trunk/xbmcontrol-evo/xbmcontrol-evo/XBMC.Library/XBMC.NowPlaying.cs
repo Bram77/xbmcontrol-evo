@@ -21,8 +21,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using System.Drawing;
-using System.Net;
 //using System.Windows.Forms;
 
 namespace XBMC
@@ -31,7 +29,6 @@ namespace XBMC
     {
         XBMC_Communicator parent = null;
         private string[,] maNowPlayingInfo = null;
-        //private string error = null;
 
         public XBMC_NowPlaying(XBMC_Communicator p)
         {
@@ -81,29 +78,12 @@ namespace XBMC
             return this.Get(field, false);
         }
 
-        public Image GetCoverArt()
+        public MemoryStream GetCoverArt()
         {
-            MemoryStream stream = null;
-            Image thumbnail = null;
-            WebClient client = new WebClient();
-            Uri xbmcThumbUri = new Uri("http://" + parent.GetIp() + "/thumb.jpg");
-            parent.Request("GetCurrentlyPlaying", "q:\\web\\thumb.jpg");
+			parent.Request("GetCurrentlyPlaying", "q:\\web\\thumb.jpg");
+           	MemoryStream msCoverArt = parent.Media.FileDownload("q:\\web\\thumb.jpg");
 
-            try
-            {
-                stream = new MemoryStream(client.DownloadData(xbmcThumbUri));
-                thumbnail = new Bitmap(Image.FromStream(stream));
-            }
-            catch //(Exception e)
-            {
-                //string error = e.Message;
-            }
-            finally
-            {
-                client.Dispose();
-            }
-
-            return thumbnail;
+			return msCoverArt;
         }
 
         public string GetMediaType()

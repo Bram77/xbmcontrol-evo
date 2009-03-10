@@ -1,6 +1,7 @@
 
 using System;
 using GLib;
+using Gtk;
 
 namespace xbmcontrolevo
 {
@@ -8,10 +9,12 @@ namespace xbmcontrolevo
 	public class StatusUpdate
 	{
 		private MainWindow _parent;
+		private bool firstRun;
 		
 		public StatusUpdate(MainWindow parent)
 		{
-			_parent = parent;
+			_parent 	= parent;
+			firstRun 	= true;
 			
 			Start();
 		}
@@ -21,34 +24,41 @@ namespace xbmcontrolevo
 			GLib.Timeout.Add(1000, new GLib.TimeoutHandler(Update) );
 		}
 		
-		private bool Update(bool start)
+		public bool Update()
 		{
-			if (_parent.oXbmc.Status.IsConnected() && start)
+			if (_parent.oXbmc.Status.IsConnected())
 			{
+				bool showDefaults = (!_parent.oXbmc.Status.IsNotPlaying())? true : false;
 				_parent.oXbmc.Controls.SetResponseFormat();
-				bool newMediaPlaying = _parent.oXbmc.Status.NewMediaPlaying();
-				
-				if (newMediaPlaying)
-				{
-					_parent.oPlaylist.Populate();
-				}
-				
+
 				if (!_parent._hsVolume.HasGrab) SetPbVolumePosition();
 				if (!_parent._hsProgress.HasGrab) SetPbProgressPosition();
 				_parent._tbMute.Active = (_parent.oXbmc.Status.IsMuted())? true : false ;
 				_parent._tbStop.Active = (_parent.oXbmc.Status.IsNotPlaying())? true : false ;
 				
 				SetPlayButtonStatus();
+
+				if ((_parent.oNowPlaying.GetInfoNowShowing() != _parent.oXbmc.NowPlaying.Get("filename") || _parent.oXbmc.Status.NewMediaPlaying() || firstRun) 
+				    	&& _parent._nbDataContainer.CurrentPage == 0)
+				{
+					//_parent._fixedNowPlaying.Visible = false;
+					_parent._imgLoading.Visible = true;
+					_parent.oNowPlaying.ShowData();
+					_parent._imgLoading.Visible = false;
+					//_parent._fixedNowPlaying.Visible = true;
+					
+					firstRun = false;
+				}
+				
+				if (_parent.oXbmc.Status.NewMediaPlaying() && _parent._nbDataContainer.CurrentPage == 1)
+					_parent.oPlaylist.Populate();
+				
+				_parent.oNowPlaying.ShowProgress(showDefaults);
 				
 				return true;
 			}
 			else
 				return false;
-		}
-		
-		public bool Update()
-		{
-			return this.Update(true);
 		}
 		
 		private void SetPbVolumePosition()

@@ -220,6 +220,7 @@ namespace xbmcontrolevo
 				_parent.oMediaInfo.ShowSongInfoPopup(selectedModel.GetValue(selectedIter, 2).ToString());
 		}
 		
+		/*
 		public void SaveSelectedFile()
 		{
 			TreeModel selectedModel;
@@ -256,6 +257,7 @@ namespace xbmcontrolevo
 					fc.Destroy();
 			}
 		}
+		*/
 					
 		
 	}
