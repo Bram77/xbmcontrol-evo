@@ -15,16 +15,14 @@ namespace xbmcontrolevo
 			_parent = parent;
 		}
 		
-		public void Show(string contextMenu, string selectedPath, string mediaType)
+		public void Show(string caller, string identifier)
 		{
-			if (contextMenu == "folder")
-				CreateDirectoryMenu(selectedPath, mediaType);
-			else if (contextMenu == "file")
-				CreateFileMenu(selectedPath);
-			else if (contextMenu == "playlist")
-				CreatePlaylistMenu(selectedPath);
-			else
+			if (caller == "playlist")
+				CreatePlaylistMenu(identifier);
+			else if (caller == "default")
 				CreateDefaultMenu();
+			else
+				CreateMediaMenu(caller, identifier);
 		}
 		
 		private void CreateDefaultMenu()
@@ -49,50 +47,45 @@ namespace xbmcontrolevo
 			cmDefault.Popup();
 		}
 	
-		private void CreateDirectoryMenu(string directoryPath, string mediaType)
+		private void CreateMediaMenu(string caller, string identifier)
 		{
-			Menu cmMediaDirectory 			= new Menu();
-			cmMediaDirectory.WidthRequest 	= 150;
+			Menu cmMedia			= new Menu();
+			cmMedia.WidthRequest 	= 150;
 			
-			cmMediaDirectory.Add(_parent.oMenuItems.PlayDirectory(directoryPath, mediaType));
-			cmMediaDirectory.Add(_parent.oMenuItems.EnqueDirectory(directoryPath, mediaType));
-			cmMediaDirectory.Add(_parent.oMenuItems.Seperator());
-			cmMediaDirectory.Add(_parent.oMenuItems.CollapseAll());
+			cmMedia.Add(_parent.oMenuItems.Play(caller, identifier));
+			cmMedia.Add(_parent.oMenuItems.Enque(caller, identifier));
 			
-			cmMediaDirectory.ShowAll();
-			cmMediaDirectory.Popup();
-		}
-		
-		private void CreateFileMenu(string filePath)
-		{
-			Menu cmMediaFile 			= new Menu();
-			cmMediaFile.WidthRequest 	= 150;
+			if (caller != "album")
+			{
+				cmMedia.Add(_parent.oMenuItems.Seperator());
+				cmMedia.Add(_parent.oMenuItems.CollapseAll());
+			}
 			
-			cmMediaFile.Add(_parent.oMenuItems.PlayFile(filePath));
-			cmMediaFile.Add(_parent.oMenuItems.EnqueFile(filePath));
-			cmMediaFile.Add(_parent.oMenuItems.Seperator());
-			cmMediaFile.Add(_parent.oMenuItems.ShowSongInfo("sharebrowser"));
-			//cmMediaFile.Add(_parent.oMenuItems.SaveSelectedFile());
+			if (caller == "file")
+			{
+				cmMedia.Add(_parent.oMenuItems.Seperator());
+				cmMedia.Add(_parent.oMenuItems.ShowSongInfo("sharebrowser"));
+			}
 			
-			cmMediaFile.ShowAll();
-			cmMediaFile.Popup();
+			cmMedia.ShowAll();
+			cmMedia.Popup();
 		}
 		
 		private void CreatePlaylistMenu(string selectedPath)
 		{
-			Menu cmPlaylistEntry		= new Menu();
-			cmPlaylistEntry.WidthRequest 	= 150;
+			Menu cmPlaylist			= new Menu();
+			cmPlaylist.WidthRequest = 150;
 			
-			cmPlaylistEntry.Add(_parent.oMenuItems.PlayPlaylistEntry());
-			cmPlaylistEntry.Add(_parent.oMenuItems.RemovePlaylistEntry());
-			cmPlaylistEntry.Add(_parent.oMenuItems.Seperator());
-			cmPlaylistEntry.Add(_parent.oMenuItems.ShowSongInfo("playlist"));
-			cmPlaylistEntry.Add(_parent.oMenuItems.Seperator());
-			cmPlaylistEntry.Add(_parent.oMenuItems.RefreshPlaylist());
-			cmPlaylistEntry.Add(_parent.oMenuItems.ClearPlaylist());
+			cmPlaylist.Add(_parent.oMenuItems.PlayPlaylistEntry());
+			cmPlaylist.Add(_parent.oMenuItems.RemovePlaylistEntry());
+			cmPlaylist.Add(_parent.oMenuItems.Seperator());
+			cmPlaylist.Add(_parent.oMenuItems.ShowSongInfo("playlist"));
+			cmPlaylist.Add(_parent.oMenuItems.Seperator());
+			cmPlaylist.Add(_parent.oMenuItems.RefreshPlaylist());
+			cmPlaylist.Add(_parent.oMenuItems.ClearPlaylist());
 			
-			cmPlaylistEntry.ShowAll();
-			cmPlaylistEntry.Popup();
+			cmPlaylist.ShowAll();
+			cmPlaylist.Popup();
 		}
 	}
 }

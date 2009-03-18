@@ -14,20 +14,16 @@ namespace xbmcontrolevo
 		
 		public Playlist(XbmControlEvo parent)
 		{
-			tsPlaylist	= new TreeStore (typeof (Pixbuf), typeof (string), typeof (string), typeof (string));
+			tsPlaylist	= new TreeStore (typeof (Pixbuf), typeof (string), typeof (Pixbuf), typeof (string), typeof (string));
 			_parent 	= parent;
 
 			TreeViewColumn tvcPlaying 	= _parent._tvPlaylist.AppendColumn ("", new CellRendererPixbuf(), "pixbuf", 0);
 			TreeViewColumn tvcNumber 	= _parent._tvPlaylist.AppendColumn ("", new Gtk.CellRendererText (), "text", 1);
-			TreeViewColumn tvcTitle 	= _parent._tvPlaylist.AppendColumn ("", new Gtk.CellRendererText (), "text", 2);
-			TreeViewColumn tvcPath	 	= _parent._tvPlaylist.AppendColumn ("", new Gtk.CellRendererText(), "text", 3);
+			TreeViewColumn tvcIcon	 	= _parent._tvPlaylist.AppendColumn ("", new CellRendererPixbuf(), "pixbuf", 2);
+			TreeViewColumn tvcTitle 	= _parent._tvPlaylist.AppendColumn ("", new Gtk.CellRendererText (), "text", 3);
+			TreeViewColumn tvcPath	 	= _parent._tvPlaylist.AppendColumn ("", new Gtk.CellRendererText(), "text", 4);
 			
 			tvcPath.Visible 					= false;
-			tvcTitle.Sizing 					= TreeViewColumnSizing.Autosize;
-			tvcNumber.Sizing 					= TreeViewColumnSizing.Autosize;
-			tvcPlaying.Sizing 					= TreeViewColumnSizing.Autosize;
-			_parent._tvPlaylist.HeadersVisible 	= false;
-			_parent._tvPlaylist.EnableGridLines = TreeViewGridLines.Vertical;
 			
 			SetCurrentPlaylistType("0");
 			
@@ -47,13 +43,20 @@ namespace xbmcontrolevo
 		
 		public void ShowContextMenu ()
 		{
-			_parent.oContextMenu.Show("playlist", null, null);
+			_parent.oContextMenu.Show("playlist", null);
 		}
 		
 		public void Populate()
 		{
 			tsPlaylist.Clear();
 			string[] aPlaylistPaths = _parent.oXbmc.Playlist.Get(GetCurrentPlaylistType(), false);
+			int curPlaylistType 	= Convert.ToInt32(this.GetCurrentPlaylistType());
+			string playlistType 	= null;
+			
+			if (curPlaylistType == 0)
+				playlistType = "music";
+			else if (curPlaylistType == 1)
+				playlistType = "video";
 			
 			if (aPlaylistPaths != null)
             {	
@@ -67,7 +70,7 @@ namespace xbmcontrolevo
                         string[] aPlaylistEntry = aPlaylistPaths[j].Split('/');
                         string playlistEntry = aPlaylistEntry[aPlaylistEntry.Length - 1].Replace(extension, "");
 						
-						tsPlaylist.AppendValues (null, (j+1).ToString(), playlistEntry, aPlaylistPaths[j]);
+						tsPlaylist.AppendValues (new Pixbuf("Interface/Images/pixel.gif"), (j+1).ToString(), new Pixbuf ("Interface/Images/file_" +playlistType+ ".png"), playlistEntry, aPlaylistPaths[j]);
                     }
 				}
 				
@@ -87,7 +90,7 @@ namespace xbmcontrolevo
 			{
 				Gtk.Image nowPlayingImage 	= new Gtk.Image();
 				Pixbuf nowPlayingIcon 		= nowPlayingImage.RenderIcon(Stock.MediaPlay, IconSize.Menu, "");
-				Pixbuf emptyIcon			= new Pixbuf("Images/pixel.gif");
+				Pixbuf emptyIcon			= new Pixbuf("Interface/Images/pixel.gif");
 				
 				TreeIter tiNowPLaying 		= new TreeIter();
 				TreeIter tiPlaylistItem 	= new TreeIter();
@@ -127,14 +130,19 @@ namespace xbmcontrolevo
 			if (selectedItem != -1)
 			{
 				_parent.oXbmc.Playlist.Remove(selectedItem);
-				Populate();
+				this.Populate();
 			}
 		}
 		
 		public void Clear()
 		{
 			_parent.oXbmc.Playlist.Clear();
-			Populate();
+			this.Populate();
+		}
+		
+		public void Refresh()
+		{
+			this.Populate();
 		}
 		
 		public void ShowSongInfoPopup()

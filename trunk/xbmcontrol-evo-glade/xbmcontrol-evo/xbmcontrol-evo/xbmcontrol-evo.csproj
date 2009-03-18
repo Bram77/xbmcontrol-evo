@@ -17,9 +17,6 @@
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <EnvironmentVariables>
-      <EnvironmentVariables />
-    </EnvironmentVariables>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -62,59 +59,73 @@
     <Compile Include="Objects\SysTrayIcon.cs" />
     <Compile Include="Objects\GenreBrowser.cs" />
     <Compile Include="Objects\ArtistBrowser.cs" />
+    <Compile Include="Objects\AlbumBrowser.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="XBMC.Library/" />
-    <Folder Include="Objects/" />
-    <Folder Include="Images/" />
+    <Folder Include="XBMC.Library\" />
+    <Folder Include="Objects\" />
+    <Folder Include="Interface\" />
+    <Folder Include="Interface\Images\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Images\dvd_32.png">
+    <None Include="Interface\XbmControlEvo.glade">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Images\lastfm_32.png">
+    <None Include="Interface\Images\cd_16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Images\playlist_32.png">
+    <None Include="Interface\Images\dvd_32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Images\share_32.png">
+    <None Include="Interface\Images\file_files.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Images\share_network_32.png">
+    <None Include="Interface\Images\file_music.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Images\shoutcast_32.png">
+    <None Include="Interface\Images\file_pictures.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Images\file_files.png">
+    <None Include="Interface\Images\file_video.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Images\file_music.png">
+    <None Include="Interface\Images\folder_closed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Images\file_pictures.png">
+    <None Include="Interface\Images\folder_open.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Images\file_video.png">
+    <None Include="Interface\Images\icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Images\folder_closed.png">
+    <None Include="Interface\Images\lastfm_32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Images\folder_open.png">
+    <None Include="Interface\Images\mic_16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Images\pixel.gif">
+    <None Include="Interface\Images\pixel.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Images\icon.png">
+    <None Include="Interface\Images\playlist_32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Images\mic_16.png">
+    <None Include="Interface\Images\share_32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Images\cd_16.png">
+    <None Include="Interface\Images\share_network_32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\shoutcast_32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\volume_down_16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\volume_mute_16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\volume_up_16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

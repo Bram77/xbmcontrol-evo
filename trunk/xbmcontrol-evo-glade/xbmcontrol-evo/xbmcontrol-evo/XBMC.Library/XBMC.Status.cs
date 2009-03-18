@@ -139,7 +139,7 @@ namespace XBMC
         public int GetProgress()
         {
 			string[] aProgress = parent.Request("GetPercentage");
-            return (aProgress == null || aProgress[0] == "Error" || aProgress[0] == "0" || Convert.ToInt32(aProgress[0]) > 99)? 1 : Convert.ToInt32(aProgress[0]);
+            return (aProgress == null || aProgress[0] == "Error" || Convert.ToInt32(aProgress[0]) > 99)? 0 : Convert.ToInt32(aProgress[0]);
         }
 
         public bool LastFmEnabled()

@@ -1,0 +1,36 @@
+﻿<Properties>
+  <AuthorInfo Name="Bram van Oploo" Email="bramvano@gmail.com" Copyright="Bram van Oploo" ctype="AuthorInformation" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Objects/Playlist.cs" ctype="Workbench">
+    <Files>
+      <File FileName="Objects/ContextMenu.cs" Line="72" Column="4" />
+      <File FileName="Objects/MenuItems.cs" Line="57" Column="50" />
+      <File FileName="Objects/Controls.cs" Line="49" Column="3" />
+      <File FileName="Objects/FileBrowser.cs" Line="94" Column="97" />
+      <File FileName="Objects/Playlist.cs" Line="56" Column="29" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="xbmcontrol-evo" expanded="True">
+            <Node name="Interface" expanded="True" />
+            <Node name="Objects" expanded="True">
+              <Node name="Playlist.cs" selected="True" />
+            </Node>
+            <Node name="XBMC.Library" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True">
+          <Node name="xbmcontrol-evo" expanded="True">
+            <Node name="xbmcontrolevo" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" ctype="Workspace" />
+</Properties>

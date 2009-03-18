@@ -10,29 +10,36 @@ namespace xbmcontrolevo
 	{
 		private XbmControlEvo _parent;
 		private bool firstRun;
+		private string pathNowPlaying;
 		
 		public StatusUpdate(XbmControlEvo parent)
 		{
-			_parent 	= parent;
-			firstRun 	= true;
+			_parent 		= parent;
+			firstRun 		= true;
+			pathNowPlaying	= null;
 			
 			Start();
 		}
-		
+
 		public void Start()
 		{
 			GLib.Timeout.Add(1000, new GLib.TimeoutHandler(Update) );
 		}
-		
+
 		public bool Update()
 		{
 			if (_parent.oXbmc.Status.IsConnected())
 			{
+				_parent._iConnectionStatus.SetFromStock("gtk-yes", IconSize.Menu);
+				_parent._iConnectionStatus.TooltipText	= "Connected to XBMC";
+				
 				bool showDefaults = (!_parent.oXbmc.Status.IsNotPlaying())? true : false;
 				_parent.oXbmc.Controls.SetResponseFormat();
 
 				if (!_parent._hsVolume.HasGrab) SetPbVolumePosition();
 				if (!_parent._hsProgress.HasGrab) SetPbProgressPosition();
+				_parent._hsProgress.TooltipText = _parent.oXbmc.NowPlaying.Get("time");
+				_parent._hsVolume.TooltipText	= _parent.oXbmc.Status.GetVolume() + "%";
 				
 				/*
 				//SetButtonStatus();
@@ -48,18 +55,26 @@ namespace xbmcontrolevo
 					
 					firstRun = false;
 				}
-				
-				
-				if (_parent.oXbmc.Status.NewMediaPlaying() && _parent._nbDataContainer.CurrentPage == 1)
-					_parent.oPlaylist.Populate();
-				
-				_parent.oNowPlaying.ShowProgress(showDefaults);
 				*/
+				
+				if (pathNowPlaying != _parent.oXbmc.NowPlaying.Get("filename"))
+				{
+					pathNowPlaying = _parent.oXbmc.NowPlaying.Get("filename");
+					_parent.oPlaylist.Populate();
+				}
+				
+				//_parent.oNowPlaying.ShowProgress(showDefaults);
+				
 				
 				return true;
 			}
 			else
+			{
+				_parent._iConnectionStatus.SetFromStock("gtk-no", IconSize.Menu);
+				_parent._iConnectionStatus.TooltipText	= "Could not connect to XBMC";
+
 				return false;
+			}
 		}
 		
 		private void SetPbVolumePosition()
