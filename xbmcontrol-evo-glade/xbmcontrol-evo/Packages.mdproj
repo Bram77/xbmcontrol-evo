@@ -4,31 +4,55 @@
     <ItemType>PackagingProject</ItemType>
     <Packages>
       <Packages>
-        <Package name="Linux Binaries">
-          <Builder targetFile="xbmcontrol-evo-linux.tar.gz" platform="Linux" configuration="Debug" ctype="BinariesZipPackageBuilder">
+        <Package name="Tarball">
+          <Builder TargetDirectory="/home/bram/Projects/xbmcontrol-evo-glade/Packages" DefaultConfiguration="Release" ctype="TarballDeployTarget">
             <ChildEntries>
               <SolutionItemReference path="xbmcontrol-evo\xbmcontrol-evo.csproj" />
+              <SolutionItemReference path="xbmcontrol-evoTranslation\xbmcontrol-evoTranslation.mdproj" />
             </ChildEntries>
-            <RootEntry path="xbmcontrol-evo.sln" id="xbmcontrol-evo" />
+            <RootEntry path="xbmcontrol-evo.sln" id="{5BA4EA34-5E75-44E8-829D-6EFE7E2C7BB9}" />
+          </Builder>
+        </Package>
+        <Package name="Linux Binaries">
+          <Builder targetFile="..\Packages\xbmcontrol-evo-linux.tar.gz" platform="Linux" configuration="Release" ctype="BinariesZipPackageBuilder">
+            <ChildEntries>
+              <SolutionItemReference path="xbmcontrol-evo\xbmcontrol-evo.csproj" />
+              <SolutionItemReference path="xbmcontrol-evoTranslation\xbmcontrol-evoTranslation.mdproj" />
+            </ChildEntries>
+            <RootEntry path="xbmcontrol-evo.sln" id="{5BA4EA34-5E75-44E8-829D-6EFE7E2C7BB9}" />
           </Builder>
         </Package>
         <Package name="Microsoft Windows Binaries">
-          <Builder targetFile="xbmcontrol-evo-windows.tar.gz" platform="Windows" configuration="Debug" ctype="BinariesZipPackageBuilder">
+          <Builder targetFile="..\Packages\xbmcontrol-evo-windows.tar.gz" platform="Windows" configuration="Release" ctype="BinariesZipPackageBuilder">
             <ChildEntries>
               <SolutionItemReference path="xbmcontrol-evo\xbmcontrol-evo.csproj" />
+              <SolutionItemReference path="xbmcontrol-evoTranslation\xbmcontrol-evoTranslation.mdproj" />
             </ChildEntries>
-            <RootEntry path="xbmcontrol-evo.sln" id="xbmcontrol-evo" />
+            <RootEntry path="xbmcontrol-evo.sln" id="{5BA4EA34-5E75-44E8-829D-6EFE7E2C7BB9}" />
           </Builder>
         </Package>
-        <Package name="Tarball">
-          <Builder TargetDirectory="/home/bram/Projects/xbmcontrol-evo-glade/xbmcontrol-evo/xbmcontrol-evo" DefaultConfiguration="Debug" ctype="TarballDeployTarget">
+        <Package name="MonoDevelop 1.0 Sources">
+          <Builder targetFile="..\Packages\xbmcontrol-evo-src-monodevelop.tar.gz" format="MonoDevelop.Projects.FileFormat" ctype="SourcesZipPackageBuilder">
             <ChildEntries>
               <SolutionItemReference path="xbmcontrol-evo\xbmcontrol-evo.csproj" />
+              <SolutionItemReference path="xbmcontrol-evoTranslation\xbmcontrol-evoTranslation.mdproj" />
             </ChildEntries>
-            <RootEntry path="xbmcontrol-evo.sln" id="xbmcontrol-evo" />
+            <RootEntry path="xbmcontrol-evo.sln" id="{5BA4EA34-5E75-44E8-829D-6EFE7E2C7BB9}" />
+          </Builder>
+        </Package>
+        <Package name="MSBuild (Visual Studio 2008) Sources">
+          <Builder targetFile="..\Packages\xbmcontrol-evo-src-vs2008.zip" format="MonoDevelop.Projects.FileFormat" ctype="SourcesZipPackageBuilder">
+            <ChildEntries>
+              <SolutionItemReference path="xbmcontrol-evo\xbmcontrol-evo.csproj" />
+              <SolutionItemReference path="xbmcontrol-evoTranslation\xbmcontrol-evoTranslation.mdproj" />
+            </ChildEntries>
+            <RootEntry path="xbmcontrol-evo.sln" id="{5BA4EA34-5E75-44E8-829D-6EFE7E2C7BB9}" />
           </Builder>
         </Package>
       </Packages>
     </Packages>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EE1E890F-6721-463C-8BB9-C57765827DA8}</ProjectGuid>
   </PropertyGroup>
 </Project>

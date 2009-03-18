@@ -1,21 +1,20 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="xbmcontrol-evo/Objects/FileBrowser.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="xbmcontrol-evo/XbmControlEvo.cs" ctype="Workbench">
     <Files>
-      <File FileName="xbmcontrol-evo/XbmControlEvo.cs" Line="122" Column="37" />
+      <File FileName="xbmcontrol-evo/XbmControlEvo.cs" Line="23" Column="3" />
       <File FileName="xbmcontrol-evo/Objects/ShareBrowser.cs" Line="134" Column="34" />
       <File FileName="xbmcontrol-evo/Objects/Playlist.cs" Line="40" Column="4" />
       <File FileName="xbmcontrol-evo/Objects/GenreBrowser.cs" Line="28" Column="38" />
       <File FileName="xbmcontrol-evo/XBMC.Library/XBMC.Database.cs" Line="74" Column="1" />
       <File FileName="xbmcontrol-evo/Objects/ArtistBrowser.cs" Line="83" Column="67" />
-      <File FileName="xbmcontrol-evo/Objects/FileBrowser.cs" Line="77" Column="5" />
+      <File FileName="xbmcontrol-evo/Objects/FileBrowser.cs" Line="73" Column="38" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
+          <Node name="Packages" expanded="True" selected="True" />
           <Node name="xbmcontrol-evo" expanded="True">
-            <Node name="Objects" expanded="True">
-              <Node name="FileBrowser.cs" selected="True" />
-            </Node>
+            <Node name="Objects" expanded="True" />
           </Node>
         </State>
       </Pad>

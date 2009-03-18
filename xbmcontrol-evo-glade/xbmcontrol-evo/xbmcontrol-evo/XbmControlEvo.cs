@@ -18,7 +18,6 @@ namespace xbmcontrolevo
 		
 		//Window
 		[Widget] Window MainWindow;
-		[Widget] Window wLoadingMessage;
 		
 		//[Widget] Gtk.Image ibPrevious;
 		
@@ -74,7 +73,6 @@ namespace xbmcontrolevo
 		public HScale _hsVolume;
 		public HScale _hsProgress;
 		public Entry _eFilterFiles;
-		public Window _wLoadingMessage;
 		
 		
 		public XbmControlEvo (string[] args)
@@ -119,7 +117,6 @@ namespace xbmcontrolevo
 			_nbRight		= nbRight;
 			_hsVolume		= hsVolume;
 			_hsProgress 	= hsProgress;
-			_wLoadingMessage= wLoadingMessage;
 			//_eFilterFiles	= eFilterFiles;
 		}
 		
@@ -135,7 +132,7 @@ namespace xbmcontrolevo
 		private void SetStartupvalues ()
 		{
 			this.cbShares.Active = 0;
-			this.cbPlaylist.Active = Convert.ToInt32(oXbmc.Playlist.GetCurrentPlaylistType());
+			this.cbPlaylist.Active = 0;
 		}
 		
 		protected void on_MainWindow_delete_event (object sender, DeleteEventArgs a)
