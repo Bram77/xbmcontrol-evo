@@ -33,8 +33,17 @@ namespace xbmcontrolevo
 			_parent._tvGenres.ColumnsAutosize();
 		}
 		
+		internal void Populate(string searchString)
+		{
+			if (tsGenres.IterNChildren() == 0 || searchString != null)
+			{
+				
+			}
+		}
+		
 		internal void Populate()
 		{
+			this.Populate(null);
 		}
 	}
 }

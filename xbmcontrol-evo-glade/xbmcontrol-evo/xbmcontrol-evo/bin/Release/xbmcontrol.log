@@ -1,12 +1,4 @@
-3/18/2009 9:11:03 AM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=SetPlaylistSong(0)
-3/18/2009 9:11:07 AM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=GetCurrentPlaylist()
-3/18/2009 9:11:07 AM : Error: ConnectFailure || http://10.0.0.5/xbmcCmds/xbmcHttp?command=GetPlaylistContents()
-3/18/2009 9:11:38 AM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=GetDirectory(lastfm%3A%2F%2Fxbmc%2Ftag%2F*%2Fsearch%2F%3B%2F)
-3/18/2009 9:11:38 AM : Error: ConnectFailure || http://10.0.0.5/xbmcCmds/xbmcHttp?command=GetDirectory(lastfm%3A%2F%2Fxbmc%2Ftag%2F*%2Fsearch%2F%3B%2F)
-3/18/2009 9:11:42 AM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=GetDirectory(lastfm%3A%2F%2Fxbmc%2Ftag%2F*%2Fsearch%2F%3B%5Bmusic%5D)
-3/18/2009 9:11:42 AM : Error: ConnectFailure || http://10.0.0.5/xbmcCmds/xbmcHttp?command=GetDirectory(lastfm%3A%2F%2Fxbmc%2Ftag%2F*%2Fsearch%2F%3B%5Bmusic%5D)
-3/18/2009 9:11:46 AM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=SetResponseFormat
-3/18/2009 9:11:56 AM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=SetVolume(84)
-3/18/2009 9:12:00 AM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=SetVolume(83)
-3/18/2009 9:12:04 AM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=SetVolume(72)
-3/18/2009 9:12:08 AM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=ExecBuiltIn&parameter=SetVolume(73)
+3/18/2009 8:16:38 PM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=GetVolume
+3/18/2009 8:16:42 PM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=GetPercentage
+3/18/2009 8:16:42 PM : Error: ConnectFailure || http://10.0.0.5/xbmcCmds/xbmcHttp?command=GetVolume
+3/18/2009 8:16:46 PM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=SetResponseFormat

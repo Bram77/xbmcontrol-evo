@@ -93,7 +93,7 @@ namespace xbmcontrolevo
 					else
 						icon = "share_32";
 					
-					tsShares.AppendValues (new Pixbuf ("Images/" + icon + ".png"), aShares[x], aSharesPaths[x], "share");
+					tsShares.AppendValues (new Pixbuf ("Interface/Images/" + icon + ".png"), aShares[x], aSharesPaths[x], "share");
 				}
 				
 				_parent._tvShares.Model = tsShares;
@@ -116,7 +116,7 @@ namespace xbmcontrolevo
                 for (int x = 0; x < aDirectoryContentPath.Length; x++)
                 {
                     if (aDirectoryContentPath[x] != null && aDirectoryContentPath[x] != "" && aDirectoryContentPath[x].IndexOf(".") < 1)
-                    	tsShares.AppendValues(selectedIter, new Pixbuf ("Images/folder_closed.png"), aDirectoryContent[x], aDirectoryContentPath[x], "folder");
+                    	tsShares.AppendValues(selectedIter, new Pixbuf ("Interface/Images/folder_closed.png"), aDirectoryContent[x], aDirectoryContentPath[x], "folder");
 				}
             }
 			
@@ -142,7 +142,7 @@ namespace xbmcontrolevo
 					if (selectedType == "folder" || selectedType == "share")
 					{
 						if (selectedType != "share")
-							tsShares.SetValue(selectedIter, 0, new Pixbuf ("Images/folder_open.png"));
+							tsShares.SetValue(selectedIter, 0, new Pixbuf ("Interface/Images/folder_open.png"));
 						_parent._tvShares.ExpandRow(selectedModel.GetPath(selectedIter), false);
 					}
 				}
@@ -151,7 +151,7 @@ namespace xbmcontrolevo
 					if (selectedType == "folder" || selectedType == "share")
 					{
 						if (selectedType != "share")
-							tsShares.SetValue(selectedIter, 0, new Pixbuf ("Images/folder_closed.png"));
+							tsShares.SetValue(selectedIter, 0, new Pixbuf ("Interface/Images/folder_closed.png"));
 						_parent._tvShares.CollapseRow(selectedModel.GetPath(selectedIter));
 					}
 				}
@@ -162,16 +162,19 @@ namespace xbmcontrolevo
 		
 		public void ShowContextMenu () 
 		{
+			string selectedType = null;
+			string selectedPath	= null;
+			
 			if (_parent._tvShares.Selection.GetSelected(out selectedModel, out selectedIter))
 			{
-				string selectedPath = selectedModel.GetValue(selectedIter, 2).ToString();
-				string selectedType = selectedModel.GetValue(selectedIter, 3).ToString();
-				
-				if (selectedType == "folder" || selectedType == "share")
-					_parent.oContextMenu.Show("folder", selectedPath, currentShareType);
-				else
-					_parent.oContextMenu.Show("default", null, null);
+				selectedPath = selectedModel.GetValue(selectedIter, 2).ToString();
+				selectedType = selectedModel.GetValue(selectedIter, 3).ToString();
 			}
+			
+			if (selectedType == "share" || selectedType == "folder" || selectedType == "file")
+					_parent.oContextMenu.Show(selectedType, selectedPath);
+			else
+				_parent.oContextMenu.Show("default", null);
 		}
 		
 		public void ShowSongInfoPopup()

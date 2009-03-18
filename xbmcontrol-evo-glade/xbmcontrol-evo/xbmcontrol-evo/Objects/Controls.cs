@@ -15,10 +15,28 @@ namespace xbmcontrolevo
 			_parent = parent;
 		}
 		
-		public void AddDirectoryContentToPlaylist(string directory, bool play)
+		internal void AddToPlaylist (string caller, string identifier, bool play)
+		{
+			if (caller == "album" || caller == "artist")
+				this.AddFilesToPlaylistById(caller, identifier, play);
+			else
+				this.AddFilesToPlaylist(caller, identifier, play);
+		}
+		
+		private void AddFilesToPlaylist (string caller, string path, bool play)
         {
-			if (play) _parent.oXbmc.Playlist.Clear();
-			bool added = _parent.oXbmc.Playlist.AddDirectoryContent(directory, _parent.oShareBrowser.GetCurrentShareType(), true);
+			bool added = false;
+			
+			if (play)
+			{	
+				_parent.oXbmc.Playlist.Clear();
+				_parent.oPlaylist.Clear();
+			}
+			
+			if (caller == "folder")
+				added = _parent.oXbmc.Playlist.AddDirectoryContent(path, _parent.oShareBrowser.GetCurrentShareType(), true);
+			else if (caller == "file")
+				added = _parent.oXbmc.Playlist.AddFilesToPlaylist(path);
             
 			if (added)
 			{
@@ -26,21 +44,35 @@ namespace xbmcontrolevo
 				_parent.oPlaylist.Populate();
 			}
 			else
-			    _parent.oHelper.Messagebox("Could not add directory content to the playlist");
+			    _parent.oHelper.Messagebox("Could not add file(s) to the playlist");
         }
 		
-		public void AddFileToPlaylist(string filePath, bool play)
-        {
-			if (play) _parent.oXbmc.Playlist.Clear();
-            bool added = _parent.oXbmc.Playlist.AddFilesToPlaylist(filePath);
+		private void AddFilesToPlaylistById(string caller, string id, bool play)
+		{
+			string[] songPaths = null;
 			
-			if (added)
-			{
-            	if (play) _parent.oXbmc.Playlist.PlaySong(0);
-				_parent.oPlaylist.Populate();
-			}
-			else
-				_parent.oHelper.Messagebox("Could not add the file to the playlist");
+			if (caller == "artist")
+            	songPaths = _parent.oXbmc.Database.GetPathsByArtistId(id);
+			else if (caller == "album")
+				songPaths = _parent.oXbmc.Database.GetPathsByAlbumId(id);
+
+            if (songPaths != null)
+            {
+				if (play)
+				{	
+					_parent.oXbmc.Playlist.Clear();
+					_parent.oPlaylist.Clear();
+				}
+				
+                for (int x = 0; x < songPaths.Length; x++)
+				{
+					if (songPaths[x] != "")
+                    	_parent.oXbmc.Playlist.AddFilesToPlaylist(songPaths[x]);
+				}
+				
+                if (play) _parent.oXbmc.Playlist.PlaySong(0);
+				_parent.oPlaylist.Refresh();
+            }
 		}
 		
 		public void GetFileInfo()

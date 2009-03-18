@@ -33,9 +33,13 @@ namespace xbmcontrolevo
 		[Widget] HScale hsProgress;
 		[Widget] HScale hsVolume;
 		
+		//Image
+		[Widget] Image iConnectionStatus;
+		
 		//Entry
 		//[Widget] Entry eFilterFiles;
 		[Widget] Entry eArtistsFilter;
+		[Widget] Entry eAlbumsFilter;
 		
 		//TreeView
 		[Widget] TreeView tvShares;
@@ -60,12 +64,14 @@ namespace xbmcontrolevo
 		public SysTrayIcon oSysTrayIcon;
 		public GenreBrowser oGenreBrowser;
 		public ArtistBrowser oArtistBrowser;
+		public AlbumBrowser oAlbumBrowser;
 		
 		//Internal widgets
 		public Window _MainWindow;
 		public TreeView _tvShares;
 		public TreeView _tvArtists;
 		public TreeView _tvGenres;
+		public TreeView _tvAlbums;
 		public TreeView _tvPlaylist;
 		public TreeView _tvFiles;
 		public Notebook _nbLeft;
@@ -73,13 +79,14 @@ namespace xbmcontrolevo
 		public HScale _hsVolume;
 		public HScale _hsProgress;
 		public Entry _eFilterFiles;
+		public Gtk.Image _iConnectionStatus;
 		
 		
 		public XbmControlEvo (string[] args)
 		{
 			Application.Init();
 			
-			Glade.XML guiXml = new Glade.XML ("XbmControlEvo.glade", "MainWindow", null);
+			Glade.XML guiXml = new Glade.XML ("Interface/XbmControlEvo.glade", "MainWindow", null);
 			guiXml.Autoconnect (this);
 
 			this.XbmcConnect();
@@ -103,20 +110,23 @@ namespace xbmcontrolevo
 			oSysTrayIcon	= new SysTrayIcon(this);
 			oGenreBrowser	= new GenreBrowser(this);
 			oArtistBrowser 	= new ArtistBrowser(this);
+			oAlbumBrowser	= new AlbumBrowser(this);
 		}
 		
 		private void AllowinternalAccess ()
 		{
-			_tvShares 		= tvShares;
-			_tvArtists		= tvArtists;
-			_tvGenres		= tvGenres;
-			_tvPlaylist 	= tvPlaylist;
-			_tvFiles		= tvFiles;
-			_MainWindow 	= MainWindow;
-			_nbLeft			= nbLeft;
-			_nbRight		= nbRight;
-			_hsVolume		= hsVolume;
-			_hsProgress 	= hsProgress;
+			_tvShares 			= tvShares;
+			_tvArtists			= tvArtists;
+			_tvGenres			= tvGenres;
+			_tvAlbums			= tvAlbums;
+			_tvPlaylist 		= tvPlaylist;
+			_tvFiles			= tvFiles;
+			_MainWindow 		= MainWindow;
+			_nbLeft				= nbLeft;
+			_nbRight			= nbRight;
+			_hsVolume			= hsVolume;
+			_hsProgress 		= hsProgress;
+			_iConnectionStatus 	= iConnectionStatus;
 			//_eFilterFiles	= eFilterFiles;
 		}
 		
@@ -166,6 +176,16 @@ namespace xbmcontrolevo
 		{
 			if (args.Event.Button == 1)
 				oArtistBrowser.ExpandeSelectedItem();
+			else if (args.Event.Button == 3)
+				oArtistBrowser.ShowContextMenu();
+		}
+		
+		protected void on_tvAlbums_button_release_event (object o, Gtk.ButtonReleaseEventArgs args)
+		{
+			if (args.Event.Button == 1)
+				oAlbumBrowser.GetAlbumSongs();
+			else if (args.Event.Button == 3)
+				oAlbumBrowser.ShowContextMenu();
 		}
 		
 		protected void on_tvFiles_button_release_event (object o, Gtk.ButtonReleaseEventArgs args)
@@ -207,12 +227,19 @@ namespace xbmcontrolevo
 			else if (args.PageNum == 1)
 				oGenreBrowser.Populate();
 			else if (args.PageNum == 2)
-				oArtistBrowser.Populate();	
+				oArtistBrowser.Populate();
+			else if (args.PageNum == 3)
+				oAlbumBrowser.Populate();
 		}
 		
 		protected void on_eArtistsFilter_changed (object o, EventArgs args)
 		{
 			oArtistBrowser.Populate(eArtistsFilter.Text);
+		}
+		
+		protected void on_eAlbumsFilter_changed (object o, EventArgs args)
+		{
+			oAlbumBrowser.Populate(eAlbumsFilter.Text);
 		}
 	}
 }

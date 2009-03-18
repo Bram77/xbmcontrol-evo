@@ -13,6 +13,7 @@ namespace xbmcontrolevo
 		private TreeIter selectedIter;
 		
 		private TreeStore tsFiles;
+		private TreeViewColumn tvcFileNumbers;
 		private TreeViewColumn tvcFileIcons;
 		private TreeViewColumn tvcFileNames;
 		private TreeViewColumn tvcFilePaths;
@@ -22,12 +23,13 @@ namespace xbmcontrolevo
 		{
 			_parent = parent;
 			
-			tsFiles			= new TreeStore (typeof (Pixbuf), typeof (string), typeof (string), typeof (string), typeof (string));
+			tsFiles			= new TreeStore (typeof (string), typeof (Pixbuf), typeof (string), typeof (string), typeof (string), typeof (string));
 			
-			tvcFileIcons 	= _parent._tvFiles.AppendColumn ("", new CellRendererPixbuf (), "pixbuf", 0);
-			tvcFileNames 	= _parent._tvFiles.AppendColumn ("", new CellRendererText (), "text", 1);
-			tvcFilePaths	= _parent._tvFiles.AppendColumn ("", new CellRendererText (), "text", 2);
-			tvcFileTypes	= _parent._tvFiles.AppendColumn ("", new CellRendererText (), "text", 3);
+			tvcFileNumbers 	= _parent._tvFiles.AppendColumn ("", new CellRendererText (), "text", 0);
+			tvcFileIcons 	= _parent._tvFiles.AppendColumn ("", new CellRendererPixbuf (), "pixbuf", 1);
+			tvcFileNames 	= _parent._tvFiles.AppendColumn ("", new CellRendererText (), "text", 2);
+			tvcFilePaths	= _parent._tvFiles.AppendColumn ("", new CellRendererText (), "text", 3);
+			tvcFileTypes	= _parent._tvFiles.AppendColumn ("", new CellRendererText (), "text", 4);
 			
 			tvcFilePaths.Visible  	= false;
 			tvcFileTypes.Visible  	= false;
@@ -36,10 +38,15 @@ namespace xbmcontrolevo
 			_parent._tvFiles.ColumnsAutosize();
 		}
 		
+		internal void Clear()
+		{
+			tsFiles.Clear();
+		}
+		
 		public void ShowContextMenu ()
 		{
 			if (_parent._tvFiles.Selection.GetSelected(out selectedModel, out selectedIter))
-				_parent.oContextMenu.Show("file", selectedModel.GetValue(selectedIter, 2).ToString(), null);
+				_parent.oContextMenu.Show("file", selectedModel.GetValue(selectedIter, 3).ToString());
 		}
 		
 		public TreeStore GetFiles (string startPath)
@@ -54,8 +61,8 @@ namespace xbmcontrolevo
 					if (aFilesPath[y] != null && aFilesPath[y] != "")
 					{
 						string[] aFilesPathParts = aFilesPath[y].Split(':');
-						string mediaType = (aFilesPathParts[0] == "lastfm")? "lastfm" : "file" ;
-						tsFiles.AppendValues(new Pixbuf ("Images/file_" + _parent.oShareBrowser.GetCurrentShareType() + ".png"), aFiles[y], aFilesPath[y], mediaType);
+						string mediaType 		 = (aFilesPathParts[0] == "lastfm")? "lastfm" : "file" ;
+						tsFiles.AppendValues((y+1).ToString()+ ".", new Pixbuf ("Interface/Images/file_" + _parent.oShareBrowser.GetCurrentShareType() + ".png"), aFiles[y], aFilesPath[y], mediaType);
 					}
 				}
 			}
@@ -84,7 +91,7 @@ namespace xbmcontrolevo
 				for (int y = 0; y < aSongsPath.Length; y++)
 				{
 					if (aSongsPath[y] != null && aSongsPath[y] != "")
-						tsFiles.AppendValues(new Pixbuf ("Images/file_music.png"), aSongs[y], aSongsPath[y], "file");
+						tsFiles.AppendValues((y+1).ToString()+ ".", new Pixbuf ("Interface/Images/file_music.png"), aSongs[y], aSongsPath[y], "file");
 				}
 			}
 			
