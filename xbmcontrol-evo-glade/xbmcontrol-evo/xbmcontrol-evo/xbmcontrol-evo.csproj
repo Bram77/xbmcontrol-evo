@@ -60,6 +60,8 @@
     <Compile Include="Objects\StatusUpdate.cs" />
     <Compile Include="Objects\FileBrowser.cs" />
     <Compile Include="Objects\SysTrayIcon.cs" />
+    <Compile Include="Objects\GenreBrowser.cs" />
+    <Compile Include="Objects\ArtistBrowser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="XBMC.Library/" />
@@ -107,6 +109,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Images\icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\mic_16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Images\cd_16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

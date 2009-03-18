@@ -5,8 +5,8 @@
   <widget class="GtkWindow" id="MainWindow">
     <property name="visible">True</property>
     <property name="title" translatable="yes">XBMControl-Evo</property>
-    <property name="resizable">False</property>
     <property name="window_position">center</property>
+    <property name="icon">Images/icon.png</property>
     <signal name="delete_event" handler="on_MainWindow_delete_event"/>
     <child>
       <widget class="GtkVBox" id="vboxMainWindow">
@@ -151,426 +151,409 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkExpander" id="expander1">
+          <widget class="GtkHPaned" id="hpanedTop">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="resize_mode">queue</property>
-            <property name="expanded">True</property>
             <child>
-              <widget class="GtkHPaned" id="hpanedTop">
+              <widget class="GtkNotebook" id="nbLeft">
+                <property name="width_request">300</property>
+                <property name="height_request">450</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="scrollable">True</property>
+                <signal name="switch_page" handler="on_nbLeft_switch_page"/>
                 <child>
-                  <widget class="GtkNotebook" id="nbLeft">
+                  <widget class="GtkVBox" id="vboxShares">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="scrollable">True</property>
+                    <property name="orientation">vertical</property>
                     <child>
-                      <widget class="GtkVBox" id="vboxShares">
+                      <widget class="GtkComboBox" id="cbShares">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
-                        <child>
-                          <widget class="GtkComboBox" id="cbShares">
-                            <property name="visible">True</property>
-                            <property name="app_paintable">True</property>
-                            <property name="items" translatable="yes">Music
+                        <property name="app_paintable">True</property>
+                        <property name="items" translatable="yes">Music
 Video
 Pictures
 Files</property>
-                            <signal name="changed" handler="on_cbShares_changed"/>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkScrolledWindow" id="swShares">
-                            <property name="width_request">300</property>
-                            <property name="height_request">400</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="hscrollbar_policy">automatic</property>
-                            <property name="vscrollbar_policy">automatic</property>
-                            <child>
-                              <widget class="GtkTreeView" id="tvShares">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="headers_visible">False</property>
-                                <property name="headers_clickable">False</property>
-                                <property name="search_column">1</property>
-                                <property name="hover_selection">True</property>
-                                <property name="enable_tree_lines">True</property>
-                                <signal name="button_release_event" handler="on_tvShares_button_release_event"/>
-                              </widget>
-                            </child>
-                          </widget>
-                          <packing>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="lShares">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Shares</property>
+                        <signal name="changed" handler="on_cbShares_changed"/>
                       </widget>
                       <packing>
-                        <property name="tab_fill">False</property>
-                        <property name="type">tab</property>
+                        <property name="expand">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkVBox" id="vboxGenres">
+                      <widget class="GtkScrolledWindow" id="swShares">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
+                        <property name="can_focus">True</property>
+                        <property name="hscrollbar_policy">automatic</property>
+                        <property name="vscrollbar_policy">automatic</property>
                         <child>
-                          <widget class="GtkEntry" id="eGenresFilter">
+                          <widget class="GtkTreeView" id="tvShares">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="invisible_char">&#x25CF;</property>
+                            <property name="headers_visible">False</property>
+                            <property name="search_column">1</property>
+                            <property name="enable_tree_lines">True</property>
+                            <signal name="button_release_event" handler="on_tvShares_button_release_event"/>
                           </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkTreeView" id="tvGenres">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                          </widget>
-                          <packing>
-                            <property name="position">1</property>
-                          </packing>
                         </child>
                       </widget>
                       <packing>
                         <property name="position">1</property>
                       </packing>
                     </child>
+                  </widget>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="lShares">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Shares</property>
+                  </widget>
+                  <packing>
+                    <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="vboxGenres">
+                    <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
                     <child>
-                      <widget class="GtkLabel" id="lGenres">
+                      <widget class="GtkEntry" id="eGenresFilter">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Genres</property>
+                        <property name="can_focus">True</property>
+                        <property name="invisible_char">&#x25CF;</property>
                       </widget>
                       <packing>
-                        <property name="position">1</property>
-                        <property name="tab_fill">False</property>
-                        <property name="type">tab</property>
+                        <property name="expand">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkVBox" id="vboxArtists">
+                      <widget class="GtkTreeView" id="tvGenres">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
-                        <child>
-                          <widget class="GtkEntry" id="eArtistsFiler">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">&#x25CF;</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
+                        <property name="can_focus">True</property>
+                      </widget>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="lGenres">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Genres</property>
+                  </widget>
+                  <packing>
+                    <property name="position">1</property>
+                    <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="vboxArtists">
+                    <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <widget class="GtkEntry" id="eArtistsFilter">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="caps_lock_warning">False</property>
+                        <property name="primary_icon_stock">gtk-find</property>
+                        <signal name="changed" handler="on_eArtistsFilter_changed"/>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkScrolledWindow" id="swArtists">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="hscrollbar_policy">automatic</property>
+                        <property name="vscrollbar_policy">automatic</property>
                         <child>
                           <widget class="GtkTreeView" id="tvArtists">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="search_column">1</property>
+                            <property name="enable_tree_lines">True</property>
+                            <signal name="button_release_event" handler="on_tvArtists_button_release_event"/>
                           </widget>
-                          <packing>
-                            <property name="position">1</property>
-                          </packing>
                         </child>
                       </widget>
                       <packing>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="lArtists">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Artists</property>
-                      </widget>
-                      <packing>
-                        <property name="position">2</property>
-                        <property name="tab_fill">False</property>
-                        <property name="type">tab</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkVBox" id="vboxAlbums">
-                        <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
-                        <child>
-                          <widget class="GtkEntry" id="eAlbumsFilter">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">&#x25CF;</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkTreeView" id="tvAlbums">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                          </widget>
-                          <packing>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="position">3</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="lAlbums">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Albums</property>
-                      </widget>
-                      <packing>
-                        <property name="position">3</property>
-                        <property name="tab_fill">False</property>
-                        <property name="type">tab</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkVBox" id="vboxSongs">
-                        <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
-                        <child>
-                          <widget class="GtkEntry" id="eSongsSearch">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">&#x25CF;</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkTreeView" id="tvSongs">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                          </widget>
-                          <packing>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="position">4</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="lSongs">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Songs</property>
-                      </widget>
-                      <packing>
-                        <property name="position">4</property>
-                        <property name="tab_fill">False</property>
-                        <property name="type">tab</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkVBox" id="vboxVideos">
-                        <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
-                        <child>
-                          <widget class="GtkEntry" id="eVideosFilter">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">&#x25CF;</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkTreeView" id="tvVideos">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                          </widget>
-                          <packing>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="position">5</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="lVideos">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Videos</property>
-                      </widget>
-                      <packing>
-                        <property name="position">5</property>
-                        <property name="tab_fill">False</property>
-                        <property name="type">tab</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                   </widget>
                   <packing>
-                    <property name="resize">False</property>
-                    <property name="shrink">True</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkNotebook" id="nbRight">
+                  <widget class="GtkLabel" id="lArtists">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="label" translatable="yes">Artists</property>
+                  </widget>
+                  <packing>
+                    <property name="position">2</property>
+                    <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="vboxAlbums">
+                    <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
                     <child>
-                      <widget class="GtkLayout" id="lPlayingNo">
+                      <widget class="GtkEntry" id="eAlbumsFilter">
                         <property name="visible">True</property>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="lPlayingNow">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Playing Now</property>
+                        <property name="can_focus">True</property>
+                        <property name="invisible_char">&#x25CF;</property>
                       </widget>
                       <packing>
-                        <property name="tab_fill">False</property>
-                        <property name="type">tab</property>
+                        <property name="expand">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkVBox" id="vboxFiles">
+                      <widget class="GtkTreeView" id="tvAlbums">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
-                        <child>
-                          <widget class="GtkEntry" id="eFilterFiles">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">&#x25CF;</property>
-                            <property name="shadow_type">etched-out</property>
-                            <signal name="changed" handler="on_eFilterFiles_changed"/>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkScrolledWindow" id="swFiles">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="hscrollbar_policy">automatic</property>
-                            <property name="vscrollbar_policy">automatic</property>
-                            <child>
-                              <widget class="GtkTreeView" id="tvFiles">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="headers_visible">False</property>
-                                <property name="headers_clickable">False</property>
-                                <property name="hover_selection">True</property>
-                                <property name="show_expanders">False</property>
-                                <signal name="button_release_event" handler="on_tvFiles_button_release_event"/>
-                              </widget>
-                            </child>
-                          </widget>
-                          <packing>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
+                        <property name="can_focus">True</property>
                       </widget>
                       <packing>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="lFiles">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Files</property>
-                      </widget>
-                      <packing>
-                        <property name="position">1</property>
-                        <property name="tab_fill">False</property>
-                        <property name="type">tab</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkVBox" id="vboxPlaylist">
-                        <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
-                        <child>
-                          <widget class="GtkComboBox" id="cbPlaylist">
-                            <property name="visible">True</property>
-                            <property name="items" translatable="yes">Music
-Video</property>
-                            <signal name="changed" handler="on_cbPlaylist_changed"/>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkScrolledWindow" id="swPlaylist">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="hscrollbar_policy">automatic</property>
-                            <property name="vscrollbar_policy">automatic</property>
-                            <child>
-                              <widget class="GtkTreeView" id="tvPlaylist">
-                                <property name="width_request">250</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="headers_visible">False</property>
-                                <property name="headers_clickable">False</property>
-                                <property name="enable_search">False</property>
-                                <property name="hover_selection">True</property>
-                                <property name="show_expanders">False</property>
-                                <signal name="button_release_event" handler="on_tvPlaylist_button_release_event"/>
-                              </widget>
-                            </child>
-                          </widget>
-                          <packing>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="lPlaylist">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Playlist</property>
-                      </widget>
-                      <packing>
-                        <property name="position">2</property>
-                        <property name="tab_fill">False</property>
-                        <property name="type">tab</property>
                       </packing>
                     </child>
                   </widget>
                   <packing>
-                    <property name="resize">True</property>
-                    <property name="shrink">True</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="lAlbums">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Albums</property>
+                  </widget>
+                  <packing>
+                    <property name="position">3</property>
+                    <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="vboxSongs">
+                    <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <widget class="GtkEntry" id="eSongsSearch">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="invisible_char">&#x25CF;</property>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkTreeView" id="tvSongs">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                      </widget>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="position">4</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="lSongs">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Songs</property>
+                  </widget>
+                  <packing>
+                    <property name="position">4</property>
+                    <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="vboxVideos">
+                    <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <widget class="GtkEntry" id="eVideosFilter">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="invisible_char">&#x25CF;</property>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkTreeView" id="tvVideos">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                      </widget>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="position">5</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="lVideos">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Videos</property>
+                  </widget>
+                  <packing>
+                    <property name="position">5</property>
+                    <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
                   </packing>
                 </child>
               </widget>
+              <packing>
+                <property name="resize">False</property>
+                <property name="shrink">True</property>
+              </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label1">
+              <widget class="GtkNotebook" id="nbRight">
+                <property name="width_request">500</property>
                 <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <child>
+                  <widget class="GtkLayout" id="lPlayingNo">
+                    <property name="visible">True</property>
+                  </widget>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="lPlayingNow">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Playing Now</property>
+                  </widget>
+                  <packing>
+                    <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="vboxFiles">
+                    <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <widget class="GtkScrolledWindow" id="swFiles">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="hscrollbar_policy">automatic</property>
+                        <property name="vscrollbar_policy">automatic</property>
+                        <child>
+                          <widget class="GtkTreeView" id="tvFiles">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="headers_visible">False</property>
+                            <property name="search_column">1</property>
+                            <property name="show_expanders">False</property>
+                            <signal name="button_release_event" handler="on_tvFiles_button_release_event"/>
+                          </widget>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="lFiles">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Files</property>
+                  </widget>
+                  <packing>
+                    <property name="position">1</property>
+                    <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="vboxPlaylist">
+                    <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <widget class="GtkComboBox" id="cbPlaylist">
+                        <property name="visible">True</property>
+                        <property name="items" translatable="yes">Music
+Video</property>
+                        <signal name="changed" handler="on_cbPlaylist_changed"/>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkScrolledWindow" id="swPlaylist">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="hscrollbar_policy">automatic</property>
+                        <property name="vscrollbar_policy">automatic</property>
+                        <child>
+                          <widget class="GtkTreeView" id="tvPlaylist">
+                            <property name="width_request">250</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="headers_visible">False</property>
+                            <property name="headers_clickable">False</property>
+                            <property name="search_column">2</property>
+                            <property name="show_expanders">False</property>
+                            <signal name="button_release_event" handler="on_tvPlaylist_button_release_event"/>
+                          </widget>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="lPlaylist">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Playlist</property>
+                  </widget>
+                  <packing>
+                    <property name="position">2</property>
+                    <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
               </widget>
               <packing>
-                <property name="type">label_item</property>
+                <property name="resize">True</property>
+                <property name="shrink">True</property>
               </packing>
             </child>
           </widget>
@@ -579,98 +562,132 @@ Video</property>
           </packing>
         </child>
         <child>
-          <widget class="GtkFixed" id="fixed2">
-            <property name="height_request">55</property>
+          <widget class="GtkHBox" id="hbControls">
+            <property name="height_request">50</property>
             <property name="visible">True</property>
             <child>
-              <widget class="GtkImage" id="ibPrevious">
-                <property name="width_request">36</property>
-                <property name="height_request">36</property>
+              <widget class="GtkFixed" id="fixed2">
+                <property name="width_request">300</property>
+                <property name="height_request">50</property>
                 <property name="visible">True</property>
-                <property name="has_tooltip">True</property>
-                <property name="stock">gtk-media-previous</property>
-                <property name="icon-size">5</property>
+                <child>
+                  <widget class="GtkImage" id="ibPlay">
+                    <property name="width_request">36</property>
+                    <property name="height_request">36</property>
+                    <property name="visible">True</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="stock">gtk-media-pause</property>
+                    <property name="icon-size">5</property>
+                  </widget>
+                  <packing>
+                    <property name="x">46</property>
+                    <property name="y">8</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkImage" id="ibStop">
+                    <property name="width_request">36</property>
+                    <property name="height_request">36</property>
+                    <property name="visible">True</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="stock">gtk-media-stop</property>
+                    <property name="icon-size">5</property>
+                  </widget>
+                  <packing>
+                    <property name="x">82</property>
+                    <property name="y">8</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkImage" id="ibNext">
+                    <property name="width_request">36</property>
+                    <property name="height_request">36</property>
+                    <property name="visible">True</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="stock">gtk-media-next</property>
+                    <property name="icon-size">5</property>
+                  </widget>
+                  <packing>
+                    <property name="x">118</property>
+                    <property name="y">8</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkImage" id="ibPrevious">
+                    <property name="width_request">36</property>
+                    <property name="height_request">36</property>
+                    <property name="visible">True</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="stock">gtk-media-previous</property>
+                    <property name="icon-size">5</property>
+                  </widget>
+                  <packing>
+                    <property name="x">8</property>
+                    <property name="y">6</property>
+                  </packing>
+                </child>
               </widget>
               <packing>
-                <property name="x">10</property>
-                <property name="y">10</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkImage" id="ibPlay">
-                <property name="width_request">36</property>
-                <property name="height_request">36</property>
-                <property name="visible">True</property>
-                <property name="has_tooltip">True</property>
-                <property name="stock">gtk-media-pause</property>
-                <property name="icon-size">5</property>
-              </widget>
-              <packing>
-                <property name="x">46</property>
-                <property name="y">10</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkImage" id="ibStop">
-                <property name="width_request">36</property>
-                <property name="height_request">36</property>
-                <property name="visible">True</property>
-                <property name="has_tooltip">True</property>
-                <property name="stock">gtk-media-stop</property>
-                <property name="icon-size">5</property>
-              </widget>
-              <packing>
-                <property name="x">82</property>
-                <property name="y">10</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkImage" id="ibNext">
-                <property name="width_request">36</property>
-                <property name="height_request">36</property>
-                <property name="visible">True</property>
-                <property name="has_tooltip">True</property>
-                <property name="stock">gtk-media-next</property>
-                <property name="icon-size">5</property>
-              </widget>
-              <packing>
-                <property name="x">118</property>
-                <property name="y">10</property>
+                <property name="expand">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
               <widget class="GtkHScale" id="hsProgress">
-                <property name="width_request">400</property>
-                <property name="height_request">30</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="adjustment">0 0 100 1 1 1</property>
-                <property name="show_fill_level">True</property>
+                <property name="restrict_to_fill_level">False</property>
                 <property name="digits">0</property>
                 <property name="draw_value">False</property>
                 <signal name="value_changed" handler="on_hsProgress_value_changed"/>
               </widget>
               <packing>
-                <property name="x">300</property>
-                <property name="y">15</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
               <widget class="GtkHScale" id="hsVolume">
-                <property name="width_request">130</property>
-                <property name="height_request">30</property>
+                <property name="width_request">100</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="extension_events">all</property>
                 <property name="adjustment">0 0 100 1 1 1</property>
-                <property name="show_fill_level">True</property>
+                <property name="restrict_to_fill_level">False</property>
                 <property name="digits">0</property>
                 <property name="draw_value">False</property>
                 <signal name="value_changed" handler="on_hsVolume_value_changed"/>
               </widget>
               <packing>
-                <property name="x">730</property>
-                <property name="y">15</property>
+                <property name="expand">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkFixed" id="fixed1">
+                <property name="width_request">50</property>
+                <property name="height_request">50</property>
+                <property name="visible">True</property>
+                <child>
+                  <widget class="GtkToggleButton" id="tbMute">
+                    <property name="label" translatable="yes">M
+</property>
+                    <property name="width_request">28</property>
+                    <property name="height_request">28</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </widget>
+                  <packing>
+                    <property name="x">10</property>
+                    <property name="y">12</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="pack_type">end</property>
+                <property name="position">3</property>
               </packing>
             </child>
           </widget>
@@ -679,17 +696,23 @@ Video</property>
             <property name="position">2</property>
           </packing>
         </child>
-        <child>
-          <widget class="GtkStatusbar" id="statusbar1">
-            <property name="height_request">20</property>
-            <property name="visible">True</property>
-            <property name="spacing">2</property>
-          </widget>
-          <packing>
-            <property name="expand">False</property>
-            <property name="position">3</property>
-          </packing>
-        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="GtkWindow" id="wLoadingMessage">
+    <property name="title" translatable="yes">Loading</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="icon">Images/icon.png</property>
+    <property name="type_hint">dialog</property>
+    <property name="skip_taskbar_hint">True</property>
+    <property name="skip_pager_hint">True</property>
+    <child>
+      <widget class="GtkLabel" id="lLoadingMessage">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">Loading....</property>
       </widget>
     </child>
   </widget>
