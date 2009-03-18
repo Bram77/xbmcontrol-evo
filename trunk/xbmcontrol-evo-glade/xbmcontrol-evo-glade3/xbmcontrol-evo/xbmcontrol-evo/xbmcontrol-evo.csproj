@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E48493E1-1FAA-4838-95D4-97B893E9F377}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>xbmcontrol-evo</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="System" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app.desktop" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="XbmControlEvo.cs" />
+    <Compile Include="XBMC.Library\XBMC.Communicator.cs" />
+    <Compile Include="XBMC.Library\XBMC.Controls.cs" />
+    <Compile Include="XBMC.Library\XBMC.Database.cs" />
+    <Compile Include="XBMC.Library\XBMC.Media.cs" />
+    <Compile Include="XBMC.Library\XBMC.NowPlaying.cs" />
+    <Compile Include="XBMC.Library\XBMC.Playlist.cs" />
+    <Compile Include="XBMC.Library\XBMC.Status.cs" />
+    <Compile Include="XBMC.Library\XBMC.Video.cs" />
+    <Compile Include="Objects\ShareBrowser.cs" />
+    <Compile Include="Objects\Configuration.cs" />
+    <Compile Include="Objects\ContextMenu.cs" />
+    <Compile Include="Objects\MenuItems.cs" />
+    <Compile Include="Objects\Controls.cs" />
+    <Compile Include="Objects\Playlist.cs" />
+    <Compile Include="Objects\HelperFunctions.cs" />
+    <Compile Include="Objects\StatusUpdate.cs" />
+    <Compile Include="Objects\FileBrowser.cs" />
+    <Compile Include="Objects\SysTrayIcon.cs" />
+    <Compile Include="Objects\GenreBrowser.cs" />
+    <Compile Include="Objects\ArtistBrowser.cs" />
+    <Compile Include="Objects\AlbumBrowser.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="XBMC.Library\" />
+    <Folder Include="Objects\" />
+    <Folder Include="Interface\" />
+    <Folder Include="Interface\Images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Interface\Images\cd_16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\dvd_32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\file_files.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\file_music.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\file_pictures.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\file_video.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\folder_closed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\folder_open.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\lastfm_32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\mic_16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\pixel.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\playlist_32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\share_32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\share_network_32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\shoutcast_32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\volume_down_16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\volume_mute_16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\Images\volume_up_16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\MainWindow.glade">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
