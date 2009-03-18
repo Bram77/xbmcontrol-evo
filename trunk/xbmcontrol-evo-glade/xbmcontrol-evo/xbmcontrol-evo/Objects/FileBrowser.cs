@@ -11,7 +11,6 @@ namespace xbmcontrolevo
 		private XbmControlEvo _parent;
 		private TreeModel selectedModel;
 		private TreeIter selectedIter;
-		public TreeModelFilter tmfFilter;
 		
 		private TreeStore tsFiles;
 		private TreeViewColumn tvcFileIcons;
@@ -35,11 +34,6 @@ namespace xbmcontrolevo
 			tvcFileIcons.Sizing		= TreeViewColumnSizing.Autosize;
 			tvcFileNames.Sizing		= TreeViewColumnSizing.Autosize;
 			_parent._tvFiles.ColumnsAutosize();
-			
-			//Filter functionality
-			tmfFilter	 			= new Gtk.TreeModelFilter(tsFiles, null);
-			tmfFilter.VisibleFunc 	= new Gtk.TreeModelFilterVisibleFunc(FilterTree);
-			_parent._tvFiles.Model	= tmfFilter;
 		}
 		
 		public void ShowContextMenu ()
@@ -48,23 +42,13 @@ namespace xbmcontrolevo
 				_parent.oContextMenu.Show("file", selectedModel.GetValue(selectedIter, 2).ToString(), null);
 		}
 		
-		private bool FilterTree (Gtk.TreeModel model, Gtk.TreeIter iter)
+		public TreeStore GetFiles (string startPath)
 		{
-			string fileTitle = model.GetValue(iter, 1).ToString();
-			return (fileTitle == _parent._eFilterFiles.Text)? true : false;
-		}
-		
-		public TreeStore GetFiles(string startPath)
-		{
-			tsFiles.Clear();
-			
 			string[] aFiles		 	= _parent.oXbmc.Media.GetDirectoryContentNames(startPath, "[" + _parent.oShareBrowser.GetCurrentShareType() + "]");
 		    string[] aFilesPath		= _parent.oXbmc.Media.GetDirectoryContentPaths(startPath, "[" + _parent.oShareBrowser.GetCurrentShareType() + "]");
 			
 			if (aFilesPath != null)
 			{
-				_parent._nbRight.CurrentPage = 1;
-
 				for (int y = 0; y < aFilesPath.Length; y++)
 				{
 					if (aFilesPath[y] != null && aFilesPath[y] != "")
@@ -79,11 +63,45 @@ namespace xbmcontrolevo
 			return tsFiles;
 		}
 		
-		public void ShowFiles (string path)
+		internal TreeStore GetSongs (string caller, string id)
 		{
-			_parent._tvFiles.Model = GetFiles(path);
-			_parent._tvFiles.ShowAll();
+			string[] aSongs 	= null;
+			string[] aSongsPath = null;
 			
+			if (caller == "artist")
+			{
+				aSongs 		= _parent.oXbmc.Database.GetTitlesByArtistId(id);	
+				aSongsPath 	= _parent.oXbmc.Database.GetPathsByArtistId(id);
+			}
+			else if (caller == "album")
+			{
+				aSongs 		= _parent.oXbmc.Database.GetTitlesByAlbumId(id);
+				aSongsPath 	= _parent.oXbmc.Database.GetPathsByAlbumId(id);
+			}
+			
+			if (aSongsPath != null)
+			{
+				for (int y = 0; y < aSongsPath.Length; y++)
+				{
+					if (aSongsPath[y] != null && aSongsPath[y] != "")
+						tsFiles.AppendValues(new Pixbuf ("Images/file_music.png"), aSongs[y], aSongsPath[y], "file");
+				}
+			}
+			
+			return tsFiles;
+		}
+		
+		public void ShowFiles (string caller, string arg)
+		{
+			tsFiles.Clear();
+			_parent._nbRight.CurrentPage = 1;
+			
+			if (caller == "share" || caller == "folder")
+				_parent._tvFiles.Model = this.GetFiles(arg);
+			else if (caller == "artist" || caller == "album")
+				_parent._tvFiles.Model = this.GetSongs(caller, arg);
+
+			_parent._tvFiles.ShowAll();
 		}
 		
 	}

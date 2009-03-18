@@ -4,3 +4,14 @@
 3/16/2009 5:06:06 PM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=GetDirectory(smb%3A%2F%2FBRAM%2F%3B%2F)
 3/16/2009 5:06:06 PM : Error: ConnectFailure || http://10.0.0.5/xbmcCmds/xbmcHttp?command=GetDirectory(smb%3A%2F%2FBRAM%2F%3B%2F)
 3/16/2009 5:06:10 PM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=GetDirectory(smb%3A%2F%2FBRAM%2F%3B%5Bfiles%5D)
+3/17/2009 6:20:18 PM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=GetCurrentlyPlaying
+3/17/2009 7:24:39 PM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=GetDirectory(smb%3A%2F%2Fbram%3A11977%40NAS1%2FMuziek%2FBram%2Fj%2F%3B%5Bmusic%5D)
+3/17/2009 10:01:55 PM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=QueryMusicDatabase&parameter=SELECT%20strTitle%20FROM%20song%20WHERE%20idArtist%3D'264'%20ORDER%20BY%20iTrack
+3/17/2009 10:01:59 PM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=QueryMusicDatabase&parameter=SELECT%20idPath%20FROM%20song%20WHERE%20idArtist%3D'264'
+3/17/2009 10:02:21 PM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=QueryMusicDatabase&parameter=SELECT%20strTitle%20FROM%20song%20WHERE%20idArtist%3D'1786'%20ORDER%20BY%20iTrack
+3/17/2009 10:02:25 PM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=QueryMusicDatabase&parameter=SELECT%20idPath%20FROM%20song%20WHERE%20idArtist%3D'1786'
+3/17/2009 10:02:29 PM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=QueryMusicDatabase&parameter=SELECT%20strFileName%20FROM%20song%20WHERE%20idArtist%3D'1786'
+3/17/2009 10:02:48 PM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=QueryMusicDatabase&parameter=SELECT%20strTitle%20FROM%20song%20WHERE%20idAlbum%3D'3878'%20ORDER%20BY%20iTrack
+3/17/2009 10:02:48 PM : Error: ConnectFailure || http://10.0.0.5/xbmcCmds/xbmcHttp?command=QueryMusicDatabase&parameter=SELECT%20strFileName%20FROM%20song%20WHERE%20idAlbum%3D'3878'%20ORDER%20BY%20iTrack
+3/17/2009 10:02:52 PM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=QueryMusicDatabase&parameter=SELECT%20strTitle%20FROM%20song%20WHERE%20idAlbum%3D'1697'%20ORDER%20BY%20iTrack
+3/17/2009 10:02:52 PM : Error: ConnectFailure || http://10.0.0.5/xbmcCmds/xbmcHttp?command=QueryMusicDatabase&parameter=SELECT%20strFileName%20FROM%20song%20WHERE%20idAlbum%3D'1697'%20ORDER%20BY%20iTrack

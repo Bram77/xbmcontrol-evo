@@ -68,11 +68,8 @@ namespace xbmcontrolevo
 		
 		internal void Populate()
 		{
-			string[] aShares 		= null;
-	        string[] aSharesPaths 	= null;
-			
-			aShares 	 = _parent.oXbmc.Media.GetShares(currentShareType);
-	        aSharesPaths = _parent.oXbmc.Media.GetShares(currentShareType, true);
+			string[] aShares 		= _parent.oXbmc.Media.GetShares(currentShareType);
+	        string[] aSharesPaths  	= _parent.oXbmc.Media.GetShares(currentShareType, true);
 			
 			if (aShares != null)
 			{
@@ -134,7 +131,7 @@ namespace xbmcontrolevo
 				
 				if (!_parent._tvShares.GetRowExpanded(selectedModel.GetPath(selectedIter)))
 				{
-					selectedPath = tsShares.GetValue(selectedIter, 2).ToString();
+					selectedPath = selectedModel.GetValue(selectedIter, 2).ToString();
 					
 					if (!tsShares.IterHasChild(selectedIter))
 					{
@@ -158,9 +155,9 @@ namespace xbmcontrolevo
 						_parent._tvShares.CollapseRow(selectedModel.GetPath(selectedIter));
 					}
 				}
+				
+				_parent.oFileBrowser.ShowFiles (selectedType, selectedPath);
 			}
-			
-			_parent.oFileBrowser.ShowFiles (selectedPath);
 		}
 		
 		public void ShowContextMenu () 
