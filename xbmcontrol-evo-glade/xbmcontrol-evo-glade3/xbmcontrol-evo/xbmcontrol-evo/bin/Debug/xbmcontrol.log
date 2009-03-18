@@ -1,0 +1,5 @@
+3/18/2009 11:16:54 PM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=GetCurrentlyPlaying
+3/18/2009 11:16:54 PM : Error: ConnectFailure || http://10.0.0.5/xbmcCmds/xbmcHttp?command=SetResponseFormat
+3/18/2009 11:16:58 PM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=GetVolume
+3/18/2009 11:17:02 PM : The request timed out || http://10.0.0.5/xbmcCmds/xbmcHttp?command=GetPercentage
+3/18/2009 11:17:02 PM : Error: ConnectFailure || http://10.0.0.5/xbmcCmds/xbmcHttp?command=GetVolume
