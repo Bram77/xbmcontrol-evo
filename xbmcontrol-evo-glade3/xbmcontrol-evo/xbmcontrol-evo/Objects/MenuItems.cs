@@ -179,7 +179,7 @@ namespace xbmcontrolevo
 		{
 			ImageMenuItem removeEntry 	= new ImageMenuItem("Remove");
 			removeEntry.Image 			= new Gtk.Image(new Pixbuf("Interface/" + _parent.theme + "/buttons/remove_16.png"));
-			removeEntry.Activated 		+= delegate { _parent.oPlaylist.RemoveSelectedItem(); };
+			removeEntry.Activated 		+= delegate { _parent.oPlaylist.RemoveSelectedItems(); };
 			
 			return removeEntry;
 		}

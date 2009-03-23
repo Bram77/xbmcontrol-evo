@@ -31,6 +31,7 @@ namespace xbmcontrolevo
 		
 		//ToggleButton
 		[Widget] ToggleButton tbMute;
+		[Widget] ToggleButton bStop;
 		
 		//HScale
 		[Widget] HScale hsProgress;
@@ -93,6 +94,7 @@ namespace xbmcontrolevo
 		public Label _lStatus;
 		public ToggleButton _tbMute;
 		public Image _ibPlay;
+		public ToggleButton _bStop;
 		
 		//Settings
 		public string theme;
@@ -148,6 +150,7 @@ namespace xbmcontrolevo
 			_lStatus			= lStatus;
 			_tbMute				= tbMute;
 			_ibPlay				= ibPlay;
+			_bStop				= bStop;
 			//_eFilterFiles	= eFilterFiles;
 		}
 		
@@ -280,6 +283,41 @@ namespace xbmcontrolevo
 		protected void on_tbMute_released (object o, EventArgs args)
 		{
 			oXbmc.Controls.ToggleMute();
+		}
+		
+		protected void on_bPrevious_released (object o, EventArgs args)
+		{
+			oXbmc.Controls.Previous();
+		}
+		
+		protected void on_bPlay_released (object o, EventArgs args)
+		{
+			oXbmc.Controls.Play();
+		}
+		
+		protected void on_bStop_released (object o, EventArgs args)
+		{
+			oXbmc.Controls.Stop();
+		}
+		
+		protected void on_bNext_released (object o, EventArgs args)
+		{
+			oXbmc.Controls.Next();
+		}
+		
+		protected void on_bPlaylistClear_clicked (object o, EventArgs args)
+		{
+			oPlaylist.Clear();
+		}
+		
+		protected void on_bPlaylistRemove_clicked (object o, EventArgs args)
+		{
+			oPlaylist.RemoveSelectedItems();
+		}
+		
+		protected void on_bPlaylistRefresh_clicked (object o, EventArgs args)
+		{
+			oPlaylist.Refresh();
 		}
 	}
 }

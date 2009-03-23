@@ -12,23 +12,32 @@
             <ChildEntries>
               <SolutionItemReference path="..\xbmcontrol-evo.csproj" />
             </ChildEntries>
-            <RootEntry path="..\xbmcontrol-evo.sln" id="{17C14685-7D4F-44F9-BC77-8C4A1B84946D}" />
+            <RootEntry path="..\xbmcontrol-evo.sln" id="{7EAEF75B-FA29-4A46-863A-D3FB89CAE068}" />
           </Builder>
         </Package>
         <Package name="Microsoft Windows Binaries">
-          <Builder targetFile="..\..\..\Packages\xbmcontrol-evo-windows.tar.gz" platform="Windows" configuration="Release" ctype="BinariesZipPackageBuilder">
+          <Builder targetFile="..\..\..\Packages\xbmcontrol-evo-windows.zip" platform="Windows" configuration="Release" ctype="BinariesZipPackageBuilder">
             <ChildEntries>
               <SolutionItemReference path="..\xbmcontrol-evo.csproj" />
             </ChildEntries>
-            <RootEntry path="..\xbmcontrol-evo.sln" id="{17C14685-7D4F-44F9-BC77-8C4A1B84946D}" />
+            <RootEntry path="..\xbmcontrol-evo.sln" id="{7EAEF75B-FA29-4A46-863A-D3FB89CAE068}" />
+          </Builder>
+        </Package>
+        <Package name="MSBuild (Visual Studio 2008) Sources">
+          <Builder targetFile="..\..\..\Packages\xbmcontrol-evo-src-vs2008.zip" format="MonoDevelop.Projects.FileFormat" ctype="SourcesZipPackageBuilder">
+            <ChildEntries>
+              <SolutionItemReference path="Packages.mdproj" />
+              <SolutionItemReference path="..\xbmcontrol-evo.csproj" />
+            </ChildEntries>
+            <RootEntry path="..\xbmcontrol-evo.sln" id="{7EAEF75B-FA29-4A46-863A-D3FB89CAE068}" />
           </Builder>
         </Package>
         <Package name="Tarball">
-          <Builder TargetDirectory="/home/bram/Projects/xbmcontrol-evo-glade3/Packages" DefaultConfiguration="Debug" ctype="TarballDeployTarget">
+          <Builder TargetDirectory="/home/bram/Projects/xbmcontrol-evo-glade3/Packages" DefaultConfiguration="Release" ctype="TarballDeployTarget">
             <ChildEntries>
               <SolutionItemReference path="..\xbmcontrol-evo.csproj" />
             </ChildEntries>
-            <RootEntry path="..\xbmcontrol-evo.sln" id="{17C14685-7D4F-44F9-BC77-8C4A1B84946D}" />
+            <RootEntry path="..\xbmcontrol-evo.sln" id="{7EAEF75B-FA29-4A46-863A-D3FB89CAE068}" />
           </Builder>
         </Package>
       </Packages>

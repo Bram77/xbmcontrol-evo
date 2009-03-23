@@ -13,6 +13,7 @@ namespace xbmcontrolevo
 		private TreeStore tsPlaylist;
 		private TreeIter tiNowPlaying;
 		
+		
 		public Playlist(XbmControlEvo parent)
 		{
 			tsPlaylist	 = new TreeStore (typeof (Pixbuf), typeof (string), typeof (Pixbuf), typeof (string), typeof (string));
@@ -113,31 +114,35 @@ namespace xbmcontrolevo
 			}
 		}
 		
-		private int GetSelectedItem()
+		private int[] GetSelectedItem()
 		{
-			TreeModel selectedModel;
-			TreeIter selectedIter = new TreeIter();
+			TreePath[] atpSelectedRows 	= _parent._tvPlaylist.Selection.GetSelectedRows();
+			int[] aiSelectedRows 		= null;
 			
-			if (_parent._tvPlaylist.Selection.GetSelected(out selectedModel, out selectedIter))
-				return Convert.ToInt32(selectedModel.GetPath(selectedIter).ToString());
-			else
-				return -1;
+			if (atpSelectedRows.Length > 0)
+			{
+				aiSelectedRows = new int[atpSelectedRows.Length];	
+				for (int x=0; x<atpSelectedRows.Length; x++)
+					aiSelectedRows[x] = Convert.ToInt32(atpSelectedRows[x].ToString());
+			}
+				
+			return aiSelectedRows;
 		}
-			
 			
 		public void PlaySelectedItem()
 		{
-			int selectedItem = GetSelectedItem();
-			if (selectedItem != -1) _parent.oXbmc.Playlist.PlaySong(selectedItem);
+			int[] aSelectedItem = this.GetSelectedItem();
+			if (aSelectedItem != null) _parent.oXbmc.Playlist.PlaySong(aSelectedItem[0]);
 		}
 		
-		public void RemoveSelectedItem()
+		public void RemoveSelectedItems()
 		{
-			int selectedItem = GetSelectedItem();
+			int[] aSelectedItem = this.GetSelectedItem();
 			
-			if (selectedItem != -1)
+			if (aSelectedItem != null)
 			{
-				_parent.oXbmc.Playlist.Remove(selectedItem);
+				for (int x=0; x<aSelectedItem.Length; x++)
+					_parent.oXbmc.Playlist.Remove(aSelectedItem[x]);
 				this.Populate();
 			}
 		}
