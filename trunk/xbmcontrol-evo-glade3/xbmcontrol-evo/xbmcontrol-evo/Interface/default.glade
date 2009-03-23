@@ -590,12 +590,102 @@ Video</property>
                             <property name="headers_clickable">False</property>
                             <property name="search_column">2</property>
                             <property name="show_expanders">False</property>
+                            <property name="rubber_banding">True</property>
                             <signal name="button_release_event" handler="on_tvPlaylist_button_release_event"/>
                           </widget>
                         </child>
                       </widget>
                       <packing>
                         <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkFixed" id="fixed2">
+                        <property name="visible">True</property>
+                        <child>
+                          <widget class="GtkButton" id="bPlaylistClear">
+                            <property name="width_request">26</property>
+                            <property name="height_request">26</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="tooltip" translatable="yes">Clear current playlist</property>
+                            <property name="relief">none</property>
+                            <signal name="clicked" handler="on_bPlaylistClear_clicked"/>
+                            <child>
+                              <widget class="GtkImage" id="ibPlaylistClear">
+                                <property name="visible">True</property>
+                                <property name="pixbuf">default/buttons/clear_16.png</property>
+                              </widget>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="x">26</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkButton" id="bPlaylistRemove">
+                            <property name="width_request">26</property>
+                            <property name="height_request">26</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="tooltip" translatable="yes">Remove selected from playlist</property>
+                            <property name="relief">none</property>
+                            <signal name="clicked" handler="on_bPlaylistRemove_clicked"/>
+                            <child>
+                              <widget class="GtkImage" id="ibPlaylistRemove">
+                                <property name="visible">True</property>
+                                <property name="pixbuf">default/buttons/remove_16.png</property>
+                              </widget>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="x">52</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkButton" id="bPlaylistRefresh">
+                            <property name="width_request">26</property>
+                            <property name="height_request">26</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="tooltip" translatable="yes">Refresh current playlist</property>
+                            <property name="relief">none</property>
+                            <signal name="clicked" handler="on_bPlaylistRefresh_clicked"/>
+                            <child>
+                              <widget class="GtkImage" id="ibPlaylistRefresh">
+                                <property name="visible">True</property>
+                                <property name="pixbuf">default/buttons/refresh_16.png</property>
+                              </widget>
+                            </child>
+                          </widget>
+                        </child>
+                        <child>
+                          <widget class="GtkButton" id="bPlaylistPlay">
+                            <property name="width_request">26</property>
+                            <property name="height_request">26</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="tooltip" translatable="yes">Play first in selection</property>
+                            <property name="relief">none</property>
+                            <child>
+                              <widget class="GtkImage" id="ibPlaylistPlay">
+                                <property name="visible">True</property>
+                                <property name="pixbuf">default/buttons/play_16.png</property>
+                              </widget>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="x">78</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">2</property>
                       </packing>
                     </child>
                   </widget>
@@ -610,6 +700,227 @@ Video</property>
                   </widget>
                   <packing>
                     <property name="position">2</property>
+                    <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="vbox1">
+                    <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <widget class="GtkLabel" id="label1">
+                        <property name="height_request">10</property>
+                        <property name="visible">True</property>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkHBox" id="hbox2">
+                        <property name="visible">True</property>
+                        <child>
+                          <widget class="GtkVBox" id="vbox2">
+                            <property name="visible">True</property>
+                            <property name="orientation">vertical</property>
+                            <child>
+                              <widget class="GtkLabel" id="lIpAddress">
+                                <property name="width_request">100</property>
+                                <property name="height_request">26</property>
+                                <property name="visible">True</property>
+                                <property name="xalign">0.89999997615814209</property>
+                                <property name="label" translatable="yes">ip address</property>
+                              </widget>
+                              <packing>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkLabel" id="lUsername">
+                                <property name="height_request">26</property>
+                                <property name="visible">True</property>
+                                <property name="xalign">0.89999997615814209</property>
+                                <property name="label" translatable="yes">username</property>
+                              </widget>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkLabel" id="lPassword">
+                                <property name="height_request">26</property>
+                                <property name="visible">True</property>
+                                <property name="xalign">0.89999997615814209</property>
+                                <property name="label" translatable="yes">password
+</property>
+                              </widget>
+                              <packing>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkVBox" id="vbox3">
+                            <property name="visible">True</property>
+                            <property name="orientation">vertical</property>
+                            <child>
+                              <widget class="GtkEntry" id="eIpAddress">
+                                <property name="height_request">26</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="invisible_char">&#x25CF;</property>
+                                <property name="shadow_type">etched-in</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkEntry" id="eUsername">
+                                <property name="height_request">26</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="invisible_char">&#x25CF;</property>
+                                <property name="shadow_type">etched-in</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkEntry" id="ePassword">
+                                <property name="height_request">26</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="invisible_char">&#x25CF;</property>
+                                <property name="shadow_type">etched-in</property>
+                                <property name="invisible_char_set">True</property>
+                              </widget>
+                              <packing>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="label2">
+                        <property name="height_request">10</property>
+                        <property name="visible">True</property>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkVBox" id="vbox4">
+                        <property name="visible">True</property>
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <widget class="GtkCheckButton" id="chbConfigurationStatusbar">
+                            <property name="label" translatable="yes">Show in status bar</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="checkbutton1">
+                            <property name="label" translatable="yes">Show in taskbar</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">3</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="label3">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">
+</property>
+                      </widget>
+                      <packing>
+                        <property name="position">4</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkFixed" id="fixed3">
+                        <property name="height_request">26</property>
+                        <property name="visible">True</property>
+                        <child>
+                          <widget class="GtkButton" id="bConfigurationSave">
+                            <property name="label" translatable="yes">Save
+</property>
+                            <property name="width_request">80</property>
+                            <property name="height_request">26</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                          </widget>
+                        </child>
+                        <child>
+                          <widget class="GtkButton" id="bConfigurationDefaults">
+                            <property name="label" translatable="yes">Defaults</property>
+                            <property name="width_request">80</property>
+                            <property name="height_request">26</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                          </widget>
+                          <packing>
+                            <property name="x">80</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">5</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="position">3</property>
+                    <property name="tab_fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="lConfiguration">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Configuration</property>
+                  </widget>
+                  <packing>
+                    <property name="position">3</property>
                     <property name="tab_fill">False</property>
                     <property name="type">tab</property>
                   </packing>
@@ -635,12 +946,13 @@ Video</property>
                 <property name="visible">True</property>
                 <child>
                   <widget class="GtkButton" id="bPlay">
-                    <property name="width_request">36</property>
-                    <property name="height_request">36</property>
+                    <property name="width_request">40</property>
+                    <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="relief">none</property>
+                    <signal name="released" handler="on_bPlay_released"/>
                     <child>
                       <widget class="GtkImage" id="ibPlay">
                         <property name="width_request">32</property>
@@ -651,18 +963,19 @@ Video</property>
                     </child>
                   </widget>
                   <packing>
-                    <property name="x">41</property>
+                    <property name="x">45</property>
                     <property name="y">5</property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkToggleButton" id="bStop">
-                    <property name="width_request">36</property>
-                    <property name="height_request">36</property>
+                    <property name="width_request">40</property>
+                    <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="relief">none</property>
+                    <signal name="released" handler="on_bStop_released"/>
                     <child>
                       <widget class="GtkImage" id="ibStop">
                         <property name="width_request">32</property>
@@ -674,18 +987,19 @@ Video</property>
                     </child>
                   </widget>
                   <packing>
-                    <property name="x">77</property>
+                    <property name="x">85</property>
                     <property name="y">5</property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkButton" id="bPrevious">
-                    <property name="width_request">36</property>
-                    <property name="height_request">36</property>
+                    <property name="width_request">40</property>
+                    <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="relief">none</property>
+                    <signal name="released" handler="on_bPrevious_released"/>
                     <child>
                       <widget class="GtkImage" id="ibPreviou">
                         <property name="width_request">32</property>
@@ -703,12 +1017,13 @@ Video</property>
                 </child>
                 <child>
                   <widget class="GtkButton" id="bNext">
-                    <property name="width_request">36</property>
-                    <property name="height_request">36</property>
+                    <property name="width_request">40</property>
+                    <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="relief">none</property>
+                    <signal name="released" handler="on_bNext_released"/>
                     <child>
                       <widget class="GtkImage" id="ibNext">
                         <property name="visible">True</property>
@@ -718,7 +1033,7 @@ Video</property>
                     </child>
                   </widget>
                   <packing>
-                    <property name="x">113</property>
+                    <property name="x">125</property>
                     <property name="y">5</property>
                   </packing>
                 </child>
@@ -766,18 +1081,23 @@ Video</property>
                 <property name="visible">True</property>
                 <child>
                   <widget class="GtkToggleButton" id="tbMute">
-                    <property name="label" translatable="yes">M
-</property>
-                    <property name="width_request">28</property>
-                    <property name="height_request">28</property>
+                    <property name="width_request">26</property>
+                    <property name="height_request">26</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="relief">none</property>
                     <signal name="released" handler="on_tbMute_released"/>
+                    <child>
+                      <widget class="GtkImage" id="ibMute">
+                        <property name="visible">True</property>
+                        <property name="pixbuf">default/buttons/volume_mute_16.png</property>
+                      </widget>
+                    </child>
                   </widget>
                   <packing>
                     <property name="x">10</property>
-                    <property name="y">12</property>
+                    <property name="y">10</property>
                   </packing>
                 </child>
               </widget>
@@ -801,7 +1121,7 @@ Video</property>
               <widget class="GtkLabel" id="lStatus">
                 <property name="visible">True</property>
                 <property name="xalign">1</property>
-                <property name="label" translatable="yes">Disconnected</property>
+                <property name="label" translatable="yes">Disconnected </property>
               </widget>
               <packing>
                 <property name="position">0</property>

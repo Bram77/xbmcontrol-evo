@@ -52,7 +52,7 @@ namespace xbmcontrolevo
 					for (int x = 0; x < aArtists.Length; x++)
 					{
 						if (aArtists[x] != "" && aArtistIds[x] != "")
-							tsArtists.AppendValues (new Pixbuf ("Interface/Images/mic_16.png"), aArtists[x], aArtistIds[x], "artist");
+							tsArtists.AppendValues (new Pixbuf ("Interface/" + _parent.theme + "/icons/mic_16.png"), aArtists[x], aArtistIds[x], "artist");
 					}
 					
 					_parent._tvArtists.Model = tsArtists;
@@ -111,7 +111,7 @@ namespace xbmcontrolevo
 				{
 					if (aAlbums[x] != "")
 					{
-                    	tsArtists.AppendValues (selectedIter, new Pixbuf ("Interface/Images/cd_16.png"), aAlbums[x], aAlbumIds[x], "album");
+                    	tsArtists.AppendValues (selectedIter, new Pixbuf ("Interface/" + _parent.theme + "/icons/cd_16.png"), aAlbums[x], aAlbumIds[x], "album");
 						albumCount++;
 					}
 				}

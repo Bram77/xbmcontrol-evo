@@ -107,8 +107,9 @@ namespace xbmcontrolevo
 			}
 			*/
 			
-			_parent._tbMute.Active = (_parent.oXbmc.Status.IsMuted())? true : false ;
-			//_parent._tbStop.Active = (_parent.oXbmc.Status.IsNotPlaying())? true : false ;
+			_parent._tbMute.Active 	= (_parent.oXbmc.Status.IsMuted())? true : false ;
+			_parent._bStop.Active 	= (_parent.oXbmc.Status.IsNotPlaying())? true : false ;
+			_parent._ibPlay.Pixbuf	= (_parent.oXbmc.Status.IsPlaying())? new Gdk.Pixbuf("Interface/" + _parent.theme + "/buttons/pause_32.png") : new Gdk.Pixbuf("Interface/" + _parent.theme + "/buttons/play_32.png") ;
 		}
 	}
 }
