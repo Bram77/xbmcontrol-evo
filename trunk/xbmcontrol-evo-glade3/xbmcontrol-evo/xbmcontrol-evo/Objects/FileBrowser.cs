@@ -15,9 +15,9 @@ namespace xbmcontrolevo
 		
 		public FileBrowser(XbmControlEvo parent)
 		{
-			_parent = parent;
-			
-			tsFiles	= new TreeStore (typeof (string), typeof (Pixbuf), typeof (string), typeof (string), typeof (string), typeof (string));
+			_parent 		= parent;
+			selectedIter 	= new TreeIter();
+			tsFiles			= new TreeStore (typeof (string), typeof (Pixbuf), typeof (string), typeof (string), typeof (string), typeof (string));
 
 			_parent._tvFiles.AppendColumn ("", new CellRendererText (), "text", 0);
 			TreeViewColumn tvcFileIcons 	= _parent._tvFiles.AppendColumn ("", new CellRendererPixbuf (), "pixbuf", 1);
