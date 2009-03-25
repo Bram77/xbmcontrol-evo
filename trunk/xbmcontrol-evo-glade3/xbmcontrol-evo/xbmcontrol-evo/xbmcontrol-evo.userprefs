@@ -1,20 +1,20 @@
 ﻿<Properties>
   <AuthorInfo Name="Bram van Oploo" Email="bramvano@gmail.com" Copyright="Bram van Oploo" ctype="AuthorInformation" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Objects/Playlist.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Objects/Configuration.cs" ctype="Workbench">
     <Files>
-      <File FileName="XbmControlEvo.cs" Line="290" Column="30" />
-      <File FileName="Objects/StatusUpdate.cs" Line="99" Column="43" />
-      <File FileName="Objects/Playlist.cs" Line="120" Column="34" />
+      <File FileName="XbmControlEvo.cs" Line="124" Column="22" />
+      <File FileName="Objects/StatusUpdate.cs" Line="30" Column="5" />
+      <File FileName="Objects/Playlist.cs" Line="138" Column="36" />
       <File FileName="Objects/MenuItems.cs" Line="180" Column="61" />
+      <File FileName="Objects/FileBrowser.cs" Line="25" Column="29" />
+      <File FileName="Objects/GenreBrowser.cs" Line="12" Column="33" />
+      <File FileName="Objects/ShareBrowser.cs" Line="183" Column="34" />
+      <File FileName="Objects/Configuration.cs" Line="27" Column="4" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="Packages" expanded="True" selected="True" />
-          <Node name="xbmcontrol-evo" expanded="True">
-            <Node name="Interface" expanded="True" />
-            <Node name="Objects" expanded="True" />
-          </Node>
+          <Node name="Packages" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">

@@ -9,11 +9,8 @@ namespace xbmcontrolevo
 	public class GenreBrowser
 	{
 		private XbmControlEvo _parent;
-		
-		private string selectedPath;
 		private TreeIter selectedIter;
-		private TreeModel selectedModel;
-		
+		//private TreeModel selectedModel;
 		private TreeStore tsGenres;
 		private TreeViewColumn tvcGenreIcons;
 		private TreeViewColumn tvcGenreNames;

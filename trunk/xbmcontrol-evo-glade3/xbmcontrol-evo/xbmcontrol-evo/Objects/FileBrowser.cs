@@ -11,13 +11,7 @@ namespace xbmcontrolevo
 		private XbmControlEvo _parent;
 		private TreeModel selectedModel;
 		private TreeIter selectedIter;
-		
 		private TreeStore tsFiles;
-		private TreeViewColumn tvcFileNumbers;
-		private TreeViewColumn tvcFileIcons;
-		private TreeViewColumn tvcFileNames;
-		private TreeViewColumn tvcFilePaths;
-		private TreeViewColumn tvcFileTypes;
 		
 		public FileBrowser(XbmControlEvo parent)
 		{
@@ -25,11 +19,11 @@ namespace xbmcontrolevo
 			
 			tsFiles	= new TreeStore (typeof (string), typeof (Pixbuf), typeof (string), typeof (string), typeof (string), typeof (string));
 
-			tvcFileNumbers 	= _parent._tvFiles.AppendColumn ("", new CellRendererText (), "text", 0);
-			tvcFileIcons 	= _parent._tvFiles.AppendColumn ("", new CellRendererPixbuf (), "pixbuf", 1);
-			tvcFileNames 	= _parent._tvFiles.AppendColumn ("", new CellRendererText (), "text", 2);
-			tvcFilePaths	= _parent._tvFiles.AppendColumn ("", new CellRendererText (), "text", 3);
-			tvcFileTypes	= _parent._tvFiles.AppendColumn ("", new CellRendererText (), "text", 4);
+			_parent._tvFiles.AppendColumn ("", new CellRendererText (), "text", 0);
+			TreeViewColumn tvcFileIcons 	= _parent._tvFiles.AppendColumn ("", new CellRendererPixbuf (), "pixbuf", 1);
+			TreeViewColumn tvcFileNames 	= _parent._tvFiles.AppendColumn ("", new CellRendererText (), "text", 2);
+			TreeViewColumn tvcFilePaths		= _parent._tvFiles.AppendColumn ("", new CellRendererText (), "text", 3);
+			TreeViewColumn tvcFileTypes		= _parent._tvFiles.AppendColumn ("", new CellRendererText (), "text", 4);
 			
 			tvcFilePaths.Visible  	= false;
 			tvcFileTypes.Visible  	= false;
