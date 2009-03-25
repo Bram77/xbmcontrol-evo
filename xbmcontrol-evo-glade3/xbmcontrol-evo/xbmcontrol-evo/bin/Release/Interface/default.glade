@@ -1136,6 +1136,7 @@ Video</property>
                 <property name="tooltip" translatable="yes">Could not connect to XBMC</property>
                 <property name="stock">gtk-no</property>
                 <property name="icon-size">1</property>
+                <signal name="button_release_event" handler="on_iConnectionStatus_button_release_event"/>
               </widget>
               <packing>
                 <property name="expand">False</property>

@@ -20,18 +20,17 @@ namespace xbmcontrolevo
 			tiNowPlaying = new TreeIter();
 			_parent 	 = parent;
 
-			TreeViewColumn tvcPlaying 	= _parent._tvPlaylist.AppendColumn ("", new CellRendererPixbuf(), "pixbuf", 0);
-			TreeViewColumn tvcNumber 	= _parent._tvPlaylist.AppendColumn ("", new Gtk.CellRendererText (), "text", 1);
-			TreeViewColumn tvcIcon	 	= _parent._tvPlaylist.AppendColumn ("", new CellRendererPixbuf(), "pixbuf", 2);
-			TreeViewColumn tvcTitle 	= _parent._tvPlaylist.AppendColumn ("", new Gtk.CellRendererText (), "text", 3);
+			_parent._tvPlaylist.AppendColumn ("", new CellRendererPixbuf(), "pixbuf", 0);
+			_parent._tvPlaylist.AppendColumn ("", new Gtk.CellRendererText (), "text", 1);
+			_parent._tvPlaylist.AppendColumn ("", new CellRendererPixbuf(), "pixbuf", 2);
+			_parent._tvPlaylist.AppendColumn ("", new Gtk.CellRendererText (), "text", 3);
 			TreeViewColumn tvcPath	 	= _parent._tvPlaylist.AppendColumn ("", new Gtk.CellRendererText(), "text", 4);
 			
 			tvcPath.Visible = false;
 			_parent._tvPlaylist.Selection.Mode = SelectionMode.Multiple;
 			
-			SetCurrentPlaylistType("0");
-			
-			Populate();
+			if (_parent.IsConnected())
+				SetCurrentPlaylistType("0");
 		}
 		
 		public void SetCurrentPlaylistType(string selectedType)
@@ -160,8 +159,8 @@ namespace xbmcontrolevo
 		
 		public void ShowSongInfoPopup()
 		{
-			TreeModel selectedModel;
-			TreeIter selectedIter = new TreeIter();
+			//TreeModel selectedModel;
+			//TreeIter selectedIter = new TreeIter();
 			
 			//if (_parent._tvPlaylist.Selection.GetSelected(out selectedModel, out selectedIter))
 				//_parent.oMediaInfo.ShowSongInfoPopup(selectedModel.GetValue(selectedIter, 3).ToString());

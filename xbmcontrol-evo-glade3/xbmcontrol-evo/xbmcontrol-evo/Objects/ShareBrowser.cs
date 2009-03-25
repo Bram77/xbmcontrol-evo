@@ -44,7 +44,6 @@ namespace xbmcontrolevo
 
 			this.SetShareTypes();
 			this.SetCurrentShareType(0);
-			this.Populate();
 		}
 		
 		private void SetShareTypes()
@@ -179,8 +178,8 @@ namespace xbmcontrolevo
 		
 		public void ShowSongInfoPopup()
 		{
-			TreeModel selectedModel;
-			TreeIter selectedIter = new TreeIter();
+			//Model selectedModel;
+			//TreeIter selectedIter = new TreeIter();
 			
 			//if (_parent._tvShares.Selection.GetSelected(out selectedModel, out selectedIter))
 				//_parent.oMediaInfo.ShowSongInfoPopup(selectedModel.GetValue(selectedIter, 2).ToString());

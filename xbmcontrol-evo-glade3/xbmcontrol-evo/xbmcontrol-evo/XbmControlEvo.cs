@@ -76,6 +76,7 @@ namespace xbmcontrolevo
 		public GenreBrowser oGenreBrowser;
 		public ArtistBrowser oArtistBrowser;
 		public AlbumBrowser oAlbumBrowser;
+		public Configuration oConfiguration;
 		
 		//Internal widgets
 		public Window _MainWindow;
@@ -98,27 +99,29 @@ namespace xbmcontrolevo
 		
 		//Settings
 		public string theme;
+		private bool isConnected;
 		
 		
 		public XbmControlEvo (string[] args)
 		{
 			Application.Init();
 			
-			theme = "default";
+			theme 		= "default";
+			isConnected = false;
 			
 			Glade.XML wMainWindowXml 	= new Glade.XML ("Interface/" +theme+ ".glade", "MainWindow", null);
 			wMainWindowXml.Autoconnect (this);
 
-			this.XbmcConnect();
 			this.AllowinternalAccess();
 			this.InitObjects();
-			this.SetStartupvalues();
 			
 			Application.Run();
 		}
 		
 		private void InitObjects ()
 		{
+			oXbmc 			= new XBMC_Communicator();
+			oConfiguration	= new Configuration(this);
 			oShareBrowser 	= new ShareBrowser(this);
 			oFileBrowser	= new FileBrowser(this);
 			oMenuItems		= new MenuItems(this);
@@ -126,11 +129,23 @@ namespace xbmcontrolevo
 			oControls		= new Controls(this);
 			oPlaylist		= new Playlist(this);
 			oHelper			= new HelperFunctions(this);
-			oStatusUpdate	= new StatusUpdate(this);
 			oSysTrayIcon	= new SysTrayIcon(this);
 			oGenreBrowser	= new GenreBrowser(this);
 			oArtistBrowser 	= new ArtistBrowser(this);
 			oAlbumBrowser	= new AlbumBrowser(this);
+			oStatusUpdate	= new StatusUpdate(this);
+			
+			this.XbmcConnect();
+			if (IsConnected())
+			{
+				oStatusUpdate.Start();
+				SetStartupvalues ();
+			}
+			else
+			{
+				oHelper.Messagebox("Could not connect to XBMC with the current configuration.");
+				nbRight.CurrentPage = 3;
+			}
 		}
 		
 		private void AllowinternalAccess ()
@@ -156,25 +171,33 @@ namespace xbmcontrolevo
 		
 		private void XbmcConnect ()
 		{
-			oXbmc = new XBMC_Communicator();
 			oXbmc.SetIp("10.0.0.5");
-	        oXbmc.SetConnectionTimeout(4000);
+	        oXbmc.SetConnectionTimeout(1000);
 	        oXbmc.SetCredentials("", "");
-			oXbmc.Status.StartHeartBeat();
+			this.isConnected = (oXbmc.Status.WebServerEnabled()) ? true : false ;
+			//oXbmc.Status.StartHeartBeat();
+		}
+
+		public void SetConnected (bool connected)
+		{
+			this.isConnected = connected;
+		}
+		
+		public bool IsConnected ()
+		{
+			return this.isConnected;
 		}
 		
 		private void SetStartupvalues ()
 		{
-			this.cbShares.Active = 0;
-			this.cbPlaylist.Active = 0;
+			cbShares.Active 	= 0;
+			cbPlaylist.Active 	= 0;
 			
-			MainWindow.Icon = new Gdk.Pixbuf("Interface/" + theme + "/icons/icon.png");
-			
-			ibPrevious	= new Gtk.Image(new Gdk.Pixbuf("Interface/" + theme + "/buttons/previous_32.png"));
-			ibPrevious.ShowAll();
-			ibPlay 		= new Gtk.Image(new Gdk.Pixbuf("Interface/" + theme + "/buttons/play_32.png"));
-			ibStop 		= new Gtk.Image(new Gdk.Pixbuf("Interface/" + theme + "/buttons/stop_32.png"));
-			ibNext 		= new Gtk.Image(new Gdk.Pixbuf("Interface/" + theme + "/buttons/next_32.png"));
+			MainWindow.Icon		= new Gdk.Pixbuf("Interface/" + theme + "/icons/icon.png");
+			ibPrevious			= new Gtk.Image(new Gdk.Pixbuf("Interface/" + theme + "/buttons/previous_32.png"));
+			ibPlay 				= new Gtk.Image(new Gdk.Pixbuf("Interface/" + theme + "/buttons/play_32.png"));
+			ibStop 				= new Gtk.Image(new Gdk.Pixbuf("Interface/" + theme + "/buttons/stop_32.png"));
+			ibNext 				= new Gtk.Image(new Gdk.Pixbuf("Interface/" + theme + "/buttons/next_32.png"));
 		}
 		
 		protected void on_MainWindow_delete_event (object sender, DeleteEventArgs a)
@@ -185,139 +208,168 @@ namespace xbmcontrolevo
 		
 		protected void on_cbShares_changed (object o, EventArgs args)
 		{
-			try
+			if (this.IsConnected())
 			{
-				this.oShareBrowser.SetCurrentShareType(this.cbShares.Active);
-				this.oShareBrowser.Populate();
-			}
-			catch (Exception e)
-			{
-				oHelper.Messagebox(e.Message);
+				try
+				{
+					this.oShareBrowser.SetCurrentShareType(this.cbShares.Active);
+					this.oShareBrowser.Populate();
+				}
+				catch (Exception e)
+				{
+					oHelper.Messagebox(e.Message);
+				}
 			}
 		}
 		
 		protected void on_tvShares_button_release_event (object o, Gtk.ButtonReleaseEventArgs args)
 		{
-			if (args.Event.Button == 1)
-				oShareBrowser.ExpandSelectedDirectory();
-			else if (args.Event.Button == 3)
-				oShareBrowser.ShowContextMenu();
+			if (this.IsConnected())
+			{
+				if (args.Event.Button == 1)
+					oShareBrowser.ExpandSelectedDirectory();
+				else if (args.Event.Button == 3)
+					oShareBrowser.ShowContextMenu();
+			}
 		}
 		
 		protected void on_tvArtists_button_release_event (object o, Gtk.ButtonReleaseEventArgs args)
 		{
-			if (args.Event.Button == 1)
-				oArtistBrowser.ExpandeSelectedItem();
-			else if (args.Event.Button == 3)
-				oArtistBrowser.ShowContextMenu();
+			if (this.IsConnected())
+			{
+				if (args.Event.Button == 1)
+					oArtistBrowser.ExpandeSelectedItem();
+				else if (args.Event.Button == 3)
+					oArtistBrowser.ShowContextMenu();
+			}
 		}
 		
 		protected void on_tvAlbums_button_release_event (object o, Gtk.ButtonReleaseEventArgs args)
 		{
-			if (args.Event.Button == 1)
-				oAlbumBrowser.GetAlbumSongs();
-			else if (args.Event.Button == 3)
-				oAlbumBrowser.ShowContextMenu();
+			if (this.IsConnected())
+			{
+				if (args.Event.Button == 1)
+					oAlbumBrowser.GetAlbumSongs();
+				else if (args.Event.Button == 3)
+					oAlbumBrowser.ShowContextMenu();
+			}
 		}
 		
 		protected void on_tvFiles_button_release_event (object o, Gtk.ButtonReleaseEventArgs args)
 		{
-			if (args.Event.Button == 3)
-				oFileBrowser.ShowContextMenu();
+			if (this.IsConnected())
+				if (args.Event.Button == 3) oFileBrowser.ShowContextMenu();
 		}
 		
 		protected void on_tvPlaylist_button_release_event (object o, Gtk.ButtonReleaseEventArgs args)
 		{
-			if (args.Event.Button == 3)
-				oPlaylist.ShowContextMenu();
+			if (this.IsConnected())
+				if (args.Event.Button == 3) oPlaylist.ShowContextMenu();
 		}
 		
 		protected void on_hsVolume_value_changed (object o, EventArgs args)
 		{
-			if (hsVolume.HasFocus)
+			if (this.IsConnected())
 			{
-				oXbmc.Controls.SetVolume(Convert.ToInt32(hsVolume.Value));
-				hsVolume.TooltipText = Math.Floor((double) hsVolume.Value).ToString()+"%";
+				if (hsVolume.HasFocus)
+				{
+					oXbmc.Controls.SetVolume(Convert.ToInt32(hsVolume.Value));
+					hsVolume.TooltipText = Math.Floor((double) hsVolume.Value).ToString()+"%";
+				}
 			}
 		}
 		
 		protected void on_hsProgress_value_changed (object o, EventArgs args)
 		{
-			if (hsProgress.HasFocus) 
-				oXbmc.Controls.SeekPercentage(Convert.ToInt32(hsProgress.Value));
+			if (this.IsConnected())
+				if (hsProgress.HasFocus) oXbmc.Controls.SeekPercentage(Convert.ToInt32(hsProgress.Value));
 		}
 		
 		protected void on_cbPlaylist_changed (object o, EventArgs args)
 		{
-			oPlaylist.SetCurrentPlaylistType(cbPlaylist.Active.ToString());
+			if (this.IsConnected()) oPlaylist.SetCurrentPlaylistType(cbPlaylist.Active.ToString());
 		}
 		
 		protected void on_nbLeft_switch_page (object o, Gtk.SwitchPageArgs args)
 		{
-			if (args.PageNum == 0)
-				oShareBrowser.Populate();
-			else if (args.PageNum == 1)
-				oGenreBrowser.Populate();
-			else if (args.PageNum == 2)
-				oArtistBrowser.Populate();
-			else if (args.PageNum == 3)
-				oAlbumBrowser.Populate();
+			if (this.IsConnected())
+			{
+				if (args.PageNum == 0)
+					oShareBrowser.Populate();
+				else if (args.PageNum == 1)
+					oGenreBrowser.Populate();
+				else if (args.PageNum == 2)
+					oArtistBrowser.Populate();
+				else if (args.PageNum == 3)
+					oAlbumBrowser.Populate();
+			}
 		}
 		
 		protected void on_nbRight_switch_page (object o, Gtk.SwitchPageArgs args)
 		{
-			if (args.PageNum == 2)
-				oPlaylist.SelectNowPlayingEntry();
+			if (this.IsConnected())
+				if (args.PageNum == 2) oPlaylist.SelectNowPlayingEntry();
 		}
 		
 		protected void on_eArtistsFilter_changed (object o, EventArgs args)
 		{
-			oArtistBrowser.Populate(eArtistsFilter.Text);
+			if (this.IsConnected()) oArtistBrowser.Populate(eArtistsFilter.Text);
 		}
 		
 		protected void on_eAlbumsFilter_changed (object o, EventArgs args)
 		{
-			oAlbumBrowser.Populate(eAlbumsFilter.Text);
+			if (this.IsConnected()) oAlbumBrowser.Populate(eAlbumsFilter.Text);
 		}
 		
 		protected void on_tbMute_released (object o, EventArgs args)
 		{
-			oXbmc.Controls.ToggleMute();
+			if (this.IsConnected()) oXbmc.Controls.ToggleMute();
 		}
 		
 		protected void on_bPrevious_released (object o, EventArgs args)
 		{
-			oXbmc.Controls.Previous();
+			if (this.IsConnected()) oXbmc.Controls.Previous();
 		}
 		
 		protected void on_bPlay_released (object o, EventArgs args)
 		{
-			oXbmc.Controls.Play();
+			if (this.IsConnected()) oXbmc.Controls.Play();
 		}
 		
 		protected void on_bStop_released (object o, EventArgs args)
 		{
-			oXbmc.Controls.Stop();
+			if (this.IsConnected()) oXbmc.Controls.Stop();
 		}
 		
 		protected void on_bNext_released (object o, EventArgs args)
 		{
-			oXbmc.Controls.Next();
+			if (this.IsConnected()) oXbmc.Controls.Next();
 		}
 		
 		protected void on_bPlaylistClear_clicked (object o, EventArgs args)
 		{
-			oPlaylist.Clear();
+			if (this.IsConnected()) oPlaylist.Clear();
 		}
 		
 		protected void on_bPlaylistRemove_clicked (object o, EventArgs args)
 		{
-			oPlaylist.RemoveSelectedItems();
+			if (this.IsConnected()) oPlaylist.RemoveSelectedItems();
 		}
 		
 		protected void on_bPlaylistRefresh_clicked (object o, EventArgs args)
 		{
-			oPlaylist.Refresh();
+			if (this.IsConnected()) oPlaylist.Refresh();
+		}
+		
+		protected void on_iConnectionStatus_button_release_event (object o, Gtk.ButtonReleaseEventArgs args)
+		{
+			if (!IsConnected())
+			{
+				iConnectionStatus.SetFromStock("gtk-connect", IconSize.Menu);
+				oStatusUpdate.Start();
+			}
+			
+			oHelper.Messagebox("test");
 		}
 	}
 }
