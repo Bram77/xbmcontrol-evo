@@ -24,10 +24,10 @@ namespace xbmcontrolevo
 			_parent._tvPlaylist.AppendColumn ("", new Gtk.CellRendererText (), "text", 1);
 			_parent._tvPlaylist.AppendColumn ("", new CellRendererPixbuf(), "pixbuf", 2);
 			_parent._tvPlaylist.AppendColumn ("", new Gtk.CellRendererText (), "text", 3);
-			TreeViewColumn tvcPath	 	= _parent._tvPlaylist.AppendColumn ("", new Gtk.CellRendererText(), "text", 4);
 			
-			tvcPath.Visible = false;
-			_parent._tvPlaylist.Selection.Mode = SelectionMode.Multiple;
+			TreeViewColumn tvcPath	 			= _parent._tvPlaylist.AppendColumn ("", new Gtk.CellRendererText(), "text", 4);
+			tvcPath.Visible 					= false;
+			_parent._tvPlaylist.Selection.Mode 	= SelectionMode.Multiple;
 			
 			if (_parent.IsConnected())
 				SetCurrentPlaylistType("0");

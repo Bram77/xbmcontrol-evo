@@ -172,7 +172,7 @@ namespace xbmcontrolevo
 		private void XbmcConnect ()
 		{
 			oXbmc.SetIp("10.0.0.5");
-	        oXbmc.SetConnectionTimeout(1000);
+	        oXbmc.SetConnectionTimeout(4000);
 	        oXbmc.SetCredentials("", "");
 			this.isConnected = (oXbmc.Status.WebServerEnabled()) ? true : false ;
 			//oXbmc.Status.StartHeartBeat();

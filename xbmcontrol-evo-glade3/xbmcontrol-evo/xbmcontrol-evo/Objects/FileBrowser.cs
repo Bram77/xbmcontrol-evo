@@ -36,13 +36,18 @@ namespace xbmcontrolevo
 		
 		internal void Clear()
 		{
-			tsFiles.Clear();
+			this.tsFiles.Clear();
 		}
 		
 		public void ShowContextMenu ()
 		{
-			if (_parent._tvFiles.Selection.GetSelected(out selectedModel, out selectedIter))
-				_parent.oContextMenu.Show("file", selectedModel.GetValue(selectedIter, 3).ToString());
+			TreePath[] aSelectedPaths = _parent._tvFiles.Selection.GetSelectedRows();
+			
+			if (aSelectedPaths.Length > 0)
+			{
+				_parent._tvFiles.Model.GetIter(out selectedIter, aSelectedPaths[0]);
+				_parent.oContextMenu.Show("file", _parent._tvFiles.Model.GetValue(selectedIter, 3).ToString());
+			}
 		}
 		
 		public TreeStore GetFiles (string startPath)
@@ -58,7 +63,7 @@ namespace xbmcontrolevo
 					{
 						string[] aFilesPathParts = aFilesPath[y].Split(':');
 						string mediaType 		 = (aFilesPathParts[0] == "lastfm")? "lastfm" : "file" ;
-						tsFiles.AppendValues((y+1).ToString()+ ".", new Pixbuf ("Interface/" + _parent.theme + "/icons/file_" + _parent.oShareBrowser.GetCurrentShareType() + ".png"), aFiles[y], aFilesPath[y], mediaType);
+						this.tsFiles.AppendValues((y+1).ToString()+ ".", new Pixbuf ("Interface/" + _parent.theme + "/icons/file_" + _parent.oShareBrowser.GetCurrentShareType() + ".png"), aFiles[y], aFilesPath[y], mediaType);
 					}
 				}
 			}
