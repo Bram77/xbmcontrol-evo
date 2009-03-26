@@ -753,11 +753,30 @@ Video</property>
                                 <property name="height_request">26</property>
                                 <property name="visible">True</property>
                                 <property name="xalign">0.89999997615814209</property>
-                                <property name="label" translatable="yes">password
-</property>
+                                <property name="label" translatable="yes">password</property>
                               </widget>
                               <packing>
                                 <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkLabel" id="lUpdateInterval">
+                                <property name="visible">True</property>
+                                <property name="xalign">0.89999997615814209</property>
+                                <property name="label" translatable="yes">update interval</property>
+                              </widget>
+                              <packing>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkLabel" id="lConnectionTimeout">
+                                <property name="visible">True</property>
+                                <property name="xalign">0.89999997615814209</property>
+                                <property name="label" translatable="yes">connection timeout</property>
+                              </widget>
+                              <packing>
+                                <property name="position">4</property>
                               </packing>
                             </child>
                           </widget>
@@ -776,6 +795,7 @@ Video</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">&#x25CF;</property>
+                                <property name="text" translatable="yes">192.168.1.101:8080</property>
                                 <property name="shadow_type">etched-in</property>
                               </widget>
                               <packing>
@@ -802,11 +822,51 @@ Video</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">&#x25CF;</property>
+                                <property name="truncate_multiline">True</property>
                                 <property name="shadow_type">etched-in</property>
                                 <property name="invisible_char_set">True</property>
                               </widget>
                               <packing>
                                 <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkSpinButton" id="sbUpdateInterval">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="tooltip" translatable="yes">Update interval in seconds</property>
+                                <property name="max_length">2</property>
+                                <property name="invisible_char">&#x25CF;</property>
+                                <property name="truncate_multiline">True</property>
+                                <property name="shadow_type">etched-in</property>
+                                <property name="adjustment">1 1 99 1 10 10</property>
+                                <property name="snap_to_ticks">True</property>
+                                <property name="numeric">True</property>
+                                <property name="wrap">True</property>
+                                <property name="update_policy">if-valid</property>
+                              </widget>
+                              <packing>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkSpinButton" id="sbConnectionTimeout">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="tooltip" translatable="yes">How long it takes before decided that the connection has been lost</property>
+                                <property name="max_length">2</property>
+                                <property name="invisible_char">&#x25CF;</property>
+                                <property name="width_chars">2</property>
+                                <property name="truncate_multiline">True</property>
+                                <property name="shadow_type">etched-in</property>
+                                <property name="adjustment">4 1 10 1 10 10</property>
+                                <property name="snap_to_ticks">True</property>
+                                <property name="numeric">True</property>
+                                <property name="wrap">True</property>
+                                <property name="update_policy">if-valid</property>
+                              </widget>
+                              <packing>
+                                <property name="position">4</property>
                               </packing>
                             </child>
                           </widget>

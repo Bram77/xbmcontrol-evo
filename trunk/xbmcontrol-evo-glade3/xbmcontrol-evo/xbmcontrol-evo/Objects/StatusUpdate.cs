@@ -26,7 +26,7 @@ namespace xbmcontrolevo
 
 		private bool Update()
 		{
-			if (_parent.oXbmc.Status.WebServerEnabled())
+			if (_parent.oXbmc.Controls.SetResponseFormat())
 			{
 				_parent.SetConnected(true);
 				_parent._iConnectionStatus.SetFromStock("gtk-yes", IconSize.Menu);
