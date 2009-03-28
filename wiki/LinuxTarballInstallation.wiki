@@ -1,4 +1,4 @@
-#labels Phase-Deploy
+#labels Phase-Deploy,Featured
 #Installation instructions for Linux tarball
 
 ./configure
