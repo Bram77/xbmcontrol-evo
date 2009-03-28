@@ -63,7 +63,7 @@ namespace xbmcontrolevo
 					{
 						string[] aFilesPathParts = aFilesPath[y].Split(':');
 						string mediaType 		 = (aFilesPathParts[0] == "lastfm")? "lastfm" : "file" ;
-						this.tsFiles.AppendValues((y+1).ToString()+ ".", new Pixbuf ("Interface/" + _parent.theme + "/icons/file_" + _parent.oShareBrowser.GetCurrentShareType() + ".png"), aFiles[y], aFilesPath[y], mediaType);
+						this.tsFiles.AppendValues((y+1).ToString()+ ".", new Pixbuf (_parent.appDir + "/Interface/" + _parent.theme + "/icons/file_" + _parent.oShareBrowser.GetCurrentShareType() + ".png"), aFiles[y], aFilesPath[y], mediaType);
 					}
 				}
 			}
@@ -92,7 +92,7 @@ namespace xbmcontrolevo
 				for (int y = 0; y < aSongsPath.Length; y++)
 				{
 					if (aSongsPath[y] != null && aSongsPath[y] != "")
-						tsFiles.AppendValues((y+1).ToString()+ ".", new Pixbuf ("Interface/" + _parent.theme + "/icons/file_music.png"), aSongs[y], aSongsPath[y], "file");
+						tsFiles.AppendValues((y+1).ToString()+ ".", new Pixbuf (_parent.appDir + "/Interface/" + _parent.theme + "/icons/file_music.png"), aSongs[y], aSongsPath[y], "file");
 				}
 			}
 			

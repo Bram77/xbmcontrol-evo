@@ -73,7 +73,7 @@ namespace xbmcontrolevo
                         string[] aPlaylistEntry = aPlaylistPaths[j].Split('/');
                         string playlistEntry = aPlaylistEntry[aPlaylistEntry.Length - 1].Replace(extension, "");
 						
-						tsPlaylist.AppendValues (new Pixbuf("Interface/" + _parent.theme + "/icons/pixel.gif"), (j+1).ToString() +".", new Pixbuf ("Interface/" + _parent.theme + "/icons/file_" +playlistType+ ".png"), playlistEntry, aPlaylistPaths[j]);
+						tsPlaylist.AppendValues (new Pixbuf(_parent.appDir + "/Interface/" + _parent.theme + "/icons/pixel.gif"), (j+1).ToString() +".", new Pixbuf (_parent.appDir + "/Interface/" + _parent.theme + "/icons/file_" +playlistType+ ".png"), playlistEntry, aPlaylistPaths[j]);
                     }
 				}
 				
@@ -97,7 +97,7 @@ namespace xbmcontrolevo
 				tsPlaylist.GetIterFirst(out tiPlaylistItem);
 				
 				while (tsPlaylist.IterNext(ref tiPlaylistItem))
-					_parent._tvPlaylist.Model.SetValue(tiPlaylistItem, 0, new Pixbuf("Interface/" + _parent.theme + "/icons/pixel.gif"));
+					_parent._tvPlaylist.Model.SetValue(tiPlaylistItem, 0, new Pixbuf(_parent.appDir + "/Interface/" + _parent.theme + "/icons/pixel.gif"));
 				
              	if (tsPlaylist.GetIter(out tiNowPlaying, new TreePath(itemPlaying)) && !_parent.oXbmc.Status.IsNotPlaying())
 					_parent._tvPlaylist.Model.SetValue(tiNowPlaying, 0, nowPlayingIcon);

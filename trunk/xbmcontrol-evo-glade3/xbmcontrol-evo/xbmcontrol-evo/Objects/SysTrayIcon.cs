@@ -16,7 +16,7 @@ namespace xbmcontrolevo
 		{
 			_parent 			= parent;
 			
-			siTray 				= new StatusIcon(new Pixbuf ("Interface/" + _parent.theme + "/icons/icon.png"));
+			siTray 				= new StatusIcon(new Pixbuf (_parent.appDir + "/Interface/" + _parent.theme + "/icons/icon.png"));
 			siTray.Visible 		= true;
 			siTray.Activate 	+= OnActivate;
 			siTray.PopupMenu 	+= OnTrayIconPopup;

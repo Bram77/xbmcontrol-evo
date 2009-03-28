@@ -92,7 +92,7 @@ namespace xbmcontrolevo
 					else
 						icon = "share_32";
 					
-					tsShares.AppendValues (new Pixbuf("Interface/" + _parent.theme + "/icons/" +icon+ ".png"), aShares[x], aSharesPaths[x], "share");
+					tsShares.AppendValues (new Pixbuf(_parent.appDir + "/Interface/" + _parent.theme + "/icons/" +icon+ ".png"), aShares[x], aSharesPaths[x], "share");
 				}
 				
 				_parent._tvShares.Model = tsShares;
@@ -115,7 +115,7 @@ namespace xbmcontrolevo
                 for (int x = 0; x < aDirectoryContentPath.Length; x++)
                 {
                     if (aDirectoryContentPath[x] != null && aDirectoryContentPath[x] != "" && aDirectoryContentPath[x].IndexOf(".") < 1)
-                    	tsShares.AppendValues(selectedIter, new Pixbuf ("Interface/" + _parent.theme + "/icons/folder_closed.png"), aDirectoryContent[x], aDirectoryContentPath[x], "folder");
+                    	tsShares.AppendValues(selectedIter, new Pixbuf (_parent.appDir + "/Interface/" + _parent.theme + "/icons/folder_closed.png"), aDirectoryContent[x], aDirectoryContentPath[x], "folder");
 				}
             }
 			
@@ -141,7 +141,7 @@ namespace xbmcontrolevo
 					if (selectedType == "folder" || selectedType == "share")
 					{
 						if (selectedType != "share")
-							tsShares.SetValue(selectedIter, 0, new Pixbuf ("Interface/" + _parent.theme + "/icons/folder_open.png"));
+							tsShares.SetValue(selectedIter, 0, new Pixbuf (_parent.appDir + "/Interface/" + _parent.theme + "/icons/folder_open.png"));
 						_parent._tvShares.ExpandRow(selectedModel.GetPath(selectedIter), false);
 					}
 				}
@@ -150,7 +150,7 @@ namespace xbmcontrolevo
 					if (selectedType == "folder" || selectedType == "share")
 					{
 						if (selectedType != "share")
-							tsShares.SetValue(selectedIter, 0, new Pixbuf ("Interface/" + _parent.theme + "/icons/folder_closed.png"));
+							tsShares.SetValue(selectedIter, 0, new Pixbuf (_parent.appDir + "/Interface/" + _parent.theme + "/icons/folder_closed.png"));
 						_parent._tvShares.CollapseRow(selectedModel.GetPath(selectedIter));
 					}
 				}

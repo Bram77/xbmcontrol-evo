@@ -60,7 +60,7 @@ namespace xbmcontrolevo
 					_parent._hsVolume.TooltipText			= currentVolume + "%";
 					_parent._tbMute.Active 					= (isMuted)? true : false ;
 					_parent._bStop.Active 					= (isNotPlaying)? true : false ;
-					_parent._ibPlay.Pixbuf					= (isPlaying)? new Gdk.Pixbuf("Interface/" + _parent.theme + "/buttons/pause_32.png") : new Gdk.Pixbuf("Interface/" + _parent.theme + "/buttons/play_32.png") ;
+					_parent._ibPlay.Pixbuf					= (isPlaying)? new Gdk.Pixbuf(_parent.appDir + "/Interface/" + _parent.theme + "/buttons/pause_32.png") : new Gdk.Pixbuf(_parent.appDir + "/Interface/" + _parent.theme + "/buttons/play_32.png") ;
 					
 					if (!_parent._hsVolume.HasGrab) 
 						_parent._hsVolume.Value = Convert.ToDouble(currentVolume);
