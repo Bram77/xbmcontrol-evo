@@ -1,0 +1,9 @@
+<configuration>
+  <ipAddress>10.0.0.5</ipAddress>
+  <username />
+  <password />
+  <updateInterval>1</updateInterval>
+  <connectionTimeout>5</connectionTimeout>
+  <showInTaskbar>1</showInTaskbar>
+  <showInSystemTray>1</showInSystemTray>
+</configuration>

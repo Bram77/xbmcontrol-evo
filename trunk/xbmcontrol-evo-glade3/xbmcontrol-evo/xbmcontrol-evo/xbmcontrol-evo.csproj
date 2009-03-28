@@ -71,9 +71,6 @@
     <Folder Include="Interface\default\icons\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Interface\default.glade">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Interface\default\buttons\next_16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -197,5 +194,10 @@
     <None Include="Interface\default\buttons\stop_32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Interface\default.glade">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 </Project>

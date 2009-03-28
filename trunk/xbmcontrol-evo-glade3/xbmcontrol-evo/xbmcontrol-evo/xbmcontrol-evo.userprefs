@@ -1,20 +1,18 @@
 ﻿<Properties>
   <AuthorInfo Name="Bram van Oploo" Email="bramvano@gmail.com" Copyright="Bram van Oploo" ctype="AuthorInformation" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Objects/FileBrowser.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Objects/StatusUpdate.cs" ctype="Workbench">
     <Files>
-      <File FileName="XbmControlEvo.cs" Line="254" Column="38" />
-      <File FileName="Objects/Configuration.cs" Line="25" Column="4" />
-      <File FileName="Objects/FileBrowser.cs" Line="86" Column="62" />
-      <File FileName="Objects/Playlist.cs" Line="134" Column="36" />
-      <File FileName="Objects/ShareBrowser.cs" Line="23" Column="40" />
-      <File FileName="Objects/ContextMenu.cs" Line="68" Column="5" />
-      <File FileName="Objects/MenuItems.cs" Line="29" Column="4" />
+      <File FileName="XbmControlEvo.cs" Line="192" Column="26" />
+      <File FileName="Objects/Configuration.cs" Line="128" Column="18" />
+      <File FileName="Objects/SysTrayIcon.cs" Line="43" Column="27" />
+      <File FileName="Objects/StatusUpdate.cs" Line="19" Column="23" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Packages" expanded="True" selected="True" />
           <Node name="xbmcontrol-evo" expanded="True">
+            <Node name="Interface" expanded="True" />
             <Node name="Objects" expanded="True" />
           </Node>
         </State>

@@ -51,6 +51,17 @@ namespace xbmcontrolevo
 		//[Widget] Entry eFilterFiles;
 		[Widget] Entry eArtistsFilter;
 		[Widget] Entry eAlbumsFilter;
+		[Widget] Entry eIpAddress;
+		[Widget] Entry eUsername;
+		[Widget] Entry ePassword;
+		
+		//SpinButton
+		[Widget] SpinButton sbUpdateInterval;
+		[Widget] SpinButton sbConnectionTimeout;
+		
+		//CheckButton
+		[Widget] CheckButton chbShowInSystemTray;
+		[Widget] CheckButton chbShowInTaskbar;
 		
 		//TreeView
 		[Widget] TreeView tvShares;
@@ -97,15 +108,22 @@ namespace xbmcontrolevo
 		public Image _ibPlay;
 		public ToggleButton _bStop;
 		
+		//Configuration tab
+		public Entry _eIpAddress;
+		public Entry _eUsername;
+		public Entry _ePassword;
+		public SpinButton _sbUpdateInterval;
+		public SpinButton _sbConnectionTimeout;
+		public CheckButton _chbShowInTaskbar;
+		public CheckButton _chbShowInSystemTray;
+		
 		//Settings
 		public string theme;
 		private bool isConnected;
 		
-		
 		public XbmControlEvo (string[] args)
 		{
 			Application.Init();
-			
 			theme 		= "default";
 			isConnected = false;
 			
@@ -114,38 +132,27 @@ namespace xbmcontrolevo
 
 			this.AllowinternalAccess();
 			this.InitObjects();
+			this.XbmcConnect();
 			
 			Application.Run();
 		}
 		
 		private void InitObjects ()
 		{
+			oConfiguration 	= new Configuration(this);
 			oXbmc 			= new XBMC_Communicator();
-			oConfiguration	= new Configuration(this);
 			oShareBrowser 	= new ShareBrowser(this);
 			oFileBrowser	= new FileBrowser(this);
 			oMenuItems		= new MenuItems(this);
 			oContextMenu	= new ContextMenu(this);
+			oSysTrayIcon 	= new SysTrayIcon(this);
 			oControls		= new Controls(this);
 			oPlaylist		= new Playlist(this);
 			oHelper			= new HelperFunctions(this);
-			oSysTrayIcon	= new SysTrayIcon(this);
 			oGenreBrowser	= new GenreBrowser(this);
 			oArtistBrowser 	= new ArtistBrowser(this);
 			oAlbumBrowser	= new AlbumBrowser(this);
 			oStatusUpdate	= new StatusUpdate(this);
-			
-			this.XbmcConnect();
-			if (IsConnected())
-			{
-				oStatusUpdate.Start();
-				SetStartupvalues ();
-			}
-			else
-			{
-				oHelper.Messagebox("Could not connect to XBMC with the current configuration.");
-				nbRight.CurrentPage = 3;
-			}
 		}
 		
 		private void AllowinternalAccess ()
@@ -166,16 +173,47 @@ namespace xbmcontrolevo
 			_tbMute				= tbMute;
 			_ibPlay				= ibPlay;
 			_bStop				= bStop;
-			//_eFilterFiles	= eFilterFiles;
+			
+			//Configuration tab
+			_eIpAddress				= eIpAddress;
+			_eUsername				= eUsername;
+			_ePassword				= ePassword;
+			_sbUpdateInterval		= sbUpdateInterval;
+			_sbConnectionTimeout	= sbConnectionTimeout;
+			_chbShowInTaskbar		= chbShowInTaskbar;
+			_chbShowInSystemTray	= chbShowInSystemTray;
 		}
 		
 		private void XbmcConnect ()
 		{
-			oXbmc.SetIp("10.0.0.5");
-	        oXbmc.SetConnectionTimeout(4000);
-	        oXbmc.SetCredentials("", "");
-			this.isConnected = (oXbmc.Status.WebServerEnabled()) ? true : false ;
-			//oXbmc.Status.StartHeartBeat();
+			oStatusUpdate.Stop();
+			if (oConfiguration.GetIpAddress() != "")
+			{
+				oXbmc.SetIp(this.oConfiguration.GetIpAddress());
+		        oXbmc.SetConnectionTimeout(this.oConfiguration.GetConnectionTimeout()*1000);
+		        oXbmc.SetCredentials(this.oConfiguration.GetUsername(), this.oConfiguration.GetPassword());
+				this.isConnected = (oXbmc.Status.WebServerEnabled()) ? true : false ;
+				
+				if (IsConnected())
+				{
+					if (!oStatusUpdate.IsRunning()) 
+						oStatusUpdate.Start();
+					SetStartupvalues();
+					oStatusUpdate = new StatusUpdate(this);
+				}
+				else
+				{
+					oStatusUpdate.Stop();
+					oHelper.Messagebox("Could not connect to XBMC with the current configuration.");
+					nbRight.CurrentPage = 3;
+				}
+			}
+			else
+			{
+				oStatusUpdate.Stop();
+				oHelper.Messagebox("Configure XBMControl to connect with XBMC.");
+				nbRight.CurrentPage = 3;
+			}
 		}
 
 		public void SetConnected (bool connected)
@@ -190,9 +228,20 @@ namespace xbmcontrolevo
 		
 		private void SetStartupvalues ()
 		{
-			cbShares.Active 	= 0;
-			cbPlaylist.Active 	= 0;
+			cbShares.Active 			= 0;
+			cbPlaylist.Active 			= 0;
+			MainWindow.SkipTaskbarHint 	= (oConfiguration.GetShowInTaskbar())? false : true;
 			
+			if (oConfiguration.GetShowInSystemTray())
+				oSysTrayIcon.Show();
+			else
+				oSysTrayIcon.Hide();
+			
+			ApplyTheme();
+		}
+		
+		protected void ApplyTheme ()
+		{
 			MainWindow.Icon		= new Gdk.Pixbuf("Interface/" + theme + "/icons/icon.png");
 			ibPrevious			= new Gtk.Image(new Gdk.Pixbuf("Interface/" + theme + "/buttons/previous_32.png"));
 			ibPlay 				= new Gtk.Image(new Gdk.Pixbuf("Interface/" + theme + "/buttons/play_32.png"));
@@ -370,6 +419,12 @@ namespace xbmcontrolevo
 			}
 			
 			oHelper.Messagebox("test");
+		}
+		
+		protected void on_bConfigurationSave_released (object o, EventArgs args)
+		{
+			this.oConfiguration.Save();
+			this.XbmcConnect();
 		}
 	}
 }

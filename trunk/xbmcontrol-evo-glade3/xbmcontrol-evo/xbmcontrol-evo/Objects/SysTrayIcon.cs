@@ -32,5 +32,15 @@ namespace xbmcontrolevo
 		{
 			_parent._MainWindow.Visible = !_parent._MainWindow.Visible;
 		}
+		
+		public void Show ()
+		{
+			siTray.Visible = true;
+		}
+		
+		public void Hide ()
+		{
+			siTray.Visible = false;
+		}
 	}
 }
