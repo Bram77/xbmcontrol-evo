@@ -1,0 +1,6 @@
+#labels Phase-Deploy
+#Installation instructions for Linux tarball
+
+./configure
+make
+sudo make install
