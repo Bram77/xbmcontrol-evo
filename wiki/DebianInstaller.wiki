@@ -1,0 +1,6 @@
+#labels Featured,Phase-Deploy
+#Instructions for .deb installation package
+
+install: sudo dpkg -i *.deb
+configure: sudo xbmcontrol-evo
+run: xbmcontrol-evo
