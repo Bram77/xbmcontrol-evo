@@ -48,7 +48,7 @@ namespace xbmcontrolevo
 					for (int x = 0; x < aAlbums.Length; x++)
 					{
 						if (aAlbums[x] != "" && aAlbumIds[x] != "")
-							tsAlbums.AppendValues (new Pixbuf ("Interface/" + _parent.theme + "/icons/cd_16.png"), aAlbums[x], aAlbumIds[x]);
+							tsAlbums.AppendValues (new Pixbuf (_parent.appDir + "/Interface/" + _parent.theme + "/icons/cd_16.png"), aAlbums[x], aAlbumIds[x]);
 					}
 					
 					_parent._tvAlbums.Model = tsAlbums;

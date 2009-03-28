@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xbmcontrol-evo", "xbmcontrol-evo.csproj", "{E48493E1-1FAA-4838-95D4-97B893E9F377}"
 EndProject
-Project("{9344bdbb-3e7f-41fc-a0dd-8665d75ee146}") = "Packages", "Packages.mdproj", "{DC9DE73D-E681-4BCD-8702-D621291D58DF}"
+Project("{9344bdbb-3e7f-41fc-a0dd-8665d75ee146}") = "Packages", "Packages.mdproj", "{ADDEBBC0-F9BD-4F43-AE8F-F19AECD05CA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DC9DE73D-E681-4BCD-8702-D621291D58DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC9DE73D-E681-4BCD-8702-D621291D58DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC9DE73D-E681-4BCD-8702-D621291D58DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC9DE73D-E681-4BCD-8702-D621291D58DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADDEBBC0-F9BD-4F43-AE8F-F19AECD05CA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADDEBBC0-F9BD-4F43-AE8F-F19AECD05CA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADDEBBC0-F9BD-4F43-AE8F-F19AECD05CA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADDEBBC0-F9BD-4F43-AE8F-F19AECD05CA7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E48493E1-1FAA-4838-95D4-97B893E9F377}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E48493E1-1FAA-4838-95D4-97B893E9F377}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E48493E1-1FAA-4838-95D4-97B893E9F377}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -24,24 +24,24 @@ Global
 		version = 0.1
 		StartupItem = xbmcontrol-evo.csproj
 		Policies = $0
-		$0.DotNetNamingPolicy = $1
-		$1.DirectoryNamespaceAssociation = None
-		$1.ResourceNamePolicy = FileFormatDefault
+		$0.TextStylePolicy = $1
+		$1.FileWidth = 120
+		$1.TabWidth = 4
+		$1.TabsToSpaces = False
+		$1.NoTabsAfterNonTabs = False
+		$1.RemoveTrailingWhitespace = False
+		$1.EolMarker = Native
 		$0.VersionControlPolicy = $2
 		$2.inheritsSet = Mono
-		$0.TextStylePolicy = $3
-		$3.FileWidth = 120
-		$3.TabWidth = 4
-		$3.TabsToSpaces = False
-		$3.NoTabsAfterNonTabs = False
-		$3.RemoveTrailingWhitespace = False
-		$3.EolMarker = Native
-		$0.StandardHeader = $4
-		$4.inheritsSet = LGPLv2License
-		$0.ChangeLogPolicy = $5
-		$5.UpdateMode = None
-		$5.MessageStyle = $6
-		$6.LineAlign = 0
-		$5.inheritsSet = Mono
+		$0.ChangeLogPolicy = $3
+		$3.UpdateMode = None
+		$3.MessageStyle = $4
+		$4.LineAlign = 0
+		$3.inheritsSet = Mono
+		$0.StandardHeader = $5
+		$5.inheritsSet = LGPLv2License
+		$0.DotNetNamingPolicy = $6
+		$6.DirectoryNamespaceAssociation = None
+		$6.ResourceNamePolicy = FileFormatDefault
 	EndGlobalSection
 EndGlobal

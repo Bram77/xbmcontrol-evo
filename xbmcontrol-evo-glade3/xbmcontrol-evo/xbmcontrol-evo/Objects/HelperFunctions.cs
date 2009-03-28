@@ -16,7 +16,7 @@ namespace xbmcontrolevo
 			_parent = parent;
 		}
 		
-		public void Messagebox(string message)
+		public void Messagebox (string message)
 		{
 			MessageDialog md = new MessageDialog(_parent._MainWindow, DialogFlags.DestroyWithParent, MessageType.Info, ButtonsType.Ok, message);
 			md.Modal = true;
@@ -24,7 +24,7 @@ namespace xbmcontrolevo
 	        if (result == ResponseType.Ok) md.Destroy();
 		}
 		
-		public bool Confirm(string message)
+		public bool Confirm (string message)
 		{
 			MessageDialog md = new MessageDialog(_parent._MainWindow, DialogFlags.DestroyWithParent, MessageType.Question, ButtonsType.YesNo, message);
 			md.Modal = true;

@@ -196,8 +196,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Interface\default.glade">
+    <EmbeddedResource Include="Interface\default.glade">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

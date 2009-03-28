@@ -27,7 +27,7 @@ namespace xbmcontrolevo
 		{
 			_parent 		= parent;
 			XmlConfigFile	= new XmlDocument();
-			configFile		= "config.xml";
+			configFile		= _parent.appDir + "/config.xml";
 			
 			//Set default values
 			ipAddress 			= "";

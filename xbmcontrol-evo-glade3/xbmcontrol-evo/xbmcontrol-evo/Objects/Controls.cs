@@ -94,7 +94,7 @@ namespace xbmcontrolevo
 				
 				Window wSongInfo = new Window("Song Info");
 				wSongInfo.SetPosition(WindowPosition.CenterAlways);
-				wSongInfo.SetIconFromFile("Interface/" + _parent.theme + "/icons/icon.png");
+				wSongInfo.SetIconFromFile(_parent.appDir + "/Interface/" + _parent.theme + "/icons/icon.png");
 				
 				Pango.FontDescription fd = Pango.FontDescription.FromString("Verdana Bold 9");
 				

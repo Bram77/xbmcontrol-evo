@@ -1,5 +1,7 @@
 
 using System;
+using System.IO;
+using System.Reflection;
 using Gtk;
 using Glade;
 using XBMC;
@@ -120,14 +122,16 @@ namespace xbmcontrolevo
 		//Settings
 		public string theme;
 		private bool isConnected;
+		public string appDir;
 		
 		public XbmControlEvo (string[] args)
 		{
 			Application.Init();
 			theme 		= "default";
 			isConnected = false;
+			appDir 		= Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
 			
-			Glade.XML wMainWindowXml 	= new Glade.XML ("Interface/" +theme+ ".glade", "MainWindow", null);
+			Glade.XML wMainWindowXml 	= new Glade.XML (appDir + "/Interface/" +theme+ ".glade", null, null);
 			wMainWindowXml.Autoconnect (this);
 
 			this.AllowinternalAccess();
@@ -242,11 +246,11 @@ namespace xbmcontrolevo
 		
 		protected void ApplyTheme ()
 		{
-			MainWindow.Icon		= new Gdk.Pixbuf("Interface/" + theme + "/icons/icon.png");
-			ibPrevious			= new Gtk.Image(new Gdk.Pixbuf("Interface/" + theme + "/buttons/previous_32.png"));
-			ibPlay 				= new Gtk.Image(new Gdk.Pixbuf("Interface/" + theme + "/buttons/play_32.png"));
-			ibStop 				= new Gtk.Image(new Gdk.Pixbuf("Interface/" + theme + "/buttons/stop_32.png"));
-			ibNext 				= new Gtk.Image(new Gdk.Pixbuf("Interface/" + theme + "/buttons/next_32.png"));
+			MainWindow.Icon		= new Gdk.Pixbuf(appDir + "/Interface/" + theme + "/icons/icon.png");
+			ibPrevious			= new Gtk.Image(new Gdk.Pixbuf(appDir + "/Interface/" + theme + "/buttons/previous_32.png"));
+			ibPlay 				= new Gtk.Image(new Gdk.Pixbuf(appDir + "/Interface/" + theme + "/buttons/play_32.png"));
+			ibStop 				= new Gtk.Image(new Gdk.Pixbuf(appDir + "/Interface/" + theme + "/buttons/stop_32.png"));
+			ibNext 				= new Gtk.Image(new Gdk.Pixbuf(appDir + "/Interface/" + theme + "/buttons/next_32.png"));
 		}
 		
 		protected void on_MainWindow_delete_event (object sender, DeleteEventArgs a)
@@ -357,7 +361,10 @@ namespace xbmcontrolevo
 		protected void on_nbRight_switch_page (object o, Gtk.SwitchPageArgs args)
 		{
 			if (this.IsConnected())
-				if (args.PageNum == 2) oPlaylist.SelectNowPlayingEntry();
+			{
+				if (args.PageNum == 2) 
+					oPlaylist.SelectNowPlayingEntry();	
+			}
 		}
 		
 		protected void on_eArtistsFilter_changed (object o, EventArgs args)
