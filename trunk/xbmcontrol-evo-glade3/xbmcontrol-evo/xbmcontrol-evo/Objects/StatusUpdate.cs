@@ -24,7 +24,7 @@ namespace xbmcontrolevo
 		internal void Start()
 		{
 			run = true;
-			GLib.Timeout.Add((uint)_parent.oConfiguration.GetUpdateInterval()*1000, new GLib.TimeoutHandler(Update));
+			GLib.Timeout.Add((uint)(Convert.ToInt32(_parent.oConfiguration.values.updateInterval) * 1000), new GLib.TimeoutHandler(Update));
 		}
 		
 		internal void Stop ()

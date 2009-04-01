@@ -75,6 +75,8 @@ namespace xbmcontrolevo
 		[Widget] TreeView tvPlaylist;
 		[Widget] TreeView tvFiles;
 		
+		public bool DEBUG;
+		
 		//Objects
 		public XBMC_Communicator oXbmc;
 		public ShareBrowser oShareBrowser;
@@ -126,6 +128,7 @@ namespace xbmcontrolevo
 		
 		public XbmControlEvo (string[] args)
 		{
+			DEBUG = true;
 			Application.Init();
 			theme 		= "default";
 			isConnected = false;
@@ -141,8 +144,13 @@ namespace xbmcontrolevo
 			Application.Run();
 		}
 		
+		
+		/// <summary>
+	    ///  Initialise objects
+	    /// </summary>
 		private void InitObjects ()
 		{
+			oHelper			= new HelperFunctions(this);
 			oConfiguration 	= new Configuration(this);
 			oXbmc 			= new XBMC_Communicator();
 			oShareBrowser 	= new ShareBrowser(this);
@@ -152,7 +160,6 @@ namespace xbmcontrolevo
 			oSysTrayIcon 	= new SysTrayIcon(this);
 			oControls		= new Controls(this);
 			oPlaylist		= new Playlist(this);
-			oHelper			= new HelperFunctions(this);
 			oGenreBrowser	= new GenreBrowser(this);
 			oArtistBrowser 	= new ArtistBrowser(this);
 			oAlbumBrowser	= new AlbumBrowser(this);
@@ -191,11 +198,11 @@ namespace xbmcontrolevo
 		private void XbmcConnect ()
 		{
 			oStatusUpdate.Stop();
-			if (oConfiguration.GetIpAddress() != "")
+			if (oConfiguration.values.ipAddress != "")
 			{
-				oXbmc.SetIp(this.oConfiguration.GetIpAddress());
-		        oXbmc.SetConnectionTimeout(this.oConfiguration.GetConnectionTimeout()*1000);
-		        oXbmc.SetCredentials(this.oConfiguration.GetUsername(), this.oConfiguration.GetPassword());
+				oXbmc.SetIp(oConfiguration.values.ipAddress);
+		        oXbmc.SetConnectionTimeout(Convert.ToInt32(oConfiguration.values.connectionTimeout) * 1000);
+		        oXbmc.SetCredentials(oConfiguration.values.username, oConfiguration.values.password);
 				this.isConnected = (oXbmc.Status.WebServerEnabled()) ? true : false ;
 				
 				if (IsConnected())
@@ -234,9 +241,9 @@ namespace xbmcontrolevo
 		{
 			cbShares.Active 			= 0;
 			cbPlaylist.Active 			= 0;
-			MainWindow.SkipTaskbarHint 	= (oConfiguration.GetShowInTaskbar())? false : true;
+			MainWindow.SkipTaskbarHint 	= oConfiguration.GetBoolValue(oConfiguration.fieldName.showInTaskbar);
 			
-			if (oConfiguration.GetShowInSystemTray())
+			if (oConfiguration.GetBoolValue(oConfiguration.fieldName.showInSystemTray))
 				oSysTrayIcon.Show();
 			else
 				oSysTrayIcon.Hide();

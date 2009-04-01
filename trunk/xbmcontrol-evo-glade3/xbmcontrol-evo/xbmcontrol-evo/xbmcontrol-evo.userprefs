@@ -1,18 +1,19 @@
 ﻿<Properties>
   <AuthorInfo Name="Bram van Oploo" Email="bramvano@gmail.com" Copyright="Bram van Oploo" ctype="AuthorInformation" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="XbmControlEvo.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Objects/Configuration.cs" ctype="Workbench">
     <Files>
-      <File FileName="XbmControlEvo.cs" Line="16" Column="4" />
-      <File FileName="Objects/Configuration.cs" Line="62" Column="4" />
-      <File FileName="Objects/HelperFunctions.cs" Line="42" Column="5" />
+      <File FileName="XbmControlEvo.cs" Line="200" Column="25" />
+      <File FileName="Objects/Configuration.cs" Line="90" Column="17" />
+      <File FileName="Objects/StatusUpdate.cs" Line="55" Column="36" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Packages" expanded="True" />
           <Node name="xbmcontrol-evo" expanded="True">
-            <Node name="Objects" expanded="True" />
-            <Node name="XbmControlEvo.cs" selected="True" />
+            <Node name="Objects" expanded="True">
+              <Node name="Configuration.cs" selected="True" />
+            </Node>
           </Node>
         </State>
       </Pad>
