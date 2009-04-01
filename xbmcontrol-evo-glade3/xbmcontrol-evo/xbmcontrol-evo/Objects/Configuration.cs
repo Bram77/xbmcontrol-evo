@@ -1,138 +1,217 @@
 
 using System;
 using System.IO;
+using System.Security.AccessControl;
 using System.Xml;
 
 namespace xbmcontrolevo
 {
 	
+	public struct sFieldName
+	{
+		public string startElement, ipAddress, username, password, showInTaskbar, showInSystemTray, updateInterval, connectionTimeout;
+		
+		public sFieldName (string init)
+		{
+			startElement		= "configuration";
+			ipAddress 			= "ip_address";
+			username			= "username";
+			password			= "password";
+			showInTaskbar 		= "show_in_taskbar";
+			showInSystemTray	= "show_in_systemtray";
+			updateInterval 		= "update_interval";
+			connectionTimeout	= "connection_timeout";
+		}
+	}
+	
+	public struct sValues
+	{
+		public string ipAddress, username, password;
+		public bool showInTaskbar, showInSystemTray;
+		public double updateInterval, connectionTimeout;
+		
+		public sValues (string init)
+		{
+			ipAddress 			= "";
+			username 			= "xbmc";
+			password			= "xbmc";
+			showInTaskbar		= true;
+			showInSystemTray	= true;
+			updateInterval		= 1.0;
+			connectionTimeout	= 6.0;
+		}
+	}
 	
 	public class Configuration
 	{
 		private XbmControlEvo _parent;
-		
-		private string ipAddress;
-		private string username;
-		private string password;
-		private string updateInterval;
-		private string connectionTimeout;
-		private string showInTaskbar;
-		private string showInSystemTray;
 		private string configFile;
-		
-		private XmlDocument XmlConfigFile;
+		private XmlDocument xmlDoc;
 		private XmlTextWriter XmlConfigWriter;
+		private FileInfo xmlConfigFile;
+		private FileStream sXmlConfigFile;
+		
+		public sFieldName fieldName;
+		public sValues values;
+		
+		
 		
 		public Configuration(XbmControlEvo parent)
 		{
+			fieldName		= new sFieldName(null);
+			values			= new sValues(null);
 			_parent 		= parent;
-			XmlConfigFile	= new XmlDocument();
 			configFile		= _parent.appDir + "/config.xml";
+			xmlDoc			= new XmlDocument();
+			xmlConfigFile 	= new FileInfo(configFile);
 			
-			//Set default values
-			ipAddress 			= "";
-			username 			= "";
-			password 			= "";
-			updateInterval		= "1";
-			connectionTimeout	= "6";
-			showInTaskbar		= "1";
-			showInSystemTray	= "1";
-		
-			this.Load();
+			Load();
 		}
 		
 		private void Load()
 		{
-			if (!File.Exists(configFile)) 
-				this.WriteConfigFile();
+			try 
+			{
+				xmlDoc.Load(configFile);
+				values.ipAddress 			= GetStringValue(fieldName.ipAddress);
+				values.username				= GetStringValue(fieldName.username);
+				values.password				= GetStringValue(fieldName.password);
+				values.updateInterval		= GetDoubleValue(fieldName.updateInterval);
+				values.connectionTimeout	= GetDoubleValue(fieldName.connectionTimeout);
+				values.showInTaskbar		= GetBoolValue(fieldName.showInTaskbar);
+				values.showInSystemTray		= GetBoolValue(fieldName.showInSystemTray);
+			}
+			catch (Exception e)
+			{
+				Save(true);
+				if (_parent.DEBUG) _parent.oHelper.Messagebox(e.Message);
+			}
 			
-			XmlConfigFile.Load(configFile);
-			this.ShowConfig();
+			ShowConfig();
 		}
 		
-		public void Save()
+		public void Save(bool newConfigFile)
 		{
-			ipAddress			= _parent._eIpAddress.Text;
-			username			= _parent._eUsername.Text;
-			password			= _parent._ePassword.Text;
-			updateInterval		= Convert.ToInt32(_parent._sbUpdateInterval.Value).ToString();
-			connectionTimeout	= Convert.ToInt32(_parent._sbConnectionTimeout.Value).ToString();
-			showInTaskbar		= (_parent._chbShowInTaskbar.Active)? "1" : "0" ; 
-			showInSystemTray	= (_parent._chbShowInSystemTray.Active)? "1" : "0" ;
+			if (!newConfigFile)
+			{
+				values.ipAddress			= _parent._eIpAddress.Text;
+				values.username				= _parent._eUsername.Text;
+				values.password				= _parent._ePassword.Text;
+				values.updateInterval		= _parent._sbUpdateInterval.Value;
+				values.connectionTimeout	= _parent._sbConnectionTimeout.Value;
+				values.showInTaskbar		= _parent._chbShowInTaskbar.Active; 
+				values.showInSystemTray		= _parent._chbShowInSystemTray.Active;
+			}
 			
-			this.WriteConfigFile();
-			this.Load();
+			try
+			{
+				sXmlConfigFile	= xmlConfigFile.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+				XmlConfigWriter	= new XmlTextWriter(sXmlConfigFile, null);
+				XmlConfigWriter.Formatting 	= Formatting.Indented;
+				XmlConfigWriter.Indentation = 2;
+				
+			 	XmlConfigWriter.WriteStartDocument(true);
+					XmlConfigWriter.WriteStartElement(fieldName.startElement);
+						XmlConfigWriter.WriteElementString(fieldName.ipAddress, values.ipAddress);
+						XmlConfigWriter.WriteElementString(fieldName.username, values.username);
+						XmlConfigWriter.WriteElementString(fieldName.password, values.password);
+						XmlConfigWriter.WriteElementString(fieldName.updateInterval, values.updateInterval.ToString());
+						XmlConfigWriter.WriteElementString(fieldName.connectionTimeout, values.connectionTimeout.ToString());
+						XmlConfigWriter.WriteElementString(fieldName.showInTaskbar, values.showInTaskbar.ToString());
+						XmlConfigWriter.WriteElementString(fieldName.showInSystemTray, values.showInSystemTray.ToString());
+					XmlConfigWriter.WriteEndElement();
+				XmlConfigWriter.WriteEndDocument();
+				
+				XmlConfigWriter.Flush();
+				XmlConfigWriter.Close();
+				sXmlConfigFile.Close();
+			}
+			catch (Exception e)
+			{
+				if (_parent.DEBUG) _parent.oHelper.Messagebox(e.Message);
+			}
+			
+			ShowConfig();
 		}
 		
-		private void WriteConfigFile()
+		public void Save ()
 		{
-			//recreate config file if it exists
-			if (File.Exists(configFile)) File.Delete(configFile);
-			
-			//Create new config file
-			XmlConfigWriter				= new XmlTextWriter(configFile, null);
-			XmlConfigFile				= new XmlDocument();
-			XmlConfigWriter.Formatting 	= Formatting.Indented;
-			XmlConfigWriter.Indentation = 2;
-			
-			XmlConfigWriter.WriteStartElement("configuration");
-			XmlConfigWriter.WriteElementString("ipAddress", ipAddress);
-			XmlConfigWriter.WriteElementString("username", username);
-			XmlConfigWriter.WriteElementString("password", password);
-			XmlConfigWriter.WriteElementString("updateInterval", updateInterval);
-			XmlConfigWriter.WriteElementString("connectionTimeout", connectionTimeout);
-			XmlConfigWriter.WriteElementString("showInTaskbar", showInTaskbar);
-			XmlConfigWriter.WriteElementString("showInSystemTray", showInSystemTray);
-			XmlConfigWriter.WriteEndElement();
-			
-			XmlConfigFile.Save(XmlConfigWriter);
-			XmlConfigWriter.Close();
+			Save(false);
 		}
 		
 		public void ShowConfig()
 		{
-			_parent._eIpAddress.Text 			= this.GetIpAddress();
-			_parent._eUsername.Text				= this.GetUsername();
-			_parent._ePassword.Text				= this.GetPassword();
-			_parent._sbUpdateInterval.Value		= Convert.ToDouble(this.GetUpdateInterval());
-			_parent._sbConnectionTimeout.Value	= Convert.ToDouble(this.GetConnectionTimeout().ToString());
-			_parent._chbShowInTaskbar.Active	= this.GetShowInTaskbar();
-			_parent._chbShowInSystemTray.Active	= this.GetShowInSystemTray();
+			_parent._eIpAddress.Text 			= values.ipAddress;
+			_parent._eUsername.Text				= values.username;
+			_parent._ePassword.Text				= values.password;
+			_parent._sbUpdateInterval.Value		= values.updateInterval;
+			_parent._sbConnectionTimeout.Value	= values.connectionTimeout;
+			_parent._chbShowInTaskbar.Active	= Convert.ToBoolean(values.showInTaskbar);
+			_parent._chbShowInSystemTray.Active	= Convert.ToBoolean(values.showInSystemTray);
 		}
 		
-		public string GetIpAddress()
+		public string GetStringValue(string node)
 		{
-			return XmlConfigFile.SelectSingleNode("configuration/ipAddress").InnerText;
+			string nodeValue = "";
+			
+			try
+			{
+				nodeValue = xmlDoc.SelectSingleNode(fieldName.startElement + "/" + node).InnerText;
+			}
+			catch (Exception e)
+			{
+				if (_parent.DEBUG) _parent.oHelper.Messagebox(e.Message);	
+			}
+			
+			return nodeValue;
 		}
 		
-		public string GetUsername()
+		public bool GetBoolValue(string node)
 		{
-			return XmlConfigFile.SelectSingleNode("configuration/username").InnerText;
+			bool nodeValue = true;
+			
+			try
+			{
+				nodeValue = (xmlDoc.SelectSingleNode(fieldName.startElement + "/" + node).InnerText == "1")? true : false;
+			}
+			catch (Exception e)
+			{
+				if (_parent.DEBUG) _parent.oHelper.Messagebox(e.Message);	
+			}
+			
+			return nodeValue;	
 		}
 		
-		public string GetPassword()
+		public int GetIntValue(string node)
 		{
-			return XmlConfigFile.SelectSingleNode("configuration/password").InnerText;
+			int nodeValue = 0;
+			
+			try
+			{
+				nodeValue = Convert.ToInt32(xmlDoc.SelectSingleNode(fieldName.startElement + "/" + node).InnerText);
+			}
+			catch (Exception e)
+			{
+				if (_parent.DEBUG) _parent.oHelper.Messagebox(e.Message);	
+			}
+			
+			return nodeValue;
 		}
 		
-		public int GetUpdateInterval()
+		public double GetDoubleValue(string node)
 		{
-			return Convert.ToInt32(XmlConfigFile.SelectSingleNode("configuration/updateInterval").InnerText);
-		}
-		
-		public int GetConnectionTimeout()
-		{
-			return Convert.ToInt32(XmlConfigFile.SelectSingleNode("configuration/connectionTimeout").InnerText);
-		}
-		
-		public bool GetShowInTaskbar()
-		{
-			return (XmlConfigFile.SelectSingleNode("configuration/showInTaskbar").InnerText == "1")? true : false ;
-		}
-		
-		public bool GetShowInSystemTray()
-		{
-			return (XmlConfigFile.SelectSingleNode("configuration/showInSystemTray").InnerText == "1")? true : false ;
+			double nodeValue = 1.0;
+			
+			try
+			{
+				nodeValue = Convert.ToDouble(Convert.ToInt32(xmlDoc.SelectSingleNode(fieldName.startElement + "/" + node).InnerText));
+			}
+			catch (Exception e)
+			{
+				if (_parent.DEBUG) _parent.oHelper.Messagebox(e.Message);	
+			}
+			
+			return nodeValue;
 		}
 	}
 }
