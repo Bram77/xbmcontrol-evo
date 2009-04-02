@@ -1,0 +1,36 @@
+﻿<Properties>
+  <AuthorInfo Name="Bram van Oploo" Email="bramvano@gmail.com" Copyright="Bram van Oploo" ctype="AuthorInformation" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Objects/Configuration.cs" ctype="Workbench">
+    <Files>
+      <File FileName="XbmControlEvo.cs" Line="35" Column="25" />
+      <File FileName="Objects/Configuration.cs" Line="45" Column="28" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Packages" expanded="True" />
+          <Node name="xbmcontrol-evo" expanded="True">
+            <Node name="bin" expanded="True" selected="True">
+              <Node name="Debug" expanded="True" />
+            </Node>
+            <Node name="Objects" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True">
+          <Node name="xbmcontrol-evo" expanded="True">
+            <Node name="xbmcontrolevo" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ConnectionManagerPad">
+        <State selected="True" />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" ctype="Workspace" />
+</Properties>
