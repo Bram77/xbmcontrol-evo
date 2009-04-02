@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xbmcontrol-evo", "xbmcontrol-evo\xbmcontrol-evo.csproj", "{E48493E1-1FAA-4838-95D4-97B893E9F377}"
+EndProject
+Project("{9344bdbb-3e7f-41fc-a0dd-8665d75ee146}") = "Packages", "Packages.mdproj", "{51D7CFD1-7A7E-4E12-99EC-F4B32F16D94E}"
+EndProject
+Project("{9344bdbb-3e7f-41fc-a0dd-8665d75ee146}") = "xbmcontrol-evoTranslation", "xbmcontrol-evoTranslation\xbmcontrol-evoTranslation.mdproj", "{ACDEE4C6-B83D-40C4-A20E-FB14870522FC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{51D7CFD1-7A7E-4E12-99EC-F4B32F16D94E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51D7CFD1-7A7E-4E12-99EC-F4B32F16D94E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51D7CFD1-7A7E-4E12-99EC-F4B32F16D94E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51D7CFD1-7A7E-4E12-99EC-F4B32F16D94E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACDEE4C6-B83D-40C4-A20E-FB14870522FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACDEE4C6-B83D-40C4-A20E-FB14870522FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACDEE4C6-B83D-40C4-A20E-FB14870522FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACDEE4C6-B83D-40C4-A20E-FB14870522FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E48493E1-1FAA-4838-95D4-97B893E9F377}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E48493E1-1FAA-4838-95D4-97B893E9F377}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E48493E1-1FAA-4838-95D4-97B893E9F377}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E48493E1-1FAA-4838-95D4-97B893E9F377}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		name = xbmcontrol-evo
+		version = 0.1
+		StartupItem = xbmcontrol-evo\xbmcontrol-evo.csproj
+	EndGlobalSection
+EndGlobal
