@@ -104,7 +104,7 @@ namespace xbmcontrolevo
 			
 			try
 			{
-				sXmlConfigFile	= xmlConfigFile.Open(FileMode.Create, FileAccess.Write, FileShare.Write);
+				sXmlConfigFile	= xmlConfigFile.Open(FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
 				XmlConfigWriter	= new XmlTextWriter(sXmlConfigFile, null);
 				XmlConfigWriter.Formatting 	= Formatting.Indented;
 				XmlConfigWriter.Indentation = 2;
