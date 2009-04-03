@@ -23,7 +23,7 @@ namespace xbmcontrolevo
 	public struct sMenu
 	{
 		public Pixbuf clear, collapse, configure, info, minus, mute, next, pause, play, plus, previous, refresh, stop, volume_down, volume_up;
-		public Pixbuf artist, cd, file, file_music, file_picture, file_video, folder_closed, folder_open, icon, pixel;
+		public Pixbuf artist, cd, connect, disconnect, file, file_music, file_picture, file_video, folder_closed, folder_open, icon, pixel;
 		
 		public sMenu (string path)
 		{
@@ -45,6 +45,8 @@ namespace xbmcontrolevo
 			
 			artist			= new Pixbuf(path + "mic_16.png");
 			cd				= new Pixbuf(path + "cd_16.png");
+			connect			= new Pixbuf(path + "connect_16.png");
+			disconnect		= new Pixbuf(path + "disconnect_16.png");
 			file			= new Pixbuf(path + "file_files.png");
 			file_music		= new Pixbuf(path + "file_music.png");
 			file_picture	= new Pixbuf(path + "file_pictures.png");
@@ -88,7 +90,7 @@ namespace xbmcontrolevo
 		public Images(XbmControlEvo parent)
 		{
 			_parent 	= parent;
-			imagePath 	= "Interface/" + _parent.theme + "/";
+			imagePath 	= _parent.interfaceDir + _parent.theme + "/";
 			menu 		= new sMenu(imagePath);
 			button		= new sButton(imagePath);
 		}

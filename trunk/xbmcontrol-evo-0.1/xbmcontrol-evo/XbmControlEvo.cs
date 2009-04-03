@@ -54,6 +54,7 @@ namespace xbmcontrolevo
 			wMainWindowXml.Autoconnect(this);
 
 			InitObjects();
+			ApplyTheme();
 			XbmcConnect();
 			Application.Run();
 		}
@@ -66,14 +67,25 @@ namespace xbmcontrolevo
 		//ComboBox
 		[Glade.Widget] internal ComboBox cbShares;
 		[Glade.Widget] internal ComboBox cbPlaylist;
+		[Glade.Widget] internal ComboBox cbTheme;
 		
 		//NoteBook
 		[Glade.Widget] internal Notebook nbLeft;
 		[Glade.Widget] internal Notebook nbRight;
 		
+		//Button
+		[Glade.Widget] internal Button bPrevious;
+		[Glade.Widget] internal Button bPlay;
+		[Glade.Widget] internal ToggleButton bStop;
+		[Glade.Widget] internal Button bNext;
+		[Glade.Widget] internal Button bPlaylistClear;
+		[Glade.Widget] internal Button bPlaylistRefresh;
+		[Glade.Widget] internal Button bPlaylistRemove;
+		[Glade.Widget] internal Button bPlaylistPlay;
+		[Glade.Widget] internal Button bConnect;
+		
 		//ToggleButton
 		[Glade.Widget] internal ToggleButton tbMute;
-		[Glade.Widget] internal ToggleButton bStop;
 		
 		//HScale
 		[Glade.Widget] internal HScale hsProgress;
@@ -81,10 +93,6 @@ namespace xbmcontrolevo
 		
 		//Image
 		[Glade.Widget] internal Image iConnectionStatus;
-		[Glade.Widget] internal Image ibPrevious;
-		[Glade.Widget] internal Image ibPlay;
-		[Glade.Widget] internal Image ibStop;
-		[Glade.Widget] internal Image ibNext;
 		
 		//Label
 		[Glade.Widget] internal Label lStatus;
@@ -171,12 +179,12 @@ namespace xbmcontrolevo
 
 		public void SetConnected (bool connected)
 		{
-			this.isConnected = connected;
+			isConnected = connected;
 		}
 		
 		public bool IsConnected ()
 		{
-			return this.isConnected;
+			return isConnected;
 		}
 		
 		private void SetStartupvalues ()
@@ -189,17 +197,21 @@ namespace xbmcontrolevo
 				oSysTrayIcon.Show();
 			else
 				oSysTrayIcon.Hide();
-			
-			this.ApplyTheme();
 		}
 		
 		protected void ApplyTheme ()
 		{
-			MainWindow.Icon	= oImages.menu.icon;
-			ibPrevious			= new Image(oImages.button.previous);
-			ibPlay				= new Image(oImages.button.play);
-			ibStop				= new Image(oImages.button.stop);
-			ibNext				= new Image(oImages.button.next);
+			MainWindow.Icon			= oImages.menu.icon;
+			bPrevious.Image			= new Image(oImages.button.previous);
+			bPlay.Image				= new Image(oImages.button.play);
+			bStop.Image				= new Image(oImages.button.stop);
+			bNext.Image				= new Image(oImages.button.next);
+			tbMute.Image			= new Image(oImages.menu.mute);
+			bPlaylistClear.Image 	= new Image(oImages.menu.clear);
+			bPlaylistRefresh.Image	= new Image(oImages.menu.refresh);
+			bPlaylistRemove.Image	= new Image(oImages.menu.minus);
+			bPlaylistPlay.Image		= new Image(oImages.menu.play);
+			bConnect.Image			= new Image(oImages.menu.disconnect);
 		}
 		
 		protected void on_MainWindow_delete_event (object sender, DeleteEventArgs a)
@@ -366,22 +378,25 @@ namespace xbmcontrolevo
 			if (this.IsConnected()) oPlaylist.Refresh();
 		}
 		
-		protected void on_iConnectionStatus_button_release_event (object o, Gtk.ButtonReleaseEventArgs args)
-		{
-			if (!IsConnected())
-			{
-				iConnectionStatus.SetFromStock("gtk-connect", IconSize.Menu);
-				oStatusUpdate.Start();
-			}
-			
-			oHelper.Messagebox("test");
-		}
-		
 		protected void on_bConfigurationSave_released (object o, EventArgs args)
 		{
-			this.oConfiguration.Save();
-			this.XbmcConnect();
+			oConfiguration.Save();
+			XbmcConnect();
 			if (IsConnected()) nbRight.CurrentPage = 0;
+		}
+		
+		protected void on_bConnect_released (object o, EventArgs args)
+		{
+			if (IsConnected())
+			{
+				oStatusUpdate.Stop();
+				oHelper.Messagebox("test");
+			}
+			else
+			{
+				XbmcConnect();
+				oStatusUpdate.Start();
+			}
 		}
 	}
 }

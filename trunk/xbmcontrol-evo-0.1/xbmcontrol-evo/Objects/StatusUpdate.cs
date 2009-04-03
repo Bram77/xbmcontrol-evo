@@ -11,82 +11,78 @@ namespace xbmcontrolevo
 		private XbmControlEvo _parent;
 		private int currentVolume, currentProgress;
 		private string progress, nowPlayingFilename, pathNowPlaying;
-		private bool isMuted, isNotPlaying, isPlaying;
-		private bool run;
+		private bool isMuted, isNotPlaying, isPlaying, isRunning;
 		
 		public StatusUpdate(XbmControlEvo parent)
 		{
 			_parent 		= parent;
 			pathNowPlaying	= null;
-			run 			= false;
+			isRunning		= false;
 		}
 
 		internal void Start()
 		{
-			run = true;
+			_parent.SetConnected(true);
 			GLib.Timeout.Add((uint)(Convert.ToInt32(_parent.oConfiguration.values.updateInterval) * 1000), new GLib.TimeoutHandler(Update));
 		}
 		
 		internal void Stop ()
 		{
-			run = false;
+			_parent.SetConnected(false);
 		}
 		
-		internal bool IsRunning ()
+		internal bool IsRunning()
 		{
-			return run;
+			return isRunning;
 		}
 
 		private bool Update()
 		{
-			if (run)
+			if (_parent.oXbmc.Controls.SetResponseFormat() && _parent.IsConnected())
 			{
-				if (_parent.oXbmc.Controls.SetResponseFormat())
-				{
-					_parent.SetConnected(true);
-					_parent.iConnectionStatus.SetFromStock("gtk-yes", IconSize.Menu);
-					
-					currentVolume 		= _parent.oXbmc.Status.GetVolume();
-					currentProgress		= _parent.oXbmc.Status.GetProgress();
-					progress			= _parent.oXbmc.NowPlaying.Get("time");
-					isMuted				= _parent.oXbmc.Status.IsMuted();
-					isNotPlaying		= _parent.oXbmc.Status.IsNotPlaying();
-					isPlaying			= _parent.oXbmc.Status.IsPlaying();
-					nowPlayingFilename	= _parent.oXbmc.NowPlaying.Get("filename", true);
+				isRunning = true;
+				_parent.SetConnected(true);
+				_parent.bConnect.Image 			= new Image(_parent.oImages.menu.connect);
+				_parent.lStatus.Text			= "Connected to XBMC with ip " + _parent.oConfiguration.values.ipAddress + " ";
+				_parent.bConnect.TooltipText	= "click to disconnect from XBMC";
 				
-					_parent.iConnectionStatus.TooltipText	= "Connected to XBMC";
-					_parent.lStatus.Text 					= "Connected to XBMC";
-					_parent.hsProgress.TooltipText 		= progress;
-					_parent.hsVolume.TooltipText			= currentVolume + "%";
-					_parent.tbMute.Active 					= (isMuted)? true : false ;
-					_parent.bStop.Active 					= (isNotPlaying)? true : false ;
-					_parent.ibPlay.Pixbuf					= (isPlaying)? _parent.oImages.button.pause : _parent.oImages.button.play ;
-					
-					if (!_parent.hsVolume.HasGrab) 
-						_parent.hsVolume.Value = Convert.ToDouble(currentVolume);
-					if (!_parent.hsProgress.HasGrab) 
-						_parent.hsProgress.Value = Convert.ToDouble(currentProgress);
-					
-					if (pathNowPlaying != nowPlayingFilename)
-					{
-						pathNowPlaying = nowPlayingFilename;
-						_parent.oPlaylist.Populate();
-					}
-					
-					return true;
-				}
-				else
+				currentVolume 		= _parent.oXbmc.Status.GetVolume();
+				currentProgress		= _parent.oXbmc.Status.GetProgress();
+				progress			= _parent.oXbmc.NowPlaying.Get("time");
+				isMuted				= _parent.oXbmc.Status.IsMuted();
+				isNotPlaying		= _parent.oXbmc.Status.IsNotPlaying();
+				isPlaying			= _parent.oXbmc.Status.IsPlaying();
+				nowPlayingFilename	= _parent.oXbmc.NowPlaying.Get("filename", true);
+				
+				_parent.hsProgress.TooltipText 			= progress;
+				_parent.hsVolume.TooltipText			= currentVolume + "%";
+				_parent.tbMute.Active 					= (isMuted)? true : false ;
+				_parent.bStop.Active 					= (isNotPlaying)? true : false ;
+				_parent.bPlay.Image						= (isPlaying)? new Image(_parent.oImages.button.pause) : new Image(_parent.oImages.button.play) ;
+				
+				if (!_parent.hsVolume.HasGrab) 
+					_parent.hsVolume.Value = Convert.ToDouble(currentVolume);
+				if (!_parent.hsProgress.HasGrab) 
+					_parent.hsProgress.Value = Convert.ToDouble(currentProgress);
+				
+				if (pathNowPlaying != nowPlayingFilename)
 				{
-					_parent.SetConnected(false);
-					_parent.iConnectionStatus.SetFromStock("gtk-no", IconSize.Menu);
-					_parent.iConnectionStatus.TooltipText	= "Click this icon to connect to XBMC";
-					_parent.lStatus.Text = "Connection to XBMC lost";
-					
-					return false;
+					pathNowPlaying = nowPlayingFilename;
+					_parent.oPlaylist.Populate();
 				}
+				
+				return true;
 			}
 			else
+			{
+				isRunning = false;
+				_parent.SetConnected(false);
+				_parent.bConnect.Image			= new Image(_parent.oImages.menu.disconnect);
+				_parent.lStatus.Text			= (_parent.oConfiguration.values.ipAddress == "")? "No ip address configured for XBMC " : "Connection to XBMC lost with ip " + _parent.oConfiguration.values.ipAddress + " ";
+				_parent.bConnect.TooltipText 	= "Click to connect with XBMC";
+				
 				return false;
+			}
 		}
 	}
 }
