@@ -12,7 +12,7 @@
             <ChildEntries>
               <SolutionItemReference path="xbmcontrol-evo.csproj" />
             </ChildEntries>
-            <RootEntry path="xbmcontrol-evo.sln" id="{F3F16120-1FC3-4F13-B64E-427CD792D394}" />
+            <RootEntry path="xbmcontrol-evo.sln" id="{7379E914-E500-44CB-ABEB-8EEA0519B303}" />
           </Builder>
         </Package>
       </Packages>

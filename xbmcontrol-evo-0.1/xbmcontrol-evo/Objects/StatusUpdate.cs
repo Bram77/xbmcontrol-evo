@@ -44,7 +44,7 @@ namespace xbmcontrolevo
 				_parent.SetConnected(true);
 				_parent.bConnect.Image 			= new Image(_parent.oImages.menu.connect);
 				_parent.lStatus.Text			= "Connected to XBMC with ip " + _parent.oConfiguration.values.ipAddress + " ";
-				_parent.bConnect.TooltipText	= "click to disconnect from XBMC";
+				_parent.bConnect.TooltipText	= "Disconnect from XBMC";
 				
 				currentVolume 		= _parent.oXbmc.Status.GetVolume();
 				currentProgress		= _parent.oXbmc.Status.GetProgress();
@@ -60,9 +60,9 @@ namespace xbmcontrolevo
 				_parent.bStop.Active 					= (isNotPlaying)? true : false ;
 				_parent.bPlay.Image						= (isPlaying)? new Image(_parent.oImages.button.pause) : new Image(_parent.oImages.button.play) ;
 				
-				if (!_parent.hsVolume.HasGrab) 
+				if (!_parent.hsVolume.HasFocus) 
 					_parent.hsVolume.Value = Convert.ToDouble(currentVolume);
-				if (!_parent.hsProgress.HasGrab) 
+				if (!_parent.hsProgress.HasFocus) 
 					_parent.hsProgress.Value = Convert.ToDouble(currentProgress);
 				
 				if (pathNowPlaying != nowPlayingFilename)
@@ -78,8 +78,8 @@ namespace xbmcontrolevo
 				isRunning = false;
 				_parent.SetConnected(false);
 				_parent.bConnect.Image			= new Image(_parent.oImages.menu.disconnect);
-				_parent.lStatus.Text			= (_parent.oConfiguration.values.ipAddress == "")? "No ip address configured for XBMC " : "Connection to XBMC lost with ip " + _parent.oConfiguration.values.ipAddress + " ";
-				_parent.bConnect.TooltipText 	= "Click to connect with XBMC";
+				_parent.lStatus.Text			= (_parent.oConfiguration.values.ipAddress == "")? "No ip address configured " : "Disconnected ";
+				_parent.bConnect.TooltipText 	= "Connect to XBMC";
 				
 				return false;
 			}

@@ -12,6 +12,7 @@ namespace xbmcontrolevo
 		private TreeModel selectedModel;
 		private TreeIter selectedIter;
 		private TreeStore tsFiles;
+		private Pixbuf mediaIcon;
 		
 		public FileBrowser(XbmControlEvo parent)
 		{
@@ -63,9 +64,22 @@ namespace xbmcontrolevo
 					{
 						string[] aFilesPathParts = aFilesPath[y].Split(':');
 						string mediaType 		 = (aFilesPathParts[0] == "lastfm")? "lastfm" : "file" ;
-						this.tsFiles.AppendValues((y+1).ToString()+ ".", new Pixbuf (_parent.interfaceDir + _parent.theme + "/file_" + _parent.oShareBrowser.GetCurrentShareType() + ".png"), aFiles[y], aFilesPath[y], mediaType);
+						
+						if (_parent.oShareBrowser.GetCurrentShareType() == "video")
+							mediaIcon = _parent.oImages.menu.file_video;
+						else if (_parent.oShareBrowser.GetCurrentShareType() == "music")
+							mediaIcon = _parent.oImages.menu.file_music;
+						else if (_parent.oShareBrowser.GetCurrentShareType() == "pictures")
+							mediaIcon = _parent.oImages.menu.file_picture;
+						else
+							mediaIcon = _parent.oImages.menu.file;
+						
+						this.tsFiles.AppendValues((y+1).ToString()+ ".", mediaIcon, aFiles[y], aFilesPath[y], mediaType);
 					}
 				}
+				
+				if ((aFilesPath[0] != null && aFilesPath[0] != "") || aFilesPath.Length > 1)
+					_parent.nbRight.CurrentPage = 1;
 			}
 			
 			return tsFiles;
@@ -94,6 +108,8 @@ namespace xbmcontrolevo
 					if (aSongsPath[y] != null && aSongsPath[y] != "")
 						tsFiles.AppendValues((y+1).ToString()+ ".", _parent.oImages.menu.file_music, aSongs[y], aSongsPath[y], "file");
 				}
+				
+				_parent.nbRight.CurrentPage = 1;
 			}
 			
 			return tsFiles;
@@ -102,12 +118,11 @@ namespace xbmcontrolevo
 		public void ShowFiles (string caller, string arg)
 		{
 			tsFiles.Clear();
-			_parent.nbRight.CurrentPage = 1;
 			
 			if (caller == "share" || caller == "folder")
-				_parent.tvFiles.Model = this.GetFiles(arg);
+				_parent.tvFiles.Model = GetFiles(arg);
 			else if (caller == "artist" || caller == "album")
-				_parent.tvFiles.Model = this.GetSongs(caller, arg);
+				_parent.tvFiles.Model = GetSongs(caller, arg);
 
 			_parent.tvFiles.ShowAll();
 		}
