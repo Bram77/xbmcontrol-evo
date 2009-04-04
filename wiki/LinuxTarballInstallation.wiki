@@ -1,7 +1,8 @@
 #labels Phase-Deploy,Featured
 #Installation instructions for Linux tarball
-
 assuming you have make tools and gtk installed...
+
+
 
 
 ~ sudo apt-get update
