@@ -727,6 +727,7 @@ Video</property>
                             <child>
                               <widget class="GtkComboBox" id="cbTheme">
                                 <property name="visible">True</property>
+                                <property name="active">0</property>
                                 <property name="items" translatable="yes"></property>
                               </widget>
                               <packing>
@@ -738,6 +739,10 @@ Video</property>
                                 <property name="height_request">26</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="tooltip" translatable="yes">Enter a valid ip address or hostname.
+A port should be added if a different one then 80 is used.
+
+example: 192.168.1.10:8080</property>
                                 <property name="invisible_char">&#x25CF;</property>
                                 <property name="shadow_type">etched-in</property>
                               </widget>
@@ -751,6 +756,7 @@ Video</property>
                                 <property name="height_request">26</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="tooltip" translatable="yes">default: xbmc</property>
                                 <property name="invisible_char">&#x25CF;</property>
                                 <property name="shadow_type">etched-in</property>
                               </widget>
@@ -764,6 +770,8 @@ Video</property>
                                 <property name="height_request">26</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="tooltip" translatable="yes">default: xbmc</property>
+                                <property name="visibility">False</property>
                                 <property name="invisible_char">&#x25CF;</property>
                                 <property name="truncate_multiline">True</property>
                                 <property name="shadow_type">etched-in</property>
@@ -843,6 +851,7 @@ Video</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="draw_indicator">True</property>
+                            <signal name="released" handler="on_chbShowInSystemTray_released"/>
                           </widget>
                           <packing>
                             <property name="position">0</property>
@@ -855,9 +864,23 @@ Video</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="draw_indicator">True</property>
+                            <signal name="released" handler="on_chbShowInTaskbar_released"/>
                           </widget>
                           <packing>
                             <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="chbCloseToSystemTray">
+                            <property name="label" translatable="yes">Minimize to tray when clicking 'X'</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="released" handler="on_chbCloseToSystemTray_released"/>
+                          </widget>
+                          <packing>
+                            <property name="position">2</property>
                           </packing>
                         </child>
                       </widget>
@@ -885,7 +908,7 @@ Video</property>
                             <property name="label" translatable="yes">Save
 </property>
                             <property name="width_request">80</property>
-                            <property name="height_request">26</property>
+                            <property name="height_request">30</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>

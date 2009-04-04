@@ -37,22 +37,32 @@ namespace xbmcontrolevo
 		//Settings
 		public string theme;
 		private bool isConnected;
-		public string appDir;
+		public string appDir, appUserDir, configFile;
 		public string interfaceDir;
 		public bool DEBUG;
 		
 		public XbmControlEvo (string[] args)
 		{
-			DEBUG = true;
 			Application.Init();
-			theme 		= "default";
-			isConnected = false;
-			appDir		= Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
-			interfaceDir= appDir + "/Interface/";
 			
-			Glade.XML wMainWindowXml = new Glade.XML (interfaceDir + theme + ".glade", null, null);
+			DEBUG 			= true;
+			theme 			= "default";
+			isConnected 	= false;
+			appDir			= Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
+			interfaceDir	= appDir + "/Interface";
+			appUserDir		= Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "/.xbmcontrol-evo";
+			configFile		= appUserDir + "/config.xml";
+			
+			if (!Directory.Exists(appUserDir)) 
+				Directory.CreateDirectory(appUserDir);
+			
+			if (!Directory.Exists(appUserDir + "/Interface/default") || !File.Exists(appUserDir + "/Interface/default.glade"))
+				CopyDefaultThemes(appDir + "/Interface", appUserDir + "/Interface", true);
+			
+			string gladeFilePath 		= (File.Exists(appUserDir + "/Interface/" + theme + ".glade"))? appUserDir + "/Interface/" + theme + ".glade" : appUserDir + "/Interface/default.glade" ;
+			Glade.XML wMainWindowXml 	= new Glade.XML(gladeFilePath, null, null);
 			wMainWindowXml.Autoconnect(this);
-
+			
 			InitObjects();
 			ApplyTheme();
 			XbmcConnect();
@@ -91,9 +101,6 @@ namespace xbmcontrolevo
 		[Glade.Widget] internal HScale hsProgress;
 		[Glade.Widget] internal HScale hsVolume;
 		
-		//Image
-		[Glade.Widget] internal Image iConnectionStatus;
-		
 		//Label
 		[Glade.Widget] internal Label lStatus;
 		
@@ -111,6 +118,7 @@ namespace xbmcontrolevo
 		//CheckButton
 		[Glade.Widget] internal CheckButton chbShowInSystemTray;
 		[Glade.Widget] internal CheckButton chbShowInTaskbar;
+		[Glade.Widget] internal CheckButton chbCloseToSystemTray;
 		
 		//TreeView
 		[Glade.Widget] internal TreeView tvShares;
@@ -128,8 +136,8 @@ namespace xbmcontrolevo
 	    /// </summary>
 		private void InitObjects ()
 		{
-			oImages			= new Images(this);
 			oHelper			= new HelperFunctions(this);
+			oImages			= new Images(this);
 			oConfiguration 	= new Configuration(this);
 			oXbmc 			= new XBMC_Communicator();
 			oShareBrowser 	= new ShareBrowser(this);
@@ -165,14 +173,14 @@ namespace xbmcontrolevo
 				else
 				{
 					oStatusUpdate.Stop();
-					oHelper.Messagebox("Could not connect to XBMC with the current configuration.");
+					oHelper.Messagebox("Could not connect to XBMC with the current configuration");
 					nbRight.CurrentPage = 3;
 				}
 			}
 			else
 			{
 				oStatusUpdate.Stop();
-				oHelper.Messagebox("Configure XBMControl to connect with XBMC.");
+				oHelper.Messagebox("A valid ip address or hostname is required");
 				nbRight.CurrentPage = 3;
 			}
 		}
@@ -191,12 +199,33 @@ namespace xbmcontrolevo
 		{
 			cbShares.Active 			= 0;
 			cbPlaylist.Active 			= 0;
-			MainWindow.SkipTaskbarHint 	= oConfiguration.values.showInTaskbar;
+			MainWindow.SkipTaskbarHint 	= (oConfiguration.values.showInTaskbar)? false : true;
 			
 			if (oConfiguration.values.showInSystemTray)
 				oSysTrayIcon.Show();
 			else
 				oSysTrayIcon.Hide();
+		}
+		
+		protected void CopyDefaultThemes (string src, string dest, bool recursive)
+		{
+			DirectoryInfo source = new DirectoryInfo(src);
+	        if (!source.Exists) throw new DirectoryNotFoundException("Source directory not found: " + source.FullName);
+			
+	        DirectoryInfo target = new DirectoryInfo(dest);
+	        if (!target.Exists) target.Create();
+	
+	        foreach (FileInfo file in source.GetFiles())
+	        {
+	            file.CopyTo(Path.Combine(target.FullName, file.Name), true);
+	        }
+
+			if (!recursive) return;
+			
+	        foreach (DirectoryInfo directory in source.GetDirectories())
+	        {
+	            CopyDefaultThemes((src+"/"+directory.Name), Path.Combine(target.FullName, directory.Name), recursive);
+	        }
 		}
 		
 		protected void ApplyTheme ()
@@ -216,8 +245,16 @@ namespace xbmcontrolevo
 		
 		protected void on_MainWindow_delete_event (object sender, DeleteEventArgs a)
 		{
-			Application.Quit ();
-			a.RetVal = true;
+			if (oConfiguration.values.closeToSystemTray)
+			{
+				MainWindow.Visible = false;
+				a.RetVal = true;
+			}
+			else
+			{
+				Application.Quit();
+				a.RetVal = true;
+			}
 		}
 		
 		protected void on_cbShares_changed (object o, EventArgs args)
@@ -382,21 +419,51 @@ namespace xbmcontrolevo
 		{
 			oConfiguration.Save();
 			XbmcConnect();
-			if (IsConnected()) nbRight.CurrentPage = 0;
 		}
 		
 		protected void on_bConnect_released (object o, EventArgs args)
 		{
 			if (IsConnected())
-			{
 				oStatusUpdate.Stop();
-				oHelper.Messagebox("test");
-			}
 			else
 			{
 				XbmcConnect();
 				oStatusUpdate.Start();
 			}
+		}
+		
+		protected void on_chbCloseToSystemTray_released (object o, EventArgs args)
+		{
+			if (chbCloseToSystemTray.Active)
+			{
+				chbShowInSystemTray.Active 		= true;
+				chbShowInSystemTray.Sensitive 	= false;
+				chbShowInTaskbar.Sensitive 		= true;
+			}
+			else
+				chbShowInSystemTray.Sensitive = true;
+		}
+		
+		protected void on_chbShowInTaskbar_released (object o, EventArgs args)
+		{
+			if (!chbShowInTaskbar.Active)
+			{
+				chbShowInSystemTray.Sensitive 	= false;
+				chbShowInSystemTray.Active 		= true;
+			}
+			else
+				chbShowInSystemTray.Sensitive 	= true;
+		}
+		
+		protected void on_chbShowInSystemTray_released (object o, EventArgs args)
+		{
+			if (!chbShowInSystemTray.Active)
+			{
+				chbShowInTaskbar.Sensitive 	= false;
+				chbShowInTaskbar.Active 		= true;
+			}
+			else
+				chbShowInTaskbar.Sensitive 	= true;
 		}
 	}
 }

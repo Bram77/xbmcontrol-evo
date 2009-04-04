@@ -16,6 +16,7 @@
 // 
 
 using System;
+using System.IO;
 using Gdk;
 
 namespace xbmcontrolevo
@@ -90,7 +91,8 @@ namespace xbmcontrolevo
 		public Images(XbmControlEvo parent)
 		{
 			_parent 	= parent;
-			imagePath 	= _parent.interfaceDir + _parent.theme + "/";
+			
+			imagePath 	= _parent.appUserDir + "/Interface/" + _parent.theme + "/";
 			menu 		= new sMenu(imagePath);
 			button		= new sButton(imagePath);
 		}
