@@ -5,10 +5,17 @@ assuming you have make tools and gtk installed...
 
 
 ~ sudo apt-get update
+
 ~ sudo apt-get install libnotify0.4-cil
+
 ~ wget http://xbmcontrol-evo.googlecode.com/files/xbmcontrol-evo-0.1.tar.gz
+
 ~ tar xz xbmcontrol-evo-0.1.tar.gz
+
 ~ cd xbmcontrol-evo-0.1
+
 ~ ./configure
+
 ~ make
+
 ~ sudo make install
