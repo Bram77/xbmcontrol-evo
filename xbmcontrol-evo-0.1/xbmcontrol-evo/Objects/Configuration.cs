@@ -9,10 +9,11 @@ namespace xbmcontrolevo
 	
 	public struct sFieldNames
 	{
-		public string startElement, ipAddress, username, password, showInTaskbar, showInSystemTray, closeToSystemTray, updateInterval, connectionTimeout, theme;
+		public string startElement, identifier, ipAddress, username, password, showInTaskbar, showInSystemTray, closeToSystemTray, updateInterval, connectionTimeout, theme;
 		
 		public sFieldNames (string init)
 		{
+			identifier			= "identifier";
 			startElement		= "configuration";
 			theme				= "theme";
 			ipAddress 			= "ip_address";
@@ -28,12 +29,13 @@ namespace xbmcontrolevo
 	
 	public struct sValues
 	{
-		public string ipAddress, username, password, theme;
+		public string identifier, ipAddress, username, password, theme;
 		public bool showInTaskbar, showInSystemTray, closeToSystemTray;
 		public double updateInterval, connectionTimeout;
 		
 		public sValues (string init)
 		{
+			identifier			= "XBMC";
 			theme				= "default";
 			ipAddress 			= "";
 			username 			= "xbmc";
@@ -75,6 +77,7 @@ namespace xbmcontrolevo
 			try 
 			{
 				xmlDoc.Load(_parent.configFile);
+				values.identifier			= GetStringValue(fieldNames.identifier);
 				values.theme				= GetStringValue(fieldNames.theme);
 				values.ipAddress 			= GetStringValue(fieldNames.ipAddress);
 				values.username				= GetStringValue(fieldNames.username);
@@ -103,6 +106,7 @@ namespace xbmcontrolevo
 		{
 			if (!newConfigFile)
 			{
+				values.identifier			= _parent.cbeIdentifier.ActiveText;
 				values.theme				= _parent.cbTheme.ActiveText;
 				values.ipAddress			= _parent.eIpAddress.Text;
 				values.username				= _parent.eUsername.Text;
@@ -123,6 +127,7 @@ namespace xbmcontrolevo
 				
 			 	XmlConfigWriter.WriteStartDocument(true);
 					XmlConfigWriter.WriteStartElement(fieldNames.startElement);
+						XmlConfigWriter.WriteElementString(fieldNames.identifier, values.identifier);
 						XmlConfigWriter.WriteElementString(fieldNames.theme, values.theme);
 						XmlConfigWriter.WriteElementString(fieldNames.ipAddress, values.ipAddress);
 						XmlConfigWriter.WriteElementString(fieldNames.username, values.username);
@@ -155,6 +160,7 @@ namespace xbmcontrolevo
 		public void ShowConfig()
 		{
 			ShowThemeNames(GetThemeNames());
+			ShowIdentifier(values.identifier);
 			_parent.eIpAddress.Text 			= values.ipAddress;
 			_parent.eUsername.Text				= values.username;
 			_parent.ePassword.Text				= values.password;
@@ -193,6 +199,20 @@ namespace xbmcontrolevo
 			}
 			
 			_parent.cbTheme.ShowAll();
+		}
+		
+		private void ShowIdentifier (string identifier)
+		{
+			_parent.cbeIdentifier.Clear();
+			CellRendererText cell 		= new CellRendererText();
+	        _parent.cbeIdentifier.PackStart(cell, false);
+	        _parent.cbeIdentifier.AddAttribute(cell, "text", 0);
+	        ListStore store 			= new ListStore(typeof (string));
+	        _parent.cbeIdentifier.Model = store;
+			store.AppendValues(identifier);
+			_parent.cbeIdentifier.TextColumn = 0;
+			_parent.cbeIdentifier.Active = 0;
+			_parent.cbeIdentifier.ShowAll();
 		}
 		
 		public string GetStringValue(string node)

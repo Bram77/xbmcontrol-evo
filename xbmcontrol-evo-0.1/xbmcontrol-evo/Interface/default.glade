@@ -6,7 +6,6 @@
     <property name="visible">True</property>
     <property name="title" translatable="yes">XBMControl-Evo</property>
     <property name="window_position">center</property>
-    <signal name="delete_event" handler="on_MainWindow_delete_event"/>
     <child>
       <widget class="GtkVBox" id="vboxMainWindow">
         <property name="visible">True</property>
@@ -440,8 +439,24 @@ Files</property>
                 <property name="show_border">False</property>
                 <signal name="switch_page" handler="on_nbRight_switch_page"/>
                 <child>
-                  <widget class="GtkLayout" id="lPlayingNo">
+                  <widget class="GtkVBox" id="vboxFiles">
                     <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <widget class="GtkScrolledWindow" id="swFiles">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="hscrollbar_policy">automatic</property>
+                        <property name="vscrollbar_policy">automatic</property>
+                        <property name="shadow_type">etched-out</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
                   </widget>
                   <packing>
                     <property name="position">1</property>
@@ -458,35 +473,25 @@ Files</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkVBox" id="vboxFiles">
+                  <widget class="GtkScrolledWindow" id="scrolledwindow1">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
+                    <property name="can_focus">True</property>
+                    <property name="hscrollbar_policy">automatic</property>
+                    <property name="vscrollbar_policy">automatic</property>
                     <child>
-                      <widget class="GtkScrolledWindow" id="swFiles">
+                      <widget class="GtkTreeView" id="tvFiles">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="hscrollbar_policy">automatic</property>
-                        <property name="vscrollbar_policy">automatic</property>
-                        <property name="shadow_type">etched-out</property>
-                        <child>
-                          <widget class="GtkTreeView" id="tvFiles">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="headers_visible">False</property>
-                            <property name="headers_clickable">False</property>
-                            <property name="search_column">1</property>
-                            <property name="show_expanders">False</property>
-                            <property name="rubber_banding">True</property>
-                            <signal name="button_release_event" handler="on_tvFiles_button_release_event"/>
-                          </widget>
-                        </child>
+                        <property name="headers_visible">False</property>
+                        <property name="search_column">1</property>
+                        <property name="show_expanders">False</property>
+                        <property name="rubber_banding">True</property>
+                        <signal name="button_release_event" handler="on_tvFiles_button_release_event"/>
                       </widget>
-                      <packing>
-                        <property name="position">0</property>
-                      </packing>
                     </child>
                   </widget>
                   <packing>
+                    <property name="menu_label">swFiles</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -583,6 +588,8 @@ Video</property>
                         </child>
                         <child>
                           <widget class="GtkButton" id="bPlaylistRefresh">
+                            <property name="width_request">30</property>
+                            <property name="height_request">30</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -638,190 +645,240 @@ Video</property>
                     <property name="visible">True</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <widget class="GtkLabel" id="label1">
-                        <property name="height_request">10</property>
+                      <widget class="GtkFrame" id="frame4">
                         <property name="visible">True</property>
+                        <property name="label_xalign">0</property>
+                        <property name="shadow_type">none</property>
+                        <child>
+                          <widget class="GtkVBox" id="vbox8">
+                            <property name="visible">True</property>
+                            <property name="orientation">vertical</property>
+                            <child>
+                              <widget class="GtkHBox" id="hbox6">
+                                <property name="visible">True</property>
+                                <child>
+                                  <widget class="GtkLabel" id="lIdentifier">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">1</property>
+                                    <property name="label" translatable="yes"> identifier </property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkComboBoxEntry" id="cbeIdentifier">
+                                    <property name="visible">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkLabel" id="label6">
+                                <property name="height_request">10</property>
+                                <property name="visible">True</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </widget>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="label1">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Instance&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                          </widget>
+                          <packing>
+                            <property name="type">label_item</property>
+                          </packing>
+                        </child>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
+                        <property name="fill">False</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkHBox" id="hbox2">
+                      <widget class="GtkFrame" id="frame2">
                         <property name="visible">True</property>
+                        <property name="label_xalign">0</property>
+                        <property name="shadow_type">none</property>
                         <child>
-                          <widget class="GtkVBox" id="vbox2">
+                          <widget class="GtkHBox" id="hbox2">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <child>
-                              <widget class="GtkLabel" id="lTheme">
+                              <widget class="GtkVBox" id="vbox2">
                                 <property name="visible">True</property>
-                                <property name="xalign">1</property>
-                                <property name="label" translatable="yes">theme </property>
+                                <property name="orientation">vertical</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <widget class="GtkLabel" id="lIpAddress">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">1</property>
+                                    <property name="label" translatable="yes"> ip address </property>
+                                  </widget>
+                                  <packing>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="lUsername">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">1</property>
+                                    <property name="label" translatable="yes"> username </property>
+                                  </widget>
+                                  <packing>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="lPassword">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">1</property>
+                                    <property name="label" translatable="yes"> password </property>
+                                  </widget>
+                                  <packing>
+                                    <property name="position">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="lUpdateInterval">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">1</property>
+                                    <property name="label" translatable="yes"> update interval </property>
+                                  </widget>
+                                  <packing>
+                                    <property name="position">3</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="lConnectionTimeout">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">1</property>
+                                    <property name="label" translatable="yes"> timeout </property>
+                                  </widget>
+                                  <packing>
+                                    <property name="position">4</property>
+                                  </packing>
+                                </child>
                               </widget>
                               <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
                                 <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkLabel" id="lIpAddress">
+                              <widget class="GtkVBox" id="vbox3">
                                 <property name="visible">True</property>
-                                <property name="xalign">1</property>
-                                <property name="label" translatable="yes"> ip address </property>
-                              </widget>
-                              <packing>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkLabel" id="lUsername">
-                                <property name="visible">True</property>
-                                <property name="xalign">1</property>
-                                <property name="label" translatable="yes"> username </property>
-                              </widget>
-                              <packing>
-                                <property name="position">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkLabel" id="lPassword">
-                                <property name="visible">True</property>
-                                <property name="xalign">1</property>
-                                <property name="label" translatable="yes"> password </property>
-                              </widget>
-                              <packing>
-                                <property name="position">3</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkLabel" id="lUpdateInterval">
-                                <property name="visible">True</property>
-                                <property name="xalign">1</property>
-                                <property name="label" translatable="yes"> update interval </property>
-                              </widget>
-                              <packing>
-                                <property name="position">4</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkLabel" id="lConnectionTimeout">
-                                <property name="visible">True</property>
-                                <property name="xalign">1</property>
-                                <property name="label" translatable="yes"> connection timeout </property>
-                              </widget>
-                              <packing>
-                                <property name="position">5</property>
-                              </packing>
-                            </child>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkVBox" id="vbox3">
-                            <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
-                            <child>
-                              <widget class="GtkComboBox" id="cbTheme">
-                                <property name="visible">True</property>
-                                <property name="active">0</property>
-                                <property name="items" translatable="yes"></property>
-                              </widget>
-                              <packing>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkEntry" id="eIpAddress">
-                                <property name="height_request">26</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="tooltip" translatable="yes">Enter a valid ip address or hostname.
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <widget class="GtkEntry" id="eIpAddress">
+                                    <property name="height_request">26</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="tooltip" translatable="yes">Enter a valid ip address or hostname.
 A port should be added if a different one then 80 is used.
 
 example: 192.168.1.10:8080</property>
-                                <property name="invisible_char">&#x25CF;</property>
-                                <property name="shadow_type">etched-in</property>
+                                    <property name="invisible_char">&#x25CF;</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkEntry" id="eUsername">
+                                    <property name="height_request">26</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="tooltip" translatable="yes">default: xbmc</property>
+                                    <property name="invisible_char">&#x25CF;</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkEntry" id="ePassword">
+                                    <property name="height_request">26</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="tooltip" translatable="yes">default: xbmc</property>
+                                    <property name="visibility">False</property>
+                                    <property name="invisible_char">&#x25CF;</property>
+                                    <property name="truncate_multiline">True</property>
+                                    <property name="invisible_char_set">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="position">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkSpinButton" id="sbUpdateInterval">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="tooltip" translatable="yes">Update interval in seconds</property>
+                                    <property name="max_length">2</property>
+                                    <property name="invisible_char">&#x25CF;</property>
+                                    <property name="truncate_multiline">True</property>
+                                    <property name="adjustment">1 1 99 1 10 10</property>
+                                    <property name="snap_to_ticks">True</property>
+                                    <property name="numeric">True</property>
+                                    <property name="wrap">True</property>
+                                    <property name="update_policy">if-valid</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="position">3</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkSpinButton" id="sbConnectionTimeout">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="tooltip" translatable="yes">How long it takes before decided that the connection has been lost</property>
+                                    <property name="max_length">2</property>
+                                    <property name="invisible_char">&#x25CF;</property>
+                                    <property name="truncate_multiline">True</property>
+                                    <property name="adjustment">1 1 99 1 10 10</property>
+                                    <property name="snap_to_ticks">True</property>
+                                    <property name="numeric">True</property>
+                                    <property name="wrap">True</property>
+                                    <property name="update_policy">if-valid</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="position">4</property>
+                                  </packing>
+                                </child>
                               </widget>
                               <packing>
-                                <property name="expand">False</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
-                            <child>
-                              <widget class="GtkEntry" id="eUsername">
-                                <property name="height_request">26</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="tooltip" translatable="yes">default: xbmc</property>
-                                <property name="invisible_char">&#x25CF;</property>
-                                <property name="shadow_type">etched-in</property>
-                              </widget>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="position">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkEntry" id="ePassword">
-                                <property name="height_request">26</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="tooltip" translatable="yes">default: xbmc</property>
-                                <property name="visibility">False</property>
-                                <property name="invisible_char">&#x25CF;</property>
-                                <property name="truncate_multiline">True</property>
-                                <property name="shadow_type">etched-in</property>
-                                <property name="invisible_char_set">True</property>
-                              </widget>
-                              <packing>
-                                <property name="position">3</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkSpinButton" id="sbUpdateInterval">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="tooltip" translatable="yes">Update interval in seconds</property>
-                                <property name="max_length">2</property>
-                                <property name="invisible_char">&#x25CF;</property>
-                                <property name="truncate_multiline">True</property>
-                                <property name="shadow_type">etched-in</property>
-                                <property name="adjustment">1 1 99 1 10 10</property>
-                                <property name="snap_to_ticks">True</property>
-                                <property name="numeric">True</property>
-                                <property name="wrap">True</property>
-                                <property name="update_policy">if-valid</property>
-                              </widget>
-                              <packing>
-                                <property name="position">4</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkSpinButton" id="sbConnectionTimeout">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="tooltip" translatable="yes">How long it takes before decided that the connection has been lost</property>
-                                <property name="max_length">2</property>
-                                <property name="invisible_char">&#x25CF;</property>
-                                <property name="truncate_multiline">True</property>
-                                <property name="shadow_type">etched-in</property>
-                                <property name="adjustment">1 1 99 1 10 10</property>
-                                <property name="snap_to_ticks">True</property>
-                                <property name="numeric">True</property>
-                                <property name="wrap">True</property>
-                                <property name="update_policy">if-valid</property>
-                              </widget>
-                              <packing>
-                                <property name="position">5</property>
-                              </packing>
-                            </child>
+                          </widget>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="lConnection">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Connection&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
                           </widget>
                           <packing>
-                            <property name="position">1</property>
+                            <property name="type">label_item</property>
                           </packing>
                         </child>
                       </widget>
@@ -841,46 +898,93 @@ example: 192.168.1.10:8080</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkVBox" id="vbox4">
+                      <widget class="GtkFrame" id="frame1">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
+                        <property name="label_xalign">0</property>
+                        <property name="shadow_type">none</property>
                         <child>
-                          <widget class="GtkCheckButton" id="chbShowInSystemTray">
-                            <property name="label" translatable="yes">Show in system tray</property>
+                          <widget class="GtkVBox" id="vbox4">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="draw_indicator">True</property>
-                            <signal name="released" handler="on_chbShowInSystemTray_released"/>
+                            <property name="orientation">vertical</property>
+                            <child>
+                              <widget class="GtkHBox" id="hbox3">
+                                <property name="visible">True</property>
+                                <child>
+                                  <widget class="GtkLabel" id="lTheme">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">1</property>
+                                    <property name="label" translatable="yes"> theme </property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkComboBox" id="cbTheme">
+                                    <property name="visible">True</property>
+                                    <property name="active">0</property>
+                                    <property name="items" translatable="yes"></property>
+                                  </widget>
+                                  <packing>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkCheckButton" id="chbShowInSystemTray">
+                                <property name="label" translatable="yes">Show in system tray</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="draw_indicator">True</property>
+                                <signal name="released" handler="on_chbShowInSystemTray_released"/>
+                              </widget>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkCheckButton" id="chbShowInTaskbar">
+                                <property name="label" translatable="yes">Show in taskbar</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="draw_indicator">True</property>
+                                <signal name="released" handler="on_chbShowInTaskbar_released"/>
+                              </widget>
+                              <packing>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkCheckButton" id="chbCloseToSystemTray">
+                                <property name="label" translatable="yes">Minimize to tray when clicking 'X'</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="draw_indicator">True</property>
+                                <signal name="released" handler="on_chbCloseToSystemTray_released"/>
+                              </widget>
+                              <packing>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
                           </widget>
-                          <packing>
-                            <property name="position">0</property>
-                          </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="chbShowInTaskbar">
-                            <property name="label" translatable="yes">Show in taskbar</property>
+                          <widget class="GtkLabel" id="label4">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="draw_indicator">True</property>
-                            <signal name="released" handler="on_chbShowInTaskbar_released"/>
+                            <property name="label" translatable="yes">&lt;b&gt;View&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
                           </widget>
                           <packing>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkCheckButton" id="chbCloseToSystemTray">
-                            <property name="label" translatable="yes">Minimize to tray when clicking 'X'</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="draw_indicator">True</property>
-                            <signal name="released" handler="on_chbCloseToSystemTray_released"/>
-                          </widget>
-                          <packing>
-                            <property name="position">2</property>
+                            <property name="type">label_item</property>
                           </packing>
                         </child>
                       </widget>
@@ -900,23 +1004,42 @@ example: 192.168.1.10:8080</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkFixed" id="fixed3">
-                        <property name="height_request">36</property>
+                      <widget class="GtkFrame" id="frame3">
                         <property name="visible">True</property>
+                        <property name="label_xalign">0</property>
+                        <property name="shadow_type">none</property>
                         <child>
-                          <widget class="GtkButton" id="bConfigurationSave">
-                            <property name="label" translatable="yes">Save
-</property>
-                            <property name="width_request">80</property>
-                            <property name="height_request">30</property>
+                          <widget class="GtkHBox" id="hbox4">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
-                            <signal name="released" handler="on_bConfigurationSave_released"/>
+                            <child>
+                              <widget class="GtkButton" id="bConfigurationSave">
+                                <property name="label" translatable="yes">Save
+</property>
+                                <property name="width_request">80</property>
+                                <property name="height_request">30</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <signal name="released" handler="on_bConfigurationSave_released"/>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                          </widget>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="label5">
+                            <property name="visible">True</property>
+                            <property name="use_markup">True</property>
                           </widget>
                           <packing>
-                            <property name="x">5</property>
-                            <property name="y">5</property>
+                            <property name="type">label_item</property>
                           </packing>
                         </child>
                       </widget>
@@ -954,62 +1077,33 @@ example: 192.168.1.10:8080</property>
           </packing>
         </child>
         <child>
+          <widget class="GtkLabel" id="label8">
+            <property name="height_request">10</property>
+            <property name="visible">True</property>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
           <widget class="GtkHBox" id="hbControls">
             <property name="height_request">50</property>
             <property name="visible">True</property>
             <child>
-              <widget class="GtkFixed" id="fButtons">
+              <widget class="GtkHBox" id="hbox5">
                 <property name="width_request">300</property>
                 <property name="visible">True</property>
                 <child>
-                  <widget class="GtkButton" id="bPlay">
+                  <widget class="GtkLabel" id="label9">
+                    <property name="width_request">10</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="has_tooltip">True</property>
-                    <property name="tooltip" translatable="yes">Play</property>
-                    <signal name="released" handler="on_bPlay_released"/>
-                    <child>
-                      <placeholder/>
-                    </child>
                   </widget>
                   <packing>
-                    <property name="x">50</property>
-                    <property name="y">5</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkToggleButton" id="bStop">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="has_tooltip">True</property>
-                    <property name="tooltip" translatable="yes">Stop</property>
-                    <signal name="released" handler="on_bStop_released"/>
-                    <child>
-                      <placeholder/>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="x">95</property>
-                    <property name="y">5</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="bNext">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="has_tooltip">True</property>
-                    <property name="tooltip" translatable="yes">Next</property>
-                    <signal name="released" handler="on_bNext_released"/>
-                    <child>
-                      <placeholder/>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="x">140</property>
-                    <property name="y">5</property>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -1020,18 +1114,172 @@ example: 192.168.1.10:8080</property>
                     <property name="has_tooltip">True</property>
                     <property name="tooltip" translatable="yes">Previous</property>
                     <signal name="released" handler="on_bPrevious_released"/>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkButton" id="bPlay">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="tooltip" translatable="yes">Play</property>
+                    <signal name="released" handler="on_bPlay_released"/>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkToggleButton" id="bStop">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="tooltip" translatable="yes">Stop</property>
+                    <signal name="released" handler="on_bStop_released"/>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkButton" id="bNext">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="tooltip" translatable="yes">Next</property>
+                    <signal name="released" handler="on_bNext_released"/>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">4</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="label7">
+                    <property name="width_request">10</property>
+                    <property name="visible">True</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">5</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="vbox5">
+                    <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <widget class="GtkToggleButton" id="bShuffle">
+                        <property name="width_request">30</property>
+                        <property name="height_request">30</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
                     <child>
                       <placeholder/>
                     </child>
                   </widget>
                   <packing>
-                    <property name="x">5</property>
-                    <property name="y">5</property>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">6</property>
                   </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="vbox6">
+                    <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <widget class="GtkToggleButton" id="bRepeat">
+                        <property name="width_request">30</property>
+                        <property name="height_request">30</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">7</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="vbox7">
+                    <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <widget class="GtkToggleButton" id="togglebutton1">
+                        <property name="width_request">30</property>
+                        <property name="height_request">30</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">8</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </widget>
               <packing>
                 <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -1039,7 +1287,7 @@ example: 192.168.1.10:8080</property>
               <widget class="GtkHScale" id="hsProgress">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="adjustment">0 0 100 1 1 1</property>
+                <property name="adjustment">1 0 100 1 1 1</property>
                 <property name="restrict_to_fill_level">False</property>
                 <property name="digits">0</property>
                 <property name="draw_value">False</property>
@@ -1100,7 +1348,7 @@ example: 192.168.1.10:8080</property>
           </widget>
           <packing>
             <property name="expand">False</property>
-            <property name="position">2</property>
+            <property name="position">3</property>
           </packing>
         </child>
         <child>
@@ -1139,7 +1387,7 @@ example: 192.168.1.10:8080</property>
           </widget>
           <packing>
             <property name="expand">False</property>
-            <property name="position">3</property>
+            <property name="position">4</property>
           </packing>
         </child>
       </widget>
