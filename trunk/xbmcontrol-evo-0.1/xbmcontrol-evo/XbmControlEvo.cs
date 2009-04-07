@@ -56,7 +56,7 @@ namespace xbmcontrolevo
 			if (!Directory.Exists(appUserDir)) 
 				Directory.CreateDirectory(appUserDir);
 			
-			if (!Directory.Exists(appUserDir + "/Interface/default") || !File.Exists(appUserDir + "/Interface/default.glade"))
+			//if (!Directory.Exists(appUserDir + "/Interface/default") || !File.Exists(appUserDir + "/Interface/default.glade"))
 				CopyDefaultThemes(appDir + "/Interface", appUserDir + "/Interface", true);
 			
 			string gladeFilePath 		= (File.Exists(appUserDir + "/Interface/" + theme + ".glade"))? appUserDir + "/Interface/" + theme + ".glade" : appUserDir + "/Interface/default.glade" ;
@@ -78,6 +78,9 @@ namespace xbmcontrolevo
 		[Glade.Widget] internal ComboBox cbShares;
 		[Glade.Widget] internal ComboBox cbPlaylist;
 		[Glade.Widget] internal ComboBox cbTheme;
+		
+		//ComboboxEntry
+		[Glade.Widget] internal ComboBoxEntry cbeIdentifier;
 		
 		//NoteBook
 		[Glade.Widget] internal Notebook nbLeft;
@@ -358,11 +361,8 @@ namespace xbmcontrolevo
 		
 		protected void on_nbRight_switch_page (object o, Gtk.SwitchPageArgs args)
 		{
-			if (this.IsConnected())
-			{
-				if (args.PageNum == 2) 
-					oPlaylist.SelectNowPlayingEntry();	
-			}
+			if (IsConnected())
+				if (args.PageNum == 2) oPlaylist.SelectNowPlayingEntry();
 		}
 		
 		protected void on_eArtistsFilter_changed (object o, EventArgs args)
@@ -431,6 +431,7 @@ namespace xbmcontrolevo
 				oStatusUpdate.Start();
 			}
 		}
+		
 		
 		protected void on_chbCloseToSystemTray_released (object o, EventArgs args)
 		{

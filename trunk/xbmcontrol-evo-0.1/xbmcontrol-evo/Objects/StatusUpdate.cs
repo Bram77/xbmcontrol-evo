@@ -43,7 +43,7 @@ namespace xbmcontrolevo
 				isRunning = true;
 				_parent.SetConnected(true);
 				_parent.bConnect.Image 			= new Image(_parent.oImages.menu.connect);
-				_parent.lStatus.Text			= "Connected to XBMC with ip " + _parent.oConfiguration.values.ipAddress + " ";
+				_parent.lStatus.Text			= "Connected to " + _parent.oConfiguration.values.identifier + " ";
 				_parent.bConnect.TooltipText	= "Disconnect from XBMC";
 				
 				currentVolume 		= _parent.oXbmc.Status.GetVolume();
@@ -78,7 +78,7 @@ namespace xbmcontrolevo
 				isRunning = false;
 				_parent.SetConnected(false);
 				_parent.bConnect.Image			= new Image(_parent.oImages.menu.disconnect);
-				_parent.lStatus.Text			= (_parent.oConfiguration.values.ipAddress == "")? "No ip address configured " : "Disconnected ";
+				_parent.lStatus.Text			= (_parent.oConfiguration.values.ipAddress == "")? "No ip address configured for "+ _parent.oConfiguration.values.identifier : "Connection with " +_parent.oConfiguration.values.identifier+ " timed out ";
 				_parent.bConnect.TooltipText 	= "Connect to XBMC";
 				
 				return false;

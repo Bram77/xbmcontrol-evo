@@ -80,7 +80,7 @@ namespace xbmcontrolevo
 			MarkNowPlayingEntry();
 		}
 		
-		public void MarkNowPlayingEntry()
+		public void MarkNowPlayingEntry ()
         {
 			int itemCount 		= _parent.oXbmc.Playlist.GetLength();
 			string itemPlaying  = _parent.oXbmc.NowPlaying.Get("songno", true);
@@ -109,7 +109,7 @@ namespace xbmcontrolevo
 			}
 		}
 		
-		private int[] GetSelectedItem()
+		private int[] GetSelectedItem ()
 		{
 			TreePath[] atpSelectedRows 	= _parent.tvPlaylist.Selection.GetSelectedRows();
 			int[] aiSelectedRows 		= null;
