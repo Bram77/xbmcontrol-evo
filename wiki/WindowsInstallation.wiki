@@ -3,6 +3,4 @@
 
 To be able to run XBMControl Evo in Windows you'll need to install [http://ftp.novell.com/pub/mono/gtk-sharp/gtk-sharp-2.12.8-1.win32.msi GTK-sharp] for Windows (about 10MB). Which can be seen as a .NET2.0 interface extension.
 
-Mono for windows can be downloaded from [http://forge.novell.com/modules/xfcontent/private.php/monowin32/Mono%20Win32%20Combined%20Installer/v1.2.1.0.x/mono-1.2.1-gtksharp-2.8.3-win32-exp-0.0.exe here].
-
-After installation, simply run the XBMControl Evo installer as you're used to.
+After installation of GTK#, simply run the XBMControl Evo installer as you're used to.
