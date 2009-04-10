@@ -11,7 +11,7 @@ _required packages_
 _Download and install XBMControl Evo_
 {{{
 ~ wget http://xbmcontrol-evo.googlecode.com/svn/trunk/xbmcontrol-evo-0.1/Packages/xbmcontrol-evo-0.1.8.tar.gz
-~ tar xzf xbmcontrol-evo-0.1.tar.gz
+~ tar xzf xbmcontrol-evo-0.1.8.tar.gz
 ~ cd xbmcontrol-evo-0.1
 ~ ./configure
 ~ make
