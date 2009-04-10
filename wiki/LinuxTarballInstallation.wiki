@@ -2,7 +2,7 @@
 #Installation instructions for Linux tarball
 assuming you have make tools and gtk installed...
 
-`code`
+{{{
 ~ wget http://launchpadlibrarian.net/23555203/libnotify0.4-cil_0.4.0%7Er3032-1_all.deb
 ~ sudo dpkg -i libnotify0.4-cil_0.4.0~r3032-1_all.deb
 ~ wget http://xbmcontrol-evo.googlecode.com/svn/trunk/xbmcontrol-evo-0.1/Packages/xbmcontrol-evo-0.1.8.tar.gz
@@ -11,4 +11,4 @@ assuming you have make tools and gtk installed...
 ~ ./configure
 ~ make
 ~ sudo make install
-`code`
+}}}
