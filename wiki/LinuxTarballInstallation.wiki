@@ -1,6 +1,6 @@
 #labels Phase-Deploy,Featured
-#Installation instructions for Linux tarball
-assuming you have make tools and gtk installed...
+*Installation instructions for Linux tarball
+assuming you have make tools and gtk installed*
 
 {{{
 ~ wget http://launchpadlibrarian.net/23555203/libnotify0.4-cil_0.4.0%7Er3032-1_all.deb
