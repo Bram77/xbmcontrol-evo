@@ -1,6 +1,6 @@
 #labels Phase-Deploy,Featured
 *Installation instructions for Linux tarball
-assuming you have make tools and libgtk2.0-0 (>= 2.18.0) installed. if you're using Ubuntu all of the required packages are in the Jaunty repos*
+assuming you have make tools and libgtk2.0-0 (>= 2.18.0) installed. if you're using Ubuntu... all of the required packages are in the Jaunty repos*
 
 _Download and install the nescesairy libraries_
 {{{
