@@ -1188,6 +1188,8 @@ example: 192.168.1.10:8080</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="tooltip" translatable="yes">Toggle shuffle mode</property>
+                        <signal name="released" handler="on_bShuffle_released"/>
                         <child>
                           <placeholder/>
                         </child>
@@ -1219,6 +1221,8 @@ example: 192.168.1.10:8080</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="tooltip" translatable="yes">Toggle repeat mode</property>
+                        <signal name="released" handler="on_bRepeat_released"/>
                         <child>
                           <placeholder/>
                         </child>
@@ -1244,12 +1248,14 @@ example: 192.168.1.10:8080</property>
                     <property name="visible">True</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <widget class="GtkToggleButton" id="togglebutton1">
+                      <widget class="GtkToggleButton" id="bPartymode">
                         <property name="width_request">30</property>
                         <property name="height_request">30</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="tooltip" translatable="yes">Toggle party mode</property>
+                        <signal name="released" handler="on_bPartymode_released"/>
                         <child>
                           <placeholder/>
                         </child>

@@ -65,6 +65,7 @@
     <Compile Include="Objects\ArtistBrowser.cs" />
     <Compile Include="Objects\AlbumBrowser.cs" />
     <Compile Include="Objects\Images.cs" />
+    <Compile Include="Objects\NowPlaying.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="XBMC.Library\" />
@@ -200,6 +201,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Interface\default\disconnect_16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\default\shuffle_16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\default\repeat_16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Interface\default\partymode_16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

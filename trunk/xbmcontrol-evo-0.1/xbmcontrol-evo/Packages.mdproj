@@ -8,11 +8,11 @@
     <Packages>
       <Packages>
         <Package name="Tarball">
-          <Builder TargetDirectory="/home/bram/Projects/xbmcontrol-evo-glade3/xbmcontrol-evo/Packages" DefaultConfiguration="Release" ctype="TarballDeployTarget">
+          <Builder TargetDirectory="/home/bram/Projects/xbmcontrol-evo-0.1/Packages" DefaultConfiguration="Release" ctype="TarballDeployTarget">
             <ChildEntries>
               <SolutionItemReference path="xbmcontrol-evo.csproj" />
             </ChildEntries>
-            <RootEntry path="xbmcontrol-evo.sln" id="{7379E914-E500-44CB-ABEB-8EEA0519B303}" />
+            <RootEntry path="xbmcontrol-evo.sln" id="{13EEBCB9-75A3-470A-A873-4979E6B6163B}" />
           </Builder>
         </Package>
       </Packages>

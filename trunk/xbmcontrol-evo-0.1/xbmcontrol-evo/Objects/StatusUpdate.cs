@@ -57,6 +57,7 @@ namespace xbmcontrolevo
 				_parent.hsProgress.TooltipText 			= progress;
 				_parent.hsVolume.TooltipText			= currentVolume + "%";
 				_parent.tbMute.Active 					= (isMuted)? true : false ;
+				_parent.bShuffle.Active					= (_parent.oXbmc.Status.ShuffleEnabled())? true : false ;
 				_parent.bStop.Active 					= (isNotPlaying)? true : false ;
 				_parent.bPlay.Image						= (isPlaying)? new Image(_parent.oImages.button.pause) : new Image(_parent.oImages.button.play) ;
 				
@@ -67,6 +68,12 @@ namespace xbmcontrolevo
 				
 				if (pathNowPlaying != nowPlayingFilename)
 				{
+					if (!_parent.oXbmc.Status.IsNotPlaying()) 
+					{
+						_parent.oNowPlaying.LoadData();
+						_parent.oSysTrayIcon.ShowNowPlayingBallonTip(null, null);
+					}	
+					
 					pathNowPlaying = nowPlayingFilename;
 					_parent.oPlaylist.Populate();
 				}
