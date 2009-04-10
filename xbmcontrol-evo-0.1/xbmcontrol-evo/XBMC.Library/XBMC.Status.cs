@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GLib;
-//using System.Windows.Forms;
+using System.Windows.Forms;
 
 namespace XBMC
 {
@@ -159,7 +159,16 @@ namespace XBMC
             if (aRepeatEnabled == null)
                 return false;
             else
-                return (aRepeatEnabled[0] == "False") ? false : true;
+                return (aRepeatEnabled[0] == "True") ? true : false;
         }
+		
+		public bool ShuffleEnabled()
+		{
+			string[] aShuffleEnabled = parent.Request("GetSystemInfo(392)");
+			if (aShuffleEnabled == null)
+                return false;
+            else
+                return (aShuffleEnabled[0] == "Random") ? true : false;
+		}
     }
 }

@@ -33,6 +33,7 @@ namespace xbmcontrolevo
 		public AlbumBrowser oAlbumBrowser;
 		public Configuration oConfiguration;
 		public Images oImages;
+		public NowPlaying oNowPlaying;
 		
 		//Settings
 		public string theme;
@@ -96,6 +97,9 @@ namespace xbmcontrolevo
 		[Glade.Widget] internal Button bPlaylistRemove;
 		[Glade.Widget] internal Button bPlaylistPlay;
 		[Glade.Widget] internal Button bConnect;
+		[Glade.Widget] internal ToggleButton bShuffle;
+		[Glade.Widget] internal ToggleButton bRepeat;
+		[Glade.Widget] internal ToggleButton bPartymode;
 		
 		//ToggleButton
 		[Glade.Widget] internal ToggleButton tbMute;
@@ -153,6 +157,7 @@ namespace xbmcontrolevo
 			oGenreBrowser	= new GenreBrowser(this);
 			oArtistBrowser 	= new ArtistBrowser(this);
 			oAlbumBrowser	= new AlbumBrowser(this);
+			oNowPlaying		= new NowPlaying(this);
 			oStatusUpdate	= new StatusUpdate(this);
 		}
 		
@@ -244,6 +249,9 @@ namespace xbmcontrolevo
 			bPlaylistRemove.Image	= new Image(oImages.menu.minus);
 			bPlaylistPlay.Image		= new Image(oImages.menu.play);
 			bConnect.Image			= new Image(oImages.menu.disconnect);
+			bShuffle.Image			= new Image(oImages.menu.shuffle);
+			bRepeat.Image			= new Image(oImages.menu.repeat);
+			bPartymode.Image		= new Image(oImages.menu.partymode);
 		}
 		
 		protected void on_MainWindow_delete_event (object sender, DeleteEventArgs a)
@@ -251,7 +259,7 @@ namespace xbmcontrolevo
 			if (oConfiguration.values.closeToSystemTray)
 			{
 				MainWindow.Visible = false;
-				a.RetVal = true;
+				//a.RetVal 			= true;
 			}
 			else
 			{
@@ -465,6 +473,22 @@ namespace xbmcontrolevo
 			}
 			else
 				chbShowInTaskbar.Sensitive 	= true;
+		}
+		
+		protected void on_bShuffle_released (object o, EventArgs args)
+		{
+			oXbmc.Controls.ToggleShuffle();
+		}
+		
+		protected void on_bRepeat_released (object o, EventArgs args)
+		{
+			bool newRepeatState = (oXbmc.Status.RepeatEnabled())? false : true ;
+			oXbmc.Controls.Repeat(newRepeatState);
+		}
+		
+		protected void on_bPartymode_released (object o, EventArgs args)
+		{
+			oXbmc.Controls.TogglePartymode();
 		}
 	}
 }

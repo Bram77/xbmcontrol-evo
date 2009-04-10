@@ -13,6 +13,7 @@ namespace xbmcontrolevo
 		private StatusIcon siTray;
 		private XbmControlEvo _parent;
 		private Notification balloonTip;
+		private string genre, year, nowPlayingInfo;
 		
 		public SysTrayIcon(XbmControlEvo parent)
 		{
@@ -25,7 +26,7 @@ namespace xbmcontrolevo
 			siTray.Tooltip 		= "XBMControl Evo";
 			balloonTip			= new Notification();
 			
-			ShowBallonTip();
+			//ShowBallonTip();
 		}
 		
 		private void OnTrayIconPopup (object o, EventArgs args) 
@@ -48,13 +49,26 @@ namespace xbmcontrolevo
 			siTray.Visible = false;
 		}
 		
-		public void ShowBallonTip ()
+		public void ShowNowPlayingBallonTip (object o, EventArgs args)
 		{
-			balloonTip.Icon		= _parent.oImages.button.drive;
+			genre			= (_parent.oNowPlaying.Get("genre") == "Unknown" || _parent.oNowPlaying.Get("genre") == "" || _parent.oNowPlaying.Get("genre") == null)? "" : " [" +_parent.oNowPlaying.Get("genre")+ "]" ;
+			year			= (_parent.oNowPlaying.Get("year") == "" || _parent.oNowPlaying.Get("year") == null)? "" : " [" +_parent.oNowPlaying.Get("year")+ "]";
+			Pixbuf coverArt = _parent.oNowPlaying.GetCoverArt();
+			bool lastfm 	= (_parent.oXbmc.Status.IsPlayingLastFm())? true : false;
+			
+			nowPlayingInfo	= "* " + _parent.oNowPlaying.Get("artist") + genre + "\n* " + _parent.oNowPlaying.Get("title") + " [" + _parent.oNowPlaying.Get("duration") + "]\n* " + _parent.oNowPlaying.Get("album") + year;
+			
+			
+			//balloonTip.Icon		= (lastfm)? _parent.oImages.button.lastfm : _parent.oImages.button.play;
+			balloonTip.Timeout	= 10000;
+			balloonTip.Icon		= coverArt.ScaleSimple(60, 60, InterpType.Bilinear);
 			balloonTip.Summary	= "XBMControl Evo - Now Playing";
-			balloonTip.Body		= "Test";
+			balloonTip.Summary	+= (lastfm)? "(lastFM)" : "" ;
+			balloonTip.Body		= nowPlayingInfo;
 			balloonTip.Urgency	= Urgency.Critical;
+			balloonTip.AttachToStatusIcon(siTray);
 			balloonTip.Show();
+			siTray.Tooltip		= nowPlayingInfo;
 		}
 	}
 }
