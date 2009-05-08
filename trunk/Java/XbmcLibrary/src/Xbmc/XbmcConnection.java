@@ -19,6 +19,8 @@ public class XbmcConnection {
     public XbmcDatabase Database            = null;
     public XbmcShares Shares                = null;
     public XbmcPlaylist Playlist            = null;
+    public XbmcMusic Music                  = null;
+    public XbmcVideo Video                  = null;
 
     private Boolean b_connected             = false;
     private Boolean b_webServerEnabled      = false;
@@ -30,6 +32,8 @@ public class XbmcConnection {
         Database        = new XbmcDatabase(this);
         Shares          = new XbmcShares(this);
         Playlist        = new XbmcPlaylist(this);
+        Music           = new XbmcMusic(this);
+        Video           = new XbmcVideo(this);
     }
 
     public Boolean isConnected () { return b_connected; }
