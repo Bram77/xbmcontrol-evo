@@ -90,10 +90,8 @@ namespace XBMC
             return GetDirectoryContentPaths(directory, null);
         }
 
-        public string[] GetDirectoryContentNames(string directory, string mask)
+        public string[] GetDirectoryNames(string[] aContentPaths)
         {
-            string[] aContentPaths = this.GetDirectoryContentPaths(directory, mask);
-
             if (aContentPaths != null)
             {
                 string[] aContentNames = new string[aContentPaths.Length];
@@ -104,9 +102,9 @@ namespace XBMC
                         aContentNames[x] = null;
                     else
                     {
-                        aContentPaths[x] = aContentPaths[x].Replace("\\", "/");
-                        string[] aTmpContent = aContentPaths[x].Split('/');
-                        aContentNames[x] = (aTmpContent[aTmpContent.Length - 1] == "") ? aTmpContent[aTmpContent.Length - 2] : aTmpContent[aTmpContent.Length - 1];
+                        aContentPaths[x] 		= aContentPaths[x].Replace("\\", "/");
+                        string[] aTmpContent 	= aContentPaths[x].Split('/');
+	                    aContentNames[x] 		= (aTmpContent[aTmpContent.Length - 1] == "") ? aTmpContent[aTmpContent.Length - 2] : aTmpContent[aTmpContent.Length - 1];
                     }
                 }
 
@@ -114,11 +112,6 @@ namespace XBMC
             }
             else
                 return null;
-        }
-
-        public string[] GetDirectoryContentNames(string directory)
-        {
-            return GetDirectoryContentNames(directory, null);
         }
 		
 		public string GetMusicTagByFilepath(string filepath, string field)

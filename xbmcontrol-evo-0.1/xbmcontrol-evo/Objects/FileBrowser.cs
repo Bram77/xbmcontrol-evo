@@ -20,19 +20,19 @@ namespace xbmcontrolevo
 			selectedIter 	= new TreeIter();
 			tsFiles			= new TreeStore (typeof (string), typeof (Pixbuf), typeof (string), typeof (string), typeof (string), typeof (string));
 
-			_parent.tvFiles.AppendColumn ("", new CellRendererText (), "text", 0);
-			TreeViewColumn tvcFileIcons 	= _parent.tvFiles.AppendColumn ("", new CellRendererPixbuf (), "pixbuf", 1);
-			TreeViewColumn tvcFileNames 	= _parent.tvFiles.AppendColumn ("", new CellRendererText (), "text", 2);
-			TreeViewColumn tvcFilePaths		= _parent.tvFiles.AppendColumn ("", new CellRendererText (), "text", 3);
-			TreeViewColumn tvcFileTypes		= _parent.tvFiles.AppendColumn ("", new CellRendererText (), "text", 4);
+			this._parent.tvFiles.AppendColumn ("", new CellRendererText (), "text", 0);
+			TreeViewColumn tvcFileIcons 	= this._parent.tvFiles.AppendColumn ("", new CellRendererPixbuf (), "pixbuf", 1);
+			TreeViewColumn tvcFileNames 	= this._parent.tvFiles.AppendColumn ("", new CellRendererText (), "text", 2);
+			TreeViewColumn tvcFilePaths		= this._parent.tvFiles.AppendColumn ("", new CellRendererText (), "text", 3);
+			TreeViewColumn tvcFileTypes		= this._parent.tvFiles.AppendColumn ("", new CellRendererText (), "text", 4);
 			
 			tvcFilePaths.Visible  	= false;
 			tvcFileTypes.Visible  	= false;
 			tvcFileIcons.Sizing		= TreeViewColumnSizing.Autosize;
 			tvcFileNames.Sizing		= TreeViewColumnSizing.Autosize;
 			
-			_parent.tvFiles.ColumnsAutosize();
-			_parent.tvFiles.Selection.Mode = SelectionMode.Multiple;
+			this._parent.tvFiles.ColumnsAutosize();
+			this._parent.tvFiles.Selection.Mode = SelectionMode.Multiple;
 		}
 		
 		internal void Clear()
@@ -42,19 +42,19 @@ namespace xbmcontrolevo
 		
 		public void ShowContextMenu ()
 		{
-			TreePath[] aSelectedPaths = _parent.tvFiles.Selection.GetSelectedRows();
+			TreePath[] aSelectedPaths = this._parent.tvFiles.Selection.GetSelectedRows();
 			
 			if (aSelectedPaths.Length > 0)
 			{
-				_parent.tvFiles.Model.GetIter(out selectedIter, aSelectedPaths[0]);
-				_parent.oContextMenu.Show("file", _parent.tvFiles.Model.GetValue(selectedIter, 3).ToString());
+				this._parent.tvFiles.Model.GetIter(out selectedIter, aSelectedPaths[0]);
+				this._parent.oContextMenu.Show("file", this._parent.tvFiles.Model.GetValue(selectedIter, 3).ToString());
 			}
 		}
 		
 		public TreeStore GetFiles (string startPath)
 		{
-			string[] aFiles		 	= _parent.oXbmc.Media.GetDirectoryContentNames(startPath, "[" + _parent.oShareBrowser.GetCurrentShareType() + "]");
-		    string[] aFilesPath		= _parent.oXbmc.Media.GetDirectoryContentPaths(startPath, "[" + _parent.oShareBrowser.GetCurrentShareType() + "]");
+		    string[] aFilesPath		= this._parent.oXbmc.Media.GetDirectoryContentPaths(startPath, "[" + this._parent.oShareBrowser.GetCurrentShareType() + "]");
+			string[] aFiles		 	= this._parent.oXbmc.Media.GetDirectoryNames(aFilesPath);
 			
 			if (aFilesPath != null)
 			{
@@ -65,21 +65,21 @@ namespace xbmcontrolevo
 						string[] aFilesPathParts = aFilesPath[y].Split(':');
 						string mediaType 		 = (aFilesPathParts[0] == "lastfm")? "lastfm" : "file" ;
 						
-						if (_parent.oShareBrowser.GetCurrentShareType() == "video")
-							mediaIcon = _parent.oImages.menu.file_video;
-						else if (_parent.oShareBrowser.GetCurrentShareType() == "music")
-							mediaIcon = _parent.oImages.menu.file_music;
-						else if (_parent.oShareBrowser.GetCurrentShareType() == "pictures")
-							mediaIcon = _parent.oImages.menu.file_picture;
+						if (this._parent.oShareBrowser.GetCurrentShareType() == "video")
+							mediaIcon = this._parent.oImages.menu.file_video;
+						else if (this._parent.oShareBrowser.GetCurrentShareType() == "music")
+							mediaIcon = this._parent.oImages.menu.file_music;
+						else if (this._parent.oShareBrowser.GetCurrentShareType() == "pictures")
+							mediaIcon = this._parent.oImages.menu.file_picture;
 						else
-							mediaIcon = _parent.oImages.menu.file;
+							mediaIcon = this._parent.oImages.menu.file;
 						
 						this.tsFiles.AppendValues((y+1).ToString()+ ".", mediaIcon, aFiles[y], aFilesPath[y], mediaType);
 					}
 				}
 				
 				if ((aFilesPath[0] != null && aFilesPath[0] != "") || aFilesPath.Length > 1)
-					_parent.nbRight.CurrentPage = 1;
+					this._parent.nbRight.CurrentPage = 1;
 			}
 			
 			return tsFiles;
@@ -92,13 +92,13 @@ namespace xbmcontrolevo
 			
 			if (caller == "artist")
 			{
-				aSongs 		= _parent.oXbmc.Database.GetTitlesByArtistId(id);	
-				aSongsPath 	= _parent.oXbmc.Database.GetPathsByArtistId(id);
+				aSongs 		= this._parent.oXbmc.Database.GetTitlesByArtistId(id);	
+				aSongsPath 	= this._parent.oXbmc.Database.GetPathsByArtistId(id);
 			}
 			else if (caller == "album")
 			{
-				aSongs 		= _parent.oXbmc.Database.GetTitlesByAlbumId(id);
-				aSongsPath 	= _parent.oXbmc.Database.GetPathsByAlbumId(id);
+				aSongs 		= this._parent.oXbmc.Database.GetTitlesByAlbumId(id);
+				aSongsPath 	= this._parent.oXbmc.Database.GetPathsByAlbumId(id);
 			}
 			
 			if (aSongsPath != null)
@@ -106,25 +106,25 @@ namespace xbmcontrolevo
 				for (int y = 0; y < aSongsPath.Length; y++)
 				{
 					if (aSongsPath[y] != null && aSongsPath[y] != "")
-						tsFiles.AppendValues((y+1).ToString()+ ".", _parent.oImages.menu.file_music, aSongs[y], aSongsPath[y], "file");
+						tsFiles.AppendValues((y+1).ToString()+ ".", this._parent.oImages.menu.file_music, aSongs[y], aSongsPath[y], "file");
 				}
 				
-				_parent.nbRight.CurrentPage = 1;
+				this._parent.nbRight.CurrentPage = 1;
 			}
 			
-			return tsFiles;
+			return this.tsFiles;
 		}
 		
 		public void ShowFiles (string caller, string arg)
 		{
-			tsFiles.Clear();
+			this.tsFiles.Clear();
 			
 			if (caller == "share" || caller == "folder")
-				_parent.tvFiles.Model = GetFiles(arg);
+				this._parent.tvFiles.Model = GetFiles(arg);
 			else if (caller == "artist" || caller == "album")
-				_parent.tvFiles.Model = GetSongs(caller, arg);
+				this._parent.tvFiles.Model = GetSongs(caller, arg);
 
-			_parent.tvFiles.ShowAll();
+			this._parent.tvFiles.ShowAll();
 		}
 		
 	}
