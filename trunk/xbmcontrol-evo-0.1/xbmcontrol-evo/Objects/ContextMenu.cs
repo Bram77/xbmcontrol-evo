@@ -50,10 +50,12 @@ namespace xbmcontrolevo
 		private void CreateMediaMenu(string caller, string identifier)
 		{
 			Menu cmMedia			= new Menu();
-			cmMedia.WidthRequest 	= 150;
+			cmMedia.WidthRequest 	= 200;
 			
 			cmMedia.Add(_parent.oMenuItems.Play(caller, identifier));
 			cmMedia.Add(_parent.oMenuItems.Enque(caller, identifier));
+			cmMedia.Add(_parent.oMenuItems.RefreshShares());
+			
 			
 			if (caller != "album")
 			{
