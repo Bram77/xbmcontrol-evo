@@ -1,20 +1,23 @@
 ﻿<Properties>
   <AuthorInfo Name="Bram van Oploo" Email="bramvano@gmail.com" Copyright="Bram van Oploo" ctype="AuthorInformation" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="XbmControlEvo.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Objects/SysTrayIcon.cs" ctype="Workbench">
     <Files>
-      <File FileName="XbmControlEvo.cs" Line="262" Column="7" />
-      <File FileName="Objects/Images.cs" Line="46" Column="54" />
-      <File FileName="Objects/StatusUpdate.cs" Line="74" Column="35" />
-      <File FileName="XBMC.Library/XBMC.Status.cs" Line="169" Column="30" />
-      <File FileName="XBMC.Library/XBMC.Controls.cs" Line="92" Column="36" />
-      <File FileName="Objects/SysTrayIcon.cs" Line="51" Column="3" />
-      <File FileName="Objects/NowPlaying.cs" Line="77" Column="20" />
+      <File FileName="XbmControlEvo.cs" Line="257" Column="54" />
+      <File FileName="Objects/ShareBrowser.cs" Line="144" Column="88" />
+      <File FileName="XBMC.Library/XBMC.Media.cs" Line="107" Column="41" />
+      <File FileName="Objects/FileBrowser.cs" Line="72" Column="21" />
+      <File FileName="Objects/GenreBrowser.cs" Line="34" Column="4" />
+      <File FileName="Objects/ArtistBrowser.cs" Line="1" Column="1" />
+      <File FileName="Objects/SysTrayIcon.cs" Line="41" Column="3" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="Packages" expanded="True" selected="True" />
+          <Node name="Packages" expanded="True">
+            <Node name="Tarball" selected="True" />
+          </Node>
           <Node name="xbmcontrol-evo" expanded="True">
+            <Node name="Interface" expanded="True" />
             <Node name="Objects" expanded="True" />
             <Node name="XBMC.Library" expanded="True" />
           </Node>
@@ -35,5 +38,5 @@
   <MonoDevelop.Ide.DebuggingService>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" ctype="Workspace" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" ctype="Workspace" />
 </Properties>

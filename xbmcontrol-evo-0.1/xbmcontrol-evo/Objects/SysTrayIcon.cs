@@ -19,56 +19,55 @@ namespace xbmcontrolevo
 		{
 			_parent 			= parent;
 			
-			siTray 				= new StatusIcon(_parent.oImages.menu.icon);
-			siTray.Visible 		= true;
-			siTray.Activate 	+= OnActivate;
-			siTray.PopupMenu 	+= OnTrayIconPopup;
-			siTray.Tooltip 		= "XBMControl Evo";
-			balloonTip			= new Notification();
+			this.siTray 			= new StatusIcon(this._parent.oImages.menu.icon);
+			this.siTray.Visible 	= true;
+			this.siTray.Activate 	+= OnActivate;
+			this.siTray.PopupMenu 	+= OnTrayIconPopup;
+			this.siTray.Tooltip 	= "XBMControl Evo";
+			this.balloonTip			= new Notification();
 			
 			//ShowBallonTip();
 		}
 		
 		private void OnTrayIconPopup (object o, EventArgs args) 
 		{
-			_parent.oContextMenu.Show("default", null);
+			this._parent.oContextMenu.Show("default", null);
 		}
 		
 		private void OnActivate(object o, EventArgs args)
 		{
-			_parent.MainWindow.Visible = !_parent.MainWindow.Visible;
+			this._parent.MainWindow.Visible = !this._parent.MainWindow.Visible;
 		}
 		
 		public void Show ()
 		{
-			siTray.Visible = true;
+			this.siTray.Visible = true;
 		}
 		
 		public void Hide ()
 		{
-			siTray.Visible = false;
+			this.siTray.Visible = false;
 		}
 		
 		public void ShowNowPlayingBallonTip (object o, EventArgs args)
 		{
-			genre			= (_parent.oNowPlaying.Get("genre") == "Unknown" || _parent.oNowPlaying.Get("genre") == "" || _parent.oNowPlaying.Get("genre") == null)? "" : " [" +_parent.oNowPlaying.Get("genre")+ "]" ;
-			year			= (_parent.oNowPlaying.Get("year") == "" || _parent.oNowPlaying.Get("year") == null)? "" : " [" +_parent.oNowPlaying.Get("year")+ "]";
-			Pixbuf coverArt = _parent.oNowPlaying.GetCoverArt();
-			bool lastfm 	= (_parent.oXbmc.Status.IsPlayingLastFm())? true : false;
+			string genre	= (this._parent.oNowPlaying.Get("genre") == "Unknown" || this._parent.oNowPlaying.Get("genre") == "" || this._parent.oNowPlaying.Get("genre") == null)? "" : " [" +this._parent.oNowPlaying.Get("genre")+ "]" ;
+			string year		= (this._parent.oNowPlaying.Get("year") == "" || this._parent.oNowPlaying.Get("year") == null)? "" : " [" +this._parent.oNowPlaying.Get("year")+ "]";
+			Pixbuf coverArt = this._parent.oNowPlaying.GetCoverArt();
+			bool lastfm 	= (this._parent.oXbmc.Status.IsPlayingLastFm())? true : false;
+			nowPlayingInfo	= string.Format("~ {1}{2}{0}~ {3} [{4}]{0}~ {5}{6}", Environment.NewLine, this._parent.oNowPlaying.Get("artist"), genre, this._parent.oNowPlaying.Get("title"), this._parent.oNowPlaying.Get("duration"), this._parent.oNowPlaying.Get("album"), year);
 			
-			nowPlayingInfo	= "* " + _parent.oNowPlaying.Get("artist") + genre + "\n* " + _parent.oNowPlaying.Get("title") + " [" + _parent.oNowPlaying.Get("duration") + "]\n* " + _parent.oNowPlaying.Get("album") + year;
 			
-			
-			//balloonTip.Icon		= (lastfm)? _parent.oImages.button.lastfm : _parent.oImages.button.play;
-			balloonTip.Timeout	= 10000;
-			balloonTip.Icon		= coverArt.ScaleSimple(60, 60, InterpType.Bilinear);
-			balloonTip.Summary	= "XBMControl Evo - Now Playing";
-			balloonTip.Summary	+= (lastfm)? "(lastFM)" : "" ;
-			balloonTip.Body		= nowPlayingInfo;
-			balloonTip.Urgency	= Urgency.Critical;
-			balloonTip.AttachToStatusIcon(siTray);
-			balloonTip.Show();
-			siTray.Tooltip		= nowPlayingInfo;
+			//this.balloonTip.Icon		= (lastfm)? this._parent.oImages.button.lastfm : this._parent.oImages.button.play;
+			this.balloonTip.Timeout		= 10000;
+			this.balloonTip.Icon		= coverArt.ScaleSimple(100, 100, InterpType.Bilinear);
+			this.balloonTip.Summary		= "XBMControl Evo - Now Playing";
+			this.balloonTip.Summary		+= (lastfm)? "(lastFM)" : "" ;
+			this.balloonTip.Body		= nowPlayingInfo;
+			this.balloonTip.Urgency		= Urgency.Critical;
+			this.balloonTip.AttachToStatusIcon(siTray);
+			this.balloonTip.Show();
+			this.siTray.Tooltip			= nowPlayingInfo;
 		}
 	}
 }

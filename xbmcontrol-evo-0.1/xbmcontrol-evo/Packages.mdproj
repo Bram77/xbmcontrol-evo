@@ -7,12 +7,28 @@
     <ProjectGuid>{ADDEBBC0-F9BD-4F43-AE8F-F19AECD05CA7}</ProjectGuid>
     <Packages>
       <Packages>
-        <Package name="Tarball">
-          <Builder TargetDirectory="/home/bram/Projects/xbmcontrol-evo-0.1/Packages" DefaultConfiguration="Release" ctype="TarballDeployTarget">
+        <Package name="MonoDevelop 1.0 Sources">
+          <Builder targetFile="xbmcontrol-evo-0.1.9.tar.gz" format="MonoDevelop.Projects.FileFormat" ctype="SourcesZipPackageBuilder">
             <ChildEntries>
               <SolutionItemReference path="xbmcontrol-evo.csproj" />
             </ChildEntries>
-            <RootEntry path="xbmcontrol-evo.sln" id="{13EEBCB9-75A3-470A-A873-4979E6B6163B}" />
+            <RootEntry path="xbmcontrol-evo.sln" id="{DC02EA7A-110B-4C75-85A9-1CD35CA0CA43}" />
+          </Builder>
+        </Package>
+        <Package name="Linux Binaries">
+          <Builder targetFile="..\Packages\xbmcontrol-evo-0.1.9.tar.gz" platform="Linux" configuration="Release" ctype="BinariesZipPackageBuilder">
+            <ChildEntries>
+              <SolutionItemReference path="xbmcontrol-evo.csproj" />
+            </ChildEntries>
+            <RootEntry path="xbmcontrol-evo.sln" id="{DC02EA7A-110B-4C75-85A9-1CD35CA0CA43}" />
+          </Builder>
+        </Package>
+        <Package name="Tarball">
+          <Builder TargetDirectory="/storage/Programming/xbmcontrol-evo/trunk/xbmcontrol-evo-0.1/Packages" DefaultConfiguration="Release" ctype="TarballDeployTarget">
+            <ChildEntries>
+              <SolutionItemReference path="xbmcontrol-evo.csproj" />
+            </ChildEntries>
+            <RootEntry path="xbmcontrol-evo.sln" id="{DC02EA7A-110B-4C75-85A9-1CD35CA0CA43}" />
           </Builder>
         </Package>
       </Packages>
