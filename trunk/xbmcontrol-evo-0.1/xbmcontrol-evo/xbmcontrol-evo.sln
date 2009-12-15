@@ -22,7 +22,7 @@ Global
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		description = A cross platform remote XBMC controller.
-		version = 0.1.8
+		version = 0.1.9
 		StartupItem = xbmcontrol-evo.csproj
 		Policies = $0
 		$0.ChangeLogPolicy = $1
@@ -40,7 +40,7 @@ Global
 		$0.VersionControlPolicy = $4
 		$4.inheritsSet = Mono
 		$0.StandardHeader = $5
-		$5.inheritsSet = LGPLv2License
+		$5.inheritsSet = GPLv2License
 		$0.DotNetNamingPolicy = $6
 		$6.DirectoryNamespaceAssociation = None
 		$6.ResourceNamePolicy = FileFormatDefault
