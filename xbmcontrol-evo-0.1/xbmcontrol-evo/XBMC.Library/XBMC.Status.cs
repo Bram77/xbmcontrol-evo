@@ -170,5 +170,14 @@ namespace XBMC
             else
                 return (aShuffleEnabled[0] == "Random") ? true : false;
 		}
+		
+		public bool PartyModeEnabled()
+		{
+			string[] aPartyModeEnabled = parent.Request("GetSystemInfoByName(musicpartymode.enabled)");
+			if (aPartyModeEnabled == null)
+                return false;
+            else
+                return (aPartyModeEnabled[0] == "True") ? true : false;
+		}
     }
 }

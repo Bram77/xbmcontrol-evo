@@ -212,5 +212,15 @@ namespace xbmcontrolevo
 			
 			return refreshPlaylist;
 		}
+		
+		public ImageMenuItem RefreshShares()
+		{
+			ImageMenuItem refreshShares		= new ImageMenuItem("Refresh shares list");
+			refreshShares.Image 			= new Gtk.Image(_parent.oImages.menu.refresh);
+			refreshShares.Activated 		+= delegate { _parent.oShareBrowser.Populate(); };
+			refreshShares.Activated 		+= delegate { _parent.oFileBrowser.Clear(); };
+			
+			return refreshShares;
+		}
 	}
 }

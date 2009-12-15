@@ -56,8 +56,9 @@ namespace xbmcontrolevo
 				
 				_parent.hsProgress.TooltipText 			= progress;
 				_parent.hsVolume.TooltipText			= currentVolume + "%";
-				_parent.tbMute.Active 					= (isMuted)? true : false ;
-				_parent.bShuffle.Active					= (_parent.oXbmc.Status.ShuffleEnabled())? true : false ;
+				_parent.tbMute.Active 					= isMuted;
+				_parent.bShuffle.Active					= _parent.oXbmc.Status.ShuffleEnabled();
+				_parent.bPartymode.Active				= _parent.oXbmc.Status.PartyModeEnabled();
 				_parent.bStop.Active 					= (isNotPlaying)? true : false ;
 				_parent.bPlay.Image						= (isPlaying)? new Image(_parent.oImages.button.pause) : new Image(_parent.oImages.button.play) ;
 				
